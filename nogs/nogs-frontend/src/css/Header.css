@@ -1,0 +1,41 @@
+.headerContainer {
+    display: flex;
+    background-color: #fdfff0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.leftHeaderNav,
+.rightHeaderNav {
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+}
+
+.headerContainer img {
+    min-height: 4.5vh;
+    height: 4vw;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.leftHeaderNav img:first-child {
+    min-height: 10vh;
+    height: 9vw;
+    max-height: none;
+}
+
+.leftHeaderNav img:not(:first-of-type):hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.rightHeaderNav img:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
