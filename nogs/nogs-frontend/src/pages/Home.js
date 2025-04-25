@@ -1,10 +1,10 @@
 import Header from "../components/atoms/Header";
-import MonkeyTypeEffect from "../components/atoms/Type";
+import Game from "../components/organisms/Game";
 
 export default function Home() {
     return (
         <div>
-            <MonkeyTypeEffect/>
+            <Game/>
         </div>
     );
 }

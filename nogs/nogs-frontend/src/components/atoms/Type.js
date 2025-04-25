@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function MonkeyTypeEffect() {
-  const targetText = "The quick brown fox jumps over the lazy dog.";
+export default function MonkeyTypeEffect({phrase}) {
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
     // Listen for keydown events globally
     const handleKeyDown = (e) => {
       if (e.key === "Backspace") {
-        // If backspace is pressed, remove the last character
         setInputText((prevText) => prevText.slice(0, -1));
       } else if (e.key.length === 1) {
-        // If a regular key is pressed, add it to the input text
         setInputText((prevText) => prevText + e.key);
       }
     };
@@ -27,11 +24,9 @@ export default function MonkeyTypeEffect() {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>MonkeyType Effect</h1>
-
       {/* Target Text with Dynamic Coloring */}
       <div style={styles.textContainer}>
-        {targetText.split("").map((char, index) => {
+        {phrase.split("").map((char, index) => {
           let color = "gray";
           if (index < inputText.length) {
             color = inputText[index] === char ? "green" : "red";
