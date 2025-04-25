@@ -15,7 +15,10 @@ MAX_WORD_COUNT = 4500
 
 
 @api_view(['GET'])
-def generate_game(request, mode, time_seconds=None, word_count=None):
+def generate_game(request):
+    mode = request.GET.get('mode')
+    time_seconds = request.GET.get('time_seconds')
+    word_count = request.GET.get('word_count')
     try:
         if mode == Game.MODE_TIME and time_seconds:
             time_seconds = int(time_seconds)
@@ -24,10 +27,8 @@ def generate_game(request, mode, time_seconds=None, word_count=None):
                     {'error': f'Time should be between 1 and {MAX_TIME_SECONDS} seconds'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
             estimated_words = int((time_seconds / 60) * MAX_WPM)
-            phrase = ' '.join(random.choices(DEFAULT_WORD_LIST, k=estimated_words))
-
+            test = ' '.join(random.choices(DEFAULT_WORD_LIST, k=estimated_words))
         elif mode == Game.MODE_WORDS and word_count:
             word_count = int(word_count)
             if not (1 <= word_count <= MAX_WORD_COUNT):
@@ -35,17 +36,13 @@ def generate_game(request, mode, time_seconds=None, word_count=None):
                     {'error': f'Word count should be between 1 and {MAX_WORD_COUNT} words'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
-            phrase = ' '.join(random.choices(DEFAULT_WORD_LIST, k=word_count))
-
+            test = ' '.join(random.choices(DEFAULT_WORD_LIST, k=word_count))
         else:
             return Response(
                 {'error': 'Invalid parameters for selected mode'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        return Response({'phrase': phrase})
-
+        return Response({'test': test})
     except (ValueError, TypeError):
         return Response(
             {'error': 'Parameters must be valid integers'},

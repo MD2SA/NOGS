@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
-export default function MonkeyTypeEffect({phrase}) {
+export default function Test({phrase,setGameInfo}) {
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
-    // Listen for keydown events globally
     const handleKeyDown = (e) => {
       if (e.key === "Backspace") {
         setInputText((prevText) => prevText.slice(0, -1));
@@ -24,7 +23,6 @@ export default function MonkeyTypeEffect({phrase}) {
 
   return (
     <div style={styles.container}>
-      {/* Target Text with Dynamic Coloring */}
       <div style={styles.textContainer}>
         {phrase.split("").map((char, index) => {
           let color = "gray";
@@ -39,8 +37,6 @@ export default function MonkeyTypeEffect({phrase}) {
           );
         })}
       </div>
-
-      {/* The input is no longer visible */}
     </div>
   );
 }
@@ -51,7 +47,6 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#121212",
     color: "white",
     fontFamily: "monospace",
   },

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
-import MonkeyTypeEffect from "../atoms/Type";
+import { useEffect, useState } from "react";
+import Test from "../atoms/Test";
 import GameControls from "./GameControls";
 
 export default function Game() {
@@ -10,6 +10,27 @@ export default function Game() {
         time: null,
         wordCount: 10,
     });
+    const [test, setTest] = useState("The quick brown fox jumps over the lazy dog.");
+
+
+    const loadTest = () => {
+        axios.get("http://127.0.0.1:8000/type/api/", {
+            params: {
+                mode: gameControls.mode,
+                time_seconds: gameControls.time,
+                word_count: gameControls.wordCount,
+            }
+        }).then((response) => {
+            console.log(response);
+            setTest(response.data.test);
+        }).catch((error) => {
+            console.error("There was an error loading the test:", error);
+        });;
+    };
+
+    useEffect(() => {
+        loadTest();
+    }, [gameControls.mode,gameControls.time,gameControls.wordCount]);
 
     const [gameInfo, setGameInfo] = useState({
         wpm: 0,
@@ -17,14 +38,12 @@ export default function Game() {
         timeUsed: 0,
     });
 
-    const phrase = "The quick brown fox jumps over the lazy dog."
-
     return (
         <>
+            {gameInfo.wpm}
             <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-            <MonkeyTypeEffect
-                phrase={phrase}
-                gameInfo={gameInfo}
+            <Test
+                phrase={test}
                 setGameInfo={setGameInfo} />
         </>
     );

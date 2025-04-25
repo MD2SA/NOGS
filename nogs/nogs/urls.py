@@ -1,3 +1,5 @@
+from django.contrib import admin
+from django.urls import path, include
 """
 URL configuration for nogs project.
 
@@ -18,5 +20,6 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
+    path('type/', include('type.urls')),
     path('admin/', admin.site.urls),
 ]
