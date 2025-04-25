@@ -5,18 +5,27 @@ import GameControls from "./GameControls";
 
 export default function Game() {
 
-    const [gameControls,setGameControls] = useState({
-        mode:'words',
-        time:null,
-        wordCount:10,
+    const [gameControls, setGameControls] = useState({
+        mode: 'words',
+        time: null,
+        wordCount: 10,
+    });
+
+    const [gameInfo, setGameInfo] = useState({
+        wpm: 0,
+        accuracy: 0.0,
+        timeUsed: 0,
     });
 
     const phrase = "The quick brown fox jumps over the lazy dog."
 
-    return(
+    return (
         <>
-            <GameControls gameControls={gameControls} setGameControls={setGameControls}/>
-            <MonkeyTypeEffect phrase={phrase}/>
+            <GameControls gameControls={gameControls} setGameControls={setGameControls} />
+            <MonkeyTypeEffect
+                phrase={phrase}
+                gameInfo={gameInfo}
+                setGameInfo={setGameInfo} />
         </>
     );
 }

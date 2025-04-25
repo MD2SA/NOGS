@@ -1,3 +1,55 @@
+# Divisao de Tarefas
+
+
+### PAGINAS AMIGOS
+- [ ] Procurar e adicionar amigos
+
+- [ ] Ver pedidos de amizade
+
+- [ ] Ver amizades
+
+- [ ] Enviar mensagens amigos e equipa  -> fazer uma componente reutilizavel no react
+
+### PAGINAS EQUIPA
+- [ ] Listar equipas disponiveis
+
+- [ ] Procurar uma certa equipa
+
+- [ ] Entrar em equipa
+
+- [ ] ver lista de participantes de uma equipa
+
+
+### PAGINA COMPETICAO
+
+- [ ] Ver competições disponíveis
+
+- [ ] Entrar em competição
+
+- [ ] LeaderBoard da competição
+
+- [ ] Jogar competição
+
+### PAGINA PERFIL
+
+- [ ] Estatisticas para cada modo de jogo tipo monkeytype
+
+- [ ] Criar um "cartao" com informacoes basicas (como esta no canva)
+
+
+### PAGINAS DE LOGIN
+
+- [ ] ainda por fazer
+
+### PAGINAS de ADMIN
+
+- [ ] ainda por fazer
+
+### GERAL
+
+- [ ] botao para reportar pessoas
+
+
 # TODO
 > Rapido - dias de trabalho < 2
 
@@ -14,14 +66,14 @@
 - [ ] Pagina Principal (lento)
 
 - [ ] Pagina Resultado Teste (medio)
-    
+
 - [ ] Pagina Lista Competições individual (rapido)
   - [ ] Pagina competicao individual  (medio)
 
 - [ ] Pagina Lista Equipas (medio-rapido)
 
 - [ ] Pagina Equipa ( medio)
-  - [ ] Página Ver Participantes Equipa (medio-rapido) 
+  - [ ] Página Ver Participantes Equipa (medio-rapido)
   - [ ] Pagina competicao equipa (medio)
 
 - [ ] Pagina Lista Amigos (rapido)
@@ -29,3 +81,4 @@
 - [ ] Pagina Perfil (medio)
 
 - [ ] Pagina Lista liga trofeus(rapido)
+
