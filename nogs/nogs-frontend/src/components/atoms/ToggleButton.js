@@ -3,7 +3,7 @@ export default function ToggleButton({ label, isActive, onClick }) {
         <button
             className={`toggle-button ${isActive ? 'active' : ''}`}
             onClick={onClick}
-            // tabIndex={-1} // se nao quiser que a tab ande de uma lado para outro
+            tabIndex={-1} // se nao quiser que a tab ande de uma lado para outro
         >
             {label}
         </button>

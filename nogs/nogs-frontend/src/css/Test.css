@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2vh;
+    box-sizing: border-box;
+}
+
+.text-container {
+    width: 85%;
+    max-width: 1000px;
+    font-size: 25px;
+    padding: 2vh;
+    border-radius: 1rem;
+    background-color: #1e1e1e;
+    min-height: 10vh;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.word {
+    margin-right: 1vw;
+    display: flex;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+.pending {
+    color: grey;
+}

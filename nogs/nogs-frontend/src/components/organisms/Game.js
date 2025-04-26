@@ -43,7 +43,7 @@ export default function Game() {
             {gameInfo.wpm}
             <GameControls gameControls={gameControls} setGameControls={setGameControls} />
             <Test
-                phrase={test}
+                targetText={test}
                 setGameInfo={setGameInfo} />
         </>
     );

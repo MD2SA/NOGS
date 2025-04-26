@@ -1,65 +1,69 @@
 import { useState, useEffect } from "react";
+import "../../css/Test.css";
 
-export default function Test({phrase,setGameInfo}) {
-  const [inputText, setInputText] = useState("");
+export default function Test({ targetText, setGameInfo }) {
+    const targetWords = targetText.split(" ");
+    const [typedWord, setTypedWord] = useState("");
+    const [curWord, setCurWord] = useState(0);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Backspace") {
-        setInputText((prevText) => prevText.slice(0, -1));
-      } else if (e.key.length === 1) {
-        setInputText((prevText) => prevText + e.key);
-      }
+
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            if (e.key === "Backspace") {
+                setTypedWord((prev) => prev.slice(0, -1));
+            } else if (e.key.length === 1) {
+                if( e.key === " " && curWord !== "") {
+                    setTypedWord("");
+                    setCurWord(curWord+1);
+                } else if( e.key !== " ") {
+                    setTypedWord((prev) => prev + e.key);
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyPress);
+        return () => window.removeEventListener("keydown", handleKeyPress);
+    }, []);
+
+
+    const renderWord = (targetWord, wordIndex) => {
+        const letters = [];
+
+        const maxLen = Math.max(targetWord.length, typedWord.length);
+
+        for (let i = 0; i < maxLen; i++) {
+            const expected = targetWord[i];
+            const actual = typedWord[i];
+
+            let className = "pending";
+            if (actual === undefined) {
+                className = "pending";
+            } else if (actual === expected) {
+                className = "correct";
+            } else {
+                className = "incorrect";
+            }
+
+            letters.push(
+                <span key={i} className={`${className}`}>
+                    {actual || expected}
+                </span>
+            );
+        }
+
+        return (
+            <div key={wordIndex} className="word">
+                {letters}
+            </div>
+        );
     };
 
-    // Add event listener for keydown
-    window.addEventListener("keydown", handleKeyDown);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  return (
-    <div style={styles.container}>
-      <div style={styles.textContainer}>
-        {phrase.split("").map((char, index) => {
-          let color = "gray";
-          if (index < inputText.length) {
-            color = inputText[index] === char ? "green" : "red";
-          }
-
-          return (
-            <span key={index} style={{ color }}>
-              {char}
-            </span>
-          );
-        })}
-      </div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div className="text-container">
+                {targetWords.map((word, index) => renderWord(word, index))}
+            </div>
+        </div>
+    );
 }
 
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    fontFamily: "monospace",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "20px",
-  },
-  textContainer: {
-    fontSize: "24px",
-    padding: "10px",
-    borderRadius: "5px",
-    backgroundColor: "#1e1e1e",
-    minHeight: "40px",
-    marginBottom: "20px",
-  },
-};
