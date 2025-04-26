@@ -1,4 +1,7 @@
-# Estrutura
+## Passos
+MODELS->SERIALIZERS->VIEWS->URLS->FRONTED
+
+## Estrutura
 
 <img src="./nogs/nogs-frontend/helperpics/structure.png"/>
 
