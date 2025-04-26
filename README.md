@@ -1,5 +1,6 @@
 # Estrutura
 
+<img src="./nogs/nogs-frontend/helperpics/structure.png"/>
 
 # Divisao de Tarefas
 
