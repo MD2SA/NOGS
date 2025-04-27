@@ -8,12 +8,9 @@
 }
 
 .text-container {
-    width: 85%;
-    max-width: 1000px;
-    font-size: 25px;
     padding: 2vh;
     border-radius: 1rem;
-    background-color: #1e1e1e;
+    /* background-color: #1e1e1e; */
     min-height: 10vh;
     margin-bottom: 2vh;
     display: flex;
@@ -23,21 +20,24 @@
 
 .word {
     position: relative;
-    font-size: 1em;
+    font-size: 1.7em;
     line-height: 1em;
+    font-weight: 600;
     margin: .25em .3em;
-    font-variant: no-common-ligatures;
-    border-bottom: 2px solid transparent;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    /* Ensures uniform background size */
+    font-family: 'Roboto mono', monospace;
 }
 
 .current {
-  background-color: #fdfff0;
-  color: #1e1e1e;
-  border-radius: 4px;
+    /* background-color: #eee; */
+    background-color: #FAFFCC;
+    color: grey;
 }
 
 .correct {
-    color: green;
+    color: #FAFFCC;
 }
 
 .incorrect {
@@ -45,6 +45,11 @@
 }
 
 .pending {
-    color: grey;
+    color: #444;
 }
 
+.missing {
+    color: #444;
+    text-decoration: underline;
+    text-decoration-color: red;
+}

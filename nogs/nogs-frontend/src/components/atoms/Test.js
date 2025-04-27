@@ -10,7 +10,9 @@ export default function Test({ targetText, setGameInfo }) {
         }));
     });
     const [typedWords, setTypedWords] = useState(targetWords.map(() => ""));
+    console.log(typedWords.length);
     const [cur, setCur] = useState(0);
+    const [startTime, setStartTime] = useState(0);
 
     const isSameWord = (arrayLetters, word) => {
         if (!word || arrayLetters.length !== word.length) return false;
@@ -19,7 +21,31 @@ export default function Test({ targetText, setGameInfo }) {
         return true;
     }
 
+    const getAccuracy = () => {
+        let errors = 0;
+        let sizeTarget = 0;
+        for (const word of targetWords)
+            for (const letter of word) {
+                sizeTarget++;
+                if (letter.className !== "correct")
+                    errors++;
+            }
 
+        let sizeTyped = 0;
+        for (const word of typedWords)
+            for (const letter of word)
+                sizeTyped++;
+
+        errors += Math.max(sizeTyped - sizeTarget, 0);
+
+        console.log("ERRORS", errors);
+        console.log("sizeTarget", sizeTarget);
+        return 1 - (errors / sizeTarget);
+    }
+
+    useEffect(() => {
+        setTypedWords(targetWords.map(() => ""));
+    }, [targetText]);
     useEffect(() => {
         const handleKeyPress = (e) => {
             if (e.key === "Backspace") {
@@ -40,9 +66,26 @@ export default function Test({ targetText, setGameInfo }) {
                         });
                 }
             } else if (e.key === " ") {
-                if (typedWords[cur].length > 0)
+                if (typedWords[cur].length > 0) {
+                    if (cur + 1 >= typedWords.length) {
+                        console.log("TESTE", targetWords);
+                        console.log("TYPED", typedWords);
+                        const accuracy = getAccuracy();
+                        const timeUsed = (Date.now() - startTime) / 1000; // time in seconds
+                        const raw = (targetText.length / 5) / timeUsed; // words per second
+                        setGameInfo(() => {
+                            return {
+                                accuracy: accuracy,
+                                timeUsed: timeUsed,
+                                raw: raw * 60, // words per minute
+                                wpm: raw * accuracy * 60, // WPM adjusted for accuracy
+                            };
+                        });
+                    }
                     setCur(cur + 1);
+                }
             } else if (e.key.length === 1) {
+                if (startTime === 0) setStartTime(Date.now())
                 setTypedWords(prev => {
                     const updatedTypedWords = [...prev]; //para renderizar novamente (===)
                     updatedTypedWords[cur] += e.key;
@@ -57,30 +100,43 @@ export default function Test({ targetText, setGameInfo }) {
 
     const renderWord = (word, index) => {
         // Create a copy of the word array to avoid mutating the original
-        const letters = word.map(letter => ({ ...letter }));
 
+        const typedWord = typedWords[index] || "";
         if (index > cur) {
             word.forEach(letter => letter.className = "pending");
         } else {
-            const typedWord = typedWords[index] || "";
             for (let i = 0; i < word.length; i++) {
                 let name = "pending";
                 if (i >= word.length)
                     name = "incorrect";
                 else if (i < typedWord.length)
                     name = typedWord[i] === word[i].letter ? "correct" : "incorrect";
+                else if (i === typedWord.length && cur === index)
+                    name = "current";
+                else if (i >= typedWord.length && cur > index)
+                    name = "missing"
 
 
-                letters[i].className = name;
+                word[i].className = name;
             }
 
-            if (typedWord.length > word.length) {
-                const extraLetters = typedWord.slice(word.length).split("").map(letter => ({
-                    letter,
-                    className: "incorrect"
-                }));
-                letters.push(...extraLetters);
-            }
+            // if (typedWord.length > word.length) {
+            //     const extraLetters = typedWord.slice(word.length).split("").map((letter, pos, array) => ({
+            //         letter,
+            //         className: (pos === array.length && index === cur) ? "current" : "incorrect",
+            //     }));
+            //     letters.push(...extraLetters);
+            // }
+        }
+
+        const letters = word.map(letter => ({ ...letter }));
+
+        if (typedWord.length > word.length) {
+            const extraLetters = typedWord.slice(word.length).split("").map((letter, pos, array) => ({
+                letter,
+                className: (pos === array.length && index === cur) ? "current" : "incorrect",
+            }));
+            letters.push(...extraLetters);
         }
 
         return (

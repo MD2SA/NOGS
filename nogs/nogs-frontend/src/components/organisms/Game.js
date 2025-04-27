@@ -11,7 +11,12 @@ export default function Game() {
         wordCount: 10,
     });
     const [test, setTest] = useState("The quick brown fox jumps over the lazy dog.");
-
+    const [gameInfo, setGameInfo] = useState({
+        accuracy: 0.0,
+        timeUsed: 0,
+        wpm: 0,
+        raw: 0,
+    });
 
     const loadTest = () => {
         axios.get("http://127.0.0.1:8000/type/api/", {
@@ -29,18 +34,22 @@ export default function Game() {
 
     useEffect(() => {
         loadTest();
-    }, [gameControls.mode,gameControls.time,gameControls.wordCount]);
+    }, [gameControls.mode, gameControls.time, gameControls.wordCount]);
 
-    const [gameInfo, setGameInfo] = useState({
-        wpm: 0,
-        accuracy: 0.0,
-        timeUsed: 0,
-    });
+
+    const [showResult, setShowResult] = useState(false);
+
+    useEffect(() => {
+        if (gameInfo.timeUsed != 0)
+            setShowResult(true);
+        console.log(gameInfo);
+    }, [gameInfo]);
+
 
     return (
         <div>
             <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-            <Test targetText={test} setGameInfo={setGameInfo} />
+            {!showResult ? <Test targetText={test} setGameInfo={setGameInfo} /> : <>{gameInfo.timeUsed}</>}
         </div>
     );
 }
