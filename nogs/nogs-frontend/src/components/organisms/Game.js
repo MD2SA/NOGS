@@ -17,6 +17,7 @@ export default function Game() {
         wpm: 0,
         raw: 0,
     });
+    const [key, setKey] = useState(0);
 
     const loadTest = () => {
         axios.get("http://127.0.0.1:8000/type/api/", {
@@ -42,7 +43,6 @@ export default function Game() {
     useEffect(() => {
         if (gameInfo.timeUsed != 0)
             setShowResult(true);
-        console.log(gameInfo);
     }, [gameInfo]);
 
 
@@ -50,6 +50,18 @@ export default function Game() {
         <div>
             <GameControls gameControls={gameControls} setGameControls={setGameControls} />
             {!showResult ? <Test targetText={test} setGameInfo={setGameInfo} /> : <>{gameInfo.timeUsed}</>}
-        </div>
+            <button
+                onClick={loadTest}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        loadTest();
+                        e.preventDefault();
+                        e.currentTarget.blur();  // Blur the button directly
+                        document.body.focus();   // Reset focus to body
+                    }
+                }}
+            >    Restart
+            </button>
+        </div >
     );
 }

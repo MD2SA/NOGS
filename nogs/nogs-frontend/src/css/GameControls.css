@@ -26,7 +26,7 @@
 }
 
 .toggle-button.active {
-    background-color: white;
+    background-color: #fdfff0;
     color: black;
 }
 

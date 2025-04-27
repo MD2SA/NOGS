@@ -3,6 +3,7 @@ import "../../css/Test.css";
 
 export default function Test({ targetText, setGameInfo }) {
 
+    console.log(targetText);
     const targetWords = targetText.split(" ").map(word => {
         return word.split("").map(letter => ({
             letter: letter,
@@ -10,7 +11,6 @@ export default function Test({ targetText, setGameInfo }) {
         }));
     });
     const [typedWords, setTypedWords] = useState(targetWords.map(() => ""));
-    console.log(typedWords.length);
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
@@ -38,8 +38,6 @@ export default function Test({ targetText, setGameInfo }) {
 
         errors += Math.max(sizeTyped - sizeTarget, 0);
 
-        console.log("ERRORS", errors);
-        console.log("sizeTarget", sizeTarget);
         return 1 - (errors / sizeTarget);
     }
 
@@ -68,8 +66,6 @@ export default function Test({ targetText, setGameInfo }) {
             } else if (e.key === " ") {
                 if (typedWords[cur].length > 0) {
                     if (cur + 1 >= typedWords.length) {
-                        console.log("TESTE", targetWords);
-                        console.log("TYPED", typedWords);
                         const accuracy = getAccuracy();
                         const timeUsed = (Date.now() - startTime) / 1000; // time in seconds
                         const raw = (targetText.length / 5) / timeUsed; // words per second
