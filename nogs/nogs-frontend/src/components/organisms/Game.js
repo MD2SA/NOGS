@@ -21,7 +21,6 @@ export default function Game() {
                 word_count: gameControls.wordCount,
             }
         }).then((response) => {
-            console.log(response);
             setTest(response.data.test);
         }).catch((error) => {
             console.error("There was an error loading the test:", error);
@@ -39,12 +38,9 @@ export default function Game() {
     });
 
     return (
-        <>
-            {gameInfo.wpm}
+        <div>
             <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-            <Test
-                targetText={test}
-                setGameInfo={setGameInfo} />
-        </>
+            <Test targetText={test} setGameInfo={setGameInfo} />
+        </div>
     );
 }

@@ -22,8 +22,18 @@
 }
 
 .word {
-    margin-right: 1vw;
-    display: flex;
+    position: relative;
+    font-size: 1em;
+    line-height: 1em;
+    margin: .25em .3em;
+    font-variant: no-common-ligatures;
+    border-bottom: 2px solid transparent;
+}
+
+.current {
+  background-color: #fdfff0;
+  color: #1e1e1e;
+  border-radius: 4px;
 }
 
 .correct {
@@ -37,3 +47,4 @@
 .pending {
     color: grey;
 }
+
