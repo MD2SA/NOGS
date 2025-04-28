@@ -1,0 +1,54 @@
+.resultsContainer {
+    height: calc(100vh- max(var(--header-height), var(--header-min-height)));
+    width: 100vw;
+    font-family: 'Gliker', sans-serif;
+    font-size: 2.6vw;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.resultAtomsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resultAtomLabel {
+    color: #aeb8b8;
+}
+
+.resultAtomValue {
+    color: #fdfff0;
+}
+
+.resultsDivider {
+    width: 3px;
+    height: 50vh;
+    background-color: #aeb8b8;
+}
+
+.resultsButton {
+    padding: 1vw 3vw;
+    font-size: 2.5vw;
+}
+
+@media (max-width: 768px) {
+    .resultsContainer {
+        font-size: 4vw;
+    }
+
+    .resultsButton {
+        font-size: 4vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .resultsContainer {
+        font-size: 6vw;
+    }
+
+    .resultsButton {
+        font-size: 6vw;
+    }
+}

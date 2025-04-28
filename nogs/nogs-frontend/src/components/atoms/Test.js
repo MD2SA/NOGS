@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import "../../css/Test.css";
 
-export default function Test({ targetText, setGameInfo }) {
+export default function Test({ targetText, setGameInfo, setShowResult }) {
 
-    console.log(targetText);
     const targetWords = targetText.split(" ").map(word => {
         return word.split("").map(letter => ({
             letter: letter,
@@ -41,9 +40,32 @@ export default function Test({ targetText, setGameInfo }) {
         return 1 - (errors / sizeTarget);
     }
 
+    const finishTest = () => {
+        const accuracyRaw = getAccuracy();
+        const accuracy = +(accuracyRaw * 100).toFixed(
+            accuracyRaw * 100 % 1 === 0 ? 0 : (accuracyRaw * 10 % 1 === 0 ? 1 : 2)
+        );
+        const timeUsedRaw = (Date.now() - startTime) / 1000;
+        const timeUsed = +timeUsedRaw.toFixed(timeUsedRaw % 1 === 0 ? 0 : 1);
+
+        const rawRaw = (targetText.length / 5) / timeUsedRaw;
+        const raw = Math.round(rawRaw * 60);
+        const wpm = Math.round(rawRaw * accuracyRaw * 60);
+        setGameInfo({
+            accuracy: accuracy,
+            timeUsed: timeUsed,
+            raw: raw,
+            wpm: wpm,
+        });
+        setShowResult(true);
+    };
+
     useEffect(() => {
         setTypedWords(targetWords.map(() => ""));
+        setCur(0);
+        setStartTime(0);
     }, [targetText]);
+
     useEffect(() => {
         const handleKeyPress = (e) => {
             if (e.key === "Backspace") {
@@ -65,19 +87,8 @@ export default function Test({ targetText, setGameInfo }) {
                 }
             } else if (e.key === " ") {
                 if (typedWords[cur].length > 0) {
-                    if (cur + 1 >= typedWords.length) {
-                        const accuracy = getAccuracy();
-                        const timeUsed = (Date.now() - startTime) / 1000; // time in seconds
-                        const raw = (targetText.length / 5) / timeUsed; // words per second
-                        setGameInfo(() => {
-                            return {
-                                accuracy: accuracy,
-                                timeUsed: timeUsed,
-                                raw: raw * 60, // words per minute
-                                wpm: raw * accuracy * 60, // WPM adjusted for accuracy
-                            };
-                        });
-                    }
+                    if (cur + 1 >= typedWords.length)
+                        finishTest();
                     setCur(cur + 1);
                 }
             } else if (e.key.length === 1) {

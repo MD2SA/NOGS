@@ -1,10 +1,10 @@
-import ToggleButton from "../atoms/ToggleButton";
+import ControlsButton from "../atoms/ControlsButton";
 
 export default function ModeSelector({ mode, setMode }) {
     return (
         <>
-            <ToggleButton label='words' isActive={mode === 'words'} onClick={() => setMode('words')} />
-            <ToggleButton label='time' isActive={mode === 'time'} onClick={() => setMode('time')} />
+            <ControlsButton label='words' isActive={mode === 'words'} onClick={() => setMode('words')} />
+            <ControlsButton label='time' isActive={mode === 'time'} onClick={() => setMode('time')} />
         </>
     );
 }

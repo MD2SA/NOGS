@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/molecules/Layout';
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
 
 
@@ -9,10 +9,10 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/competition' element={<Home />} />
-                    <Route path='/team' element={<Home />} />
-                    <Route path='/friends' element={<Home />} />
+                    <Route path='/' element={<HomePage />} />
+                    <Route path='/competition' element={<HomePage />} />
+                    <Route path='/team' element={<HomePage />} />
+                    <Route path='/friends' element={<HomePage />} />
                     <Route path='/profile' element={<Profile />} />
                 </Route>
             </Routes>

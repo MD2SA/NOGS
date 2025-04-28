@@ -1,11 +1,11 @@
-import ToggleButton from "../atoms/ToggleButton";
+import ControlsButton from "../atoms/ControlsButton";
 
 
 export default function OptionSelector({ options, selectedOption, setSelectedOption }) {
     return (
         <>
             {options?.map((option) => (
-                <ToggleButton
+                <ControlsButton
                     key={option}
                     label={option}
                     isActive={selectedOption === option}

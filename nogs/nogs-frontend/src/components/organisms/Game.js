@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Test from "../atoms/Test";
+import Results from "../molecules/Results";
 import GameControls from "./GameControls";
 
 export default function Game() {
@@ -17,7 +18,7 @@ export default function Game() {
         wpm: 0,
         raw: 0,
     });
-    const [key, setKey] = useState(0);
+    const [showResult, setShowResult] = useState(false);
 
     const loadTest = () => {
         axios.get("http://127.0.0.1:8000/type/api/", {
@@ -30,38 +31,45 @@ export default function Game() {
             setTest(response.data.test);
         }).catch((error) => {
             console.error("There was an error loading the test:", error);
-        });;
+        });
     };
 
+    const submitTest = () => {
+
+        axios.put("http://127.0.0.1:8000/type/api/", {
+            params: {
+                mode: gameControls.mode,
+                time_seconds: gameControls.time,
+                word_count: gameControls.wordCount,
+            }
+        }).then((response) => {
+            setTest(response.data.test);
+        }).catch((error) => {
+            console.error("There was an error loading the test:", error);
+        });
+    }
+
     useEffect(() => {
-        loadTest();
-    }, [gameControls.mode, gameControls.time, gameControls.wordCount]);
-
-
-    const [showResult, setShowResult] = useState(false);
-
-    useEffect(() => {
-        if (gameInfo.timeUsed != 0)
-            setShowResult(true);
-    }, [gameInfo]);
-
+        if (showResult === true)
+            submitTest();
+        else
+            loadTest();
+    }, [gameControls, showResult]);
 
     return (
         <div>
-            <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-            {!showResult ? <Test targetText={test} setGameInfo={setGameInfo} /> : <>{gameInfo.timeUsed}</>}
-            <button
-                onClick={loadTest}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        loadTest();
-                        e.preventDefault();
-                        e.currentTarget.blur();  // Blur the button directly
-                        document.body.focus();   // Reset focus to body
-                    }
-                }}
-            >    Restart
-            </button>
+            {!showResult ?
+                <>
+                    <GameControls gameControls={gameControls} setGameControls={setGameControls} />
+                    <Test targetText={test} setGameInfo={setGameInfo} setShowResult={setShowResult} />
+                    <button
+                        onClick={loadTest}
+                    >
+                        Restart
+                    </button>
+                </>
+                : <Results gameInfo={gameInfo} setShowResult={setShowResult} />
+            }
         </div >
     );
 }

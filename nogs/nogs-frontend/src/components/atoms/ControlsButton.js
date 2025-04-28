@@ -1,4 +1,4 @@
-export default function ToggleButton({ label, isActive, onClick }) {
+export default function ControlsButton({ label, isActive, onClick }) {
     return (
         <button
             className={`toggle-button ${isActive ? 'active' : ''}`}
