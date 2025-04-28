@@ -110,4 +110,3 @@ class TeamMembership(models.Model):
 
     def __str__(self):
         return f"{self.user.username} is a {self.get_role_display()} in {self.team.name}"
-

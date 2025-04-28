@@ -12,17 +12,17 @@ export default function Header() {
 
     const navigate = useNavigate();
 
-    return(
+    return (
         <div className="headerContainer">
             <div className="leftHeaderNav">
-                <img src={logo} onClick={()=>navigate('/')}/>
-                <img src={keyboard} onClick={()=>navigate('/')}/>
-                <img src={competition} onClick={()=>navigate('/competition')}/>
-                <img src={team} onClick={()=>navigate('/team')}/>
-                <img src={friends} onClick={()=>navigate('/friends')}/>
+                <img src={logo} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
+                <img src={keyboard} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
+                <img src={competition} onClick={() => navigate('/competition')} />
+                <img src={team} onClick={() => navigate('/team')} />
+                <img src={friends} onClick={() => navigate('/friends')} />
             </div>
             <div className="rightHeaderNav">
-                <img src={user} onClick={()=>navigate('/profile')}/>
+                <img src={user} onClick={() => navigate('/profile')} />
             </div>
         </div>
     );

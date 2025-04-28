@@ -32,3 +32,4 @@ class ResultSerializer(serializers.ModelSerializer):
                 "username":"Anonymous",
                 "email":None,
             }
+

@@ -1,10 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { GENERATE_GAME_URL, SUBMIT_RESULT_URL } from "../../assets/urls/djangoUrls";
 import Test from "../atoms/Test";
 import Results from "../molecules/Results";
-import GameControls from "./GameControls";
+import GameControls from "../molecules/GameControls";
+import { useLocation } from "react-router-dom";
 
 export default function Game() {
+
+    const location = useLocation();
 
     const [gameControls, setGameControls] = useState({
         mode: 'words',
@@ -21,7 +25,7 @@ export default function Game() {
     const [showResult, setShowResult] = useState(false);
 
     const loadTest = () => {
-        axios.get("http://127.0.0.1:8000/type/api/", {
+        axios.get(GENERATE_GAME_URL, {
             params: {
                 mode: gameControls.mode,
                 time_seconds: gameControls.time,
@@ -36,25 +40,32 @@ export default function Game() {
 
     const submitTest = () => {
 
-        axios.put("http://127.0.0.1:8000/type/api/", {
+        axios.put(SUBMIT_RESULT_URL, {
             params: {
-                mode: gameControls.mode,
-                time_seconds: gameControls.time,
-                word_count: gameControls.wordCount,
+                accuracy: gameInfo.accuracy,
+                time_used: gameInfo.timeUsed,
+                raw: gameInfo.raw,
+                wpm: gameInfo.wpm,
             }
         }).then((response) => {
-            setTest(response.data.test);
+            console.log(response);
         }).catch((error) => {
             console.error("There was an error loading the test:", error);
         });
     }
 
+    const [lastRefresh, setLastRefresh] = useState(-1);
+
     useEffect(() => {
-        if (showResult === true)
-            submitTest();
-        else
+        if (location.state?.refresh !== lastRefresh) {
+            setShowResult(false);
             loadTest();
-    }, [gameControls, showResult]);
+            setLastRefresh(location.state?.refresh);
+        } else if (showResult === false)
+            loadTest();
+        else
+            submitTest();
+    }, [gameControls, showResult, location.state]);
 
     return (
         <div>

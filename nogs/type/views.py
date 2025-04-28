@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import  *
+from .serializers import *
 from .models import *
 
 DEFAULT_WORD_LIST = [
@@ -48,3 +48,17 @@ def generate_game(request):
             {'error': 'Parameters must be valid integers'},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+@api_view(['PUT'])
+def submit_result(request):
+    accuracy = request.PUT.get('accuracy')
+    time_used = request.PUT.get('time_used')
+    raw = request.PUT.get('raw')
+    wpm = request.PUT.get('wpm')
+    return Response({
+        'accuracy': accuracy,
+        'time_used': time_used,
+        'raw': raw,
+        'wpm': wpm
+    });

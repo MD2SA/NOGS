@@ -42,6 +42,7 @@ button {
     justify-content: center;
     align-items: center;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: -2px 1px 0px #484d4e;
 }
 
 
