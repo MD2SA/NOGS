@@ -4,7 +4,15 @@ import Competition from "../molecules/Competition";
 
 export default function CompetitionComposer() {
 
-    const [competitions, setCompetitions] = useState(null);
+    const [competitions, setCompetitions] = useState([
+        {
+            league: "BRONZE",
+            modeOption: "10",
+            mode: "words",
+            occupied: "30",
+            lotation: "50",
+        }
+    ]);
     // axios.get(COMPETITIONS);
 
     return (

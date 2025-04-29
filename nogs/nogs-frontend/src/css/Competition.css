@@ -1,0 +1,17 @@
+.competition-container {
+    background-color: #484d4e;
+    color: #fdfff0;
+    /* padding: 16px; */
+    border-radius: 16px;
+    width: 240px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.competition-container span.emoji {
+    margin-left: 4px;
+}
+
