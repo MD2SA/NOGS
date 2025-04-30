@@ -6,6 +6,7 @@ export default function CompetitionComposer() {
 
     const [competitions, setCompetitions] = useState([
         {
+            id: 1,
             league: "BRONZE",
             modeOption: "10",
             mode: "words",

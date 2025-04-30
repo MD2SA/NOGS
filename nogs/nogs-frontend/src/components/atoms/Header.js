@@ -17,7 +17,7 @@ export default function Header() {
             <div className="leftHeaderNav">
                 <img src={logo} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
                 <img src={keyboard} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
-                <img src={competition} onClick={() => navigate('/competition')} />
+                <img src={competition} onClick={() => navigate('/competitions')} />
                 <img src={team} onClick={() => navigate('/team')} />
                 <img src={friends} onClick={() => navigate('/friends')} />
             </div>
