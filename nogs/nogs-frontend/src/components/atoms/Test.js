@@ -3,41 +3,45 @@ import "../../css/Test.css";
 
 export default function Test({ targetText, setGameInfo, setShowResult }) {
 
-    const targetWords = targetText.split(" ").map(word => {
-        return word.split("").map(letter => ({
-            letter: letter,
-            className: "pending",
-        }));
-    });
-    const [typedWords, setTypedWords] = useState(targetWords.map(() => ""));
+    const targetWords = targetText.split(" ");
+
+    const [renderedWords, setRenderedWords] = useState(targetWords.map(word => {
+        return {
+            lettersTyped: 0,
+            letters: word.split("").map(letter => ({
+                letter: letter,
+                className: "pending",
+            }))
+        };
+    }));
+
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
-    const isSameWord = (arrayLetters, word) => {
-        if (!word || arrayLetters.length !== word.length) return false;
-        for (let i = 0; i < arrayLetters.length; i++)
-            if (arrayLetters[i].letter !== word[i]) return false;
-        return true;
+    const isCorrect = (renderedWord) => {
+        if (!renderedWord) return false;
+        return renderedWord.letters.every(letter => letter.className === "correct");
     }
 
     const getAccuracy = () => {
-        let errors = 0;
-        let sizeTarget = 0;
-        for (const word of targetWords)
-            for (const letter of word) {
-                sizeTarget++;
-                if (letter.className !== "correct")
-                    errors++;
-            }
-
-        let sizeTyped = 0;
-        for (const word of typedWords)
-            for (const letter of word)
-                sizeTyped++;
-
-        errors += Math.max(sizeTyped - sizeTarget, 0);
-
-        return 1 - (errors / sizeTarget);
+        return 0;
+        // let errors = 0;
+        // let sizeTarget = 0;
+        // for (const word of targetWords)
+        //     for (const letter of word) {
+        //         sizeTarget++;
+        //         if (letter.className !== "correct")
+        //             errors++;
+        //     }
+        //
+        // let sizeTyped = 0;
+        // for (const word of typedWords)
+        //     for (const letter of word)
+        //         sizeTyped++;
+        //
+        // errors += Math.max(sizeTyped - sizeTarget, 0);
+        //
+        // return 1 - (errors / sizeTarget);
     }
 
     const finishTest = () => {
@@ -60,106 +64,148 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         setShowResult(true);
     };
 
+    const handleBackSpace = (e) => {
+        if (renderedWords[cur].lettersTyped === 0 && cur > 0 && !isCorrect(renderedWords[cur - 1])) {
+            setCur(cur - 1);
+        } else if (renderedWords[cur].lettersTyped > 0) {
+            setRenderedWords(prev => {
+                const updatedWords = prev.map((word, index) => {
+                    if (index !== cur)
+                        return word;
+
+                    const newWord = {
+                        ...word,
+                        letters: word.letters.map(letter => ({ ...letter })),
+                    };
+
+                    if (e.ctrlKey || e.metaKey) {
+
+                        newWord.lettersTyped = 0;
+                        newWord.letters = newWord.letters.slice(0, targetWords[cur].length).map(letter => ({
+                            ...letter,
+                            className: "pending",
+                        }));
+
+                    } else {
+
+                        if (newWord.lettersTyped > targetWords[cur].length) {
+                            newWord.letters = newWord.letters.slice(0, -1);
+                        } else {
+                            newWord.letters[newWord.lettersTyped - 1].className = "pending";
+                        }
+                        newWord.lettersTyped--;
+
+                    }
+                    return newWord;
+                });
+                return updatedWords;
+            });
+        }
+    };
+
+    const handleSpace = () => {
+        if (renderedWords[cur].lettersTyped > 0) {
+            if (cur + 1 >= targetWords.length)
+                finishTest();
+            setCur(cur + 1);
+        }
+    }
+
+    const handleNormalKey = (key) => {
+        if (startTime === 0) setStartTime(Date.now());
+
+        setRenderedWords(prev => {
+            const updatedWords = prev.map((word, index) => {
+                if (index === cur) {
+                    const newWord = {
+                        ...word,
+                        letters: word.letters.map((letter, _) => ({
+                            ...letter,
+                        }))
+                    };
+
+                    if (newWord.lettersTyped < targetWords[cur].length) {
+                        const expectedLetter = targetWords[cur][newWord.lettersTyped];
+                        newWord.letters[newWord.lettersTyped].className = (expectedLetter === key) ? "correct" : "incorrect";
+                    } else {
+                        newWord.letters.push({ letter: key, className: "extra" });
+                    }
+
+                    newWord.lettersTyped++;
+                    return newWord;
+                }
+                return word;
+            });
+            return updatedWords;
+        });
+    };
+
+
     useEffect(() => {
-        setTypedWords(targetWords.map(() => ""));
+        setRenderedWords(targetWords.map(word => {
+            return {
+                lettersTyped: 0,
+                letters: word.split("").map(letter => ({
+                    letter: letter,
+                    className: "pending",
+                }))
+            };
+        }));
         setCur(0);
         setStartTime(0);
     }, [targetText]);
 
     useEffect(() => {
         const handleKeyPress = (e) => {
-            if (e.key === "Backspace") {
-                if (typedWords[cur].length === 0 && cur > 0 && !isSameWord(targetWords[cur - 1], typedWords[cur - 1])) {
-                    setCur(cur - 1);
-                } else if (typedWords[cur].length > 0) {
-                    if (e.ctrlKey || e.metaKey)
-                        setTypedWords(prev => {
-                            const updatedTypedWords = [...prev];
-                            updatedTypedWords[cur] = "";
-                            return updatedTypedWords;
-                        });
-                    else
-                        setTypedWords(prev => {
-                            const updatedTypedWords = [...prev];
-                            updatedTypedWords[cur] = updatedTypedWords[cur].slice(0, -1);
-                            return updatedTypedWords;
-                        });
-                }
-            } else if (e.key === " ") {
-                if (typedWords[cur].length > 0) {
-                    if (cur + 1 >= typedWords.length)
-                        finishTest();
-                    setCur(cur + 1);
-                }
-            } else if (e.key.length === 1) {
-                if (startTime === 0) setStartTime(Date.now())
-                setTypedWords(prev => {
-                    const updatedTypedWords = [...prev]; //para renderizar novamente (===)
-                    updatedTypedWords[cur] += e.key;
-                    return updatedTypedWords;
-                });
-            }
+            if (e.key === "Backspace")
+                handleBackSpace(e);
+            else if (e.key === " ")
+                handleSpace();
+            else if (e.key.length === 1)
+                handleNormalKey(e.key);
         };
 
         window.addEventListener("keydown", handleKeyPress);
         return () => window.removeEventListener("keydown", handleKeyPress);
-    }, [typedWords, cur]);
+    }, [cur, renderedWords, startTime]);
 
     const renderWord = (word, index) => {
-        const typedWord = typedWords[index] || "";
-        if (index > cur) {
-            word.forEach(letter => letter.className = "pending");
-        } else {
-            for (let i = 0; i < word.length; i++) {
-                let name = "pending";
-                if (i >= word.length)
-                    name = "incorrect";
-                else if (i < typedWord.length)
-                    name = typedWord[i] === word[i].letter ? "correct" : "incorrect";
-                else if (i === typedWord.length && cur === index)
-                    name = "current";
-                else if (i >= typedWord.length && cur > index)
-                    name = "missing"
 
+        const isCurrentWord = index === cur;
 
-                word[i].className = name;
-            }
-        }
+        let firstPendingIndex = -1;
 
-        const letters = word.map(letter => ({ ...letter }));
-
-        if (typedWord.length > word.length) {
-            const extraLetters = typedWord.slice(word.length).split("").map((letter, pos, array) => ({
-                letter,
-                className: (pos === array.length && index === cur) ? "current" : "incorrect",
-            }));
-            letters.push(...extraLetters);
-        }
+        if (isCurrentWord)
+            firstPendingIndex = word.letters.findIndex((letter) => letter.className === "pending");
 
         return (
             <div key={index} className="word">
-                {letters.map((letter, i) => (
-                    <span key={i} className={letter.className}>
-                        {letter.letter}
-                    </span>
-                ))}
+                {word.letters.map((letter, i) => {
+                    let className = letter.className;
+                    if (isCurrentWord && i === firstPendingIndex)
+                        className = "current";
+                    else if (index < cur && className === "pending")
+                        className = "missing";
+
+
+                    return (
+                        <span key={i} className={className}>
+                            {letter.letter}
+                        </span>
+                    );
+                })}
+
+                <span className={isCurrentWord && firstPendingIndex === -1 ? "current" : ""}>&nbsp;</span>
             </div>
         );
-    }
-    const WORDS_PER_LINE = 10; // Adjust based on your layout
-    const LINES_TO_SHOW = 3;
-    const WORDS_TO_SHOW = WORDS_PER_LINE * LINES_TO_SHOW;
+    };
+
 
     return (
         <div className="container">
             <div className="text-container">
-                {targetWords
-                    .slice(Math.max(0, cur - WORDS_PER_LINE), cur + WORDS_TO_SHOW)
-                    .map((word, index) => renderWord(word, index))
-                }
+                {renderedWords.map((wordObj, wordIndex) => renderWord(wordObj, wordIndex))}
             </div>
         </div>
     );
 }
-
-                // {targetWords.map((word, index) => renderWord(word, index))}
