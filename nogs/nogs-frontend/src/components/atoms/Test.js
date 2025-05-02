@@ -106,8 +106,6 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
     }, [typedWords, cur]);
 
     const renderWord = (word, index) => {
-        // Create a copy of the word array to avoid mutating the original
-
         const typedWord = typedWords[index] || "";
         if (index > cur) {
             word.forEach(letter => letter.className = "pending");
@@ -126,14 +124,6 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
 
                 word[i].className = name;
             }
-
-            // if (typedWord.length > word.length) {
-            //     const extraLetters = typedWord.slice(word.length).split("").map((letter, pos, array) => ({
-            //         letter,
-            //         className: (pos === array.length && index === cur) ? "current" : "incorrect",
-            //     }));
-            //     letters.push(...extraLetters);
-            // }
         }
 
         const letters = word.map(letter => ({ ...letter }));
