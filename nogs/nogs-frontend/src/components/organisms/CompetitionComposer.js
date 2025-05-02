@@ -17,7 +17,7 @@ export default function CompetitionComposer() {
     // axios.get(COMPETITIONS);
 
     return (
-        <div className="competition-container">
+        <div className="competition-composer-container">
             {competitions?.length ? (
                 competitions.map((data, index) => (
                     <Competition key={`competition-${index}`} data={data} />

@@ -6,9 +6,12 @@ import Results from "../molecules/Results";
 import GameControls from "../molecules/GameControls";
 import { useLocation } from "react-router-dom";
 
-export default function Game() {
+export default function Game({ isCompetition = false, setDisplayGame = () => { } }) {
 
     const location = useLocation();
+
+    const buttonLabel = isCompetition ? "Exit" : "Restart";
+
 
     const [gameControls, setGameControls] = useState({
         mode: 'words',
@@ -23,6 +26,11 @@ export default function Game() {
         raw: 0,
     });
     const [showResult, setShowResult] = useState(false);
+
+    const handleButtonPress = () => {
+        if (isCompetition) setDisplayGame();
+        else loadTest();
+    }
 
     const loadTest = () => {
         axios.get(GENERATE_GAME_URL, {
@@ -74,10 +82,10 @@ export default function Game() {
                     <GameControls gameControls={gameControls} setGameControls={setGameControls} />
                     <Test targetText={test} setGameInfo={setGameInfo} setShowResult={setShowResult} />
                     <button
-                        onClick={loadTest}
+                        onClick={handleButtonPress}
                     >
-                        Restart
-                    </button>
+                        {buttonLabel}
+                    </button> : null
                 </>
                 : <Results gameInfo={gameInfo} setShowResult={setShowResult} />
             }

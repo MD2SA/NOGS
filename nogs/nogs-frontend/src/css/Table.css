@@ -1,0 +1,22 @@
+.table-container {
+}
+
+table {
+    border-collapse: collapse;
+    background-color: #484d4e;
+    color: #fdfff0;
+    font-family: 'Gliker', sans-serif;
+    font-size: 1rem;
+}
+
+th {
+    background-color: #aeb8b8;
+    color: #fdfff0;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px 12px;
+}
