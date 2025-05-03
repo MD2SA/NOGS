@@ -10,9 +10,6 @@ export default function Game({ isCompetition = false, setDisplayGame = () => { }
 
     const location = useLocation();
 
-    const buttonLabel = isCompetition ? "Exit" : "Restart";
-
-
     const [gameControls, setGameControls] = useState({
         mode: 'words',
         time: null,
@@ -26,11 +23,6 @@ export default function Game({ isCompetition = false, setDisplayGame = () => { }
         raw: 0,
     });
     const [showResult, setShowResult] = useState(false);
-
-    const handleButtonPress = () => {
-        if (isCompetition) setDisplayGame();
-        else loadTest();
-    }
 
     const loadTest = () => {
         axios.get(GENERATE_GAME_URL, {
@@ -82,9 +74,9 @@ export default function Game({ isCompetition = false, setDisplayGame = () => { }
                     <GameControls gameControls={gameControls} setGameControls={setGameControls} />
                     <Test targetText={test} setGameInfo={setGameInfo} setShowResult={setShowResult} />
                     <button
-                        onClick={handleButtonPress}
+                        onClick={loadTest}
                     >
-                        {buttonLabel}
+                        Restart
                     </button> : null
                 </>
                 : <Results gameInfo={gameInfo} setShowResult={setShowResult} />

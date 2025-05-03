@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../css/Test.css";
 
 export default function Test({ targetText, setGameInfo, setShowResult }) {
@@ -24,24 +24,20 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
     }
 
     const getAccuracy = () => {
-        return 0;
-        // let errors = 0;
-        // let sizeTarget = 0;
-        // for (const word of targetWords)
-        //     for (const letter of word) {
-        //         sizeTarget++;
-        //         if (letter.className !== "correct")
-        //             errors++;
-        //     }
-        //
-        // let sizeTyped = 0;
-        // for (const word of typedWords)
-        //     for (const letter of word)
-        //         sizeTyped++;
-        //
-        // errors += Math.max(sizeTyped - sizeTarget, 0);
-        //
-        // return 1 - (errors / sizeTarget);
+
+        // reduce funciona como um acumulador, comeca no "0" e vai acumulando no acc
+        let sizeTarget = targetWords.reduce((acc, word) => {
+            return acc + word.length;
+        }, 0);
+
+        let errors = 0;
+        renderedWords.forEach(word => {
+            errors += word.letters.reduce((acc, letter) => {
+                return acc + (letter.className !== "correct" ? 1 : 0);
+            }, 0);
+        });
+
+        return 1 - (errors / sizeTarget);
     }
 
     const finishTest = () => {
@@ -169,6 +165,28 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         return () => window.removeEventListener("keydown", handleKeyPress);
     }, [cur, renderedWords, startTime]);
 
+    const containerRef = useRef(null);
+    const currentWordRef = useRef(null);
+
+    useEffect(() => {
+        if (containerRef.current && currentWordRef.current) {
+            const container = containerRef.current;
+            const current = currentWordRef.current;
+
+            const containerRect = container.getBoundingClientRect();
+            const currentRect = current.getBoundingClientRect();
+
+            const offset = currentRect.left - containerRect.left;
+            const scrollOffset = offset - container.offsetWidth / 2 + current.offsetWidth / 2;
+
+            container.scrollBy({
+                left: scrollOffset,
+                behavior: "smooth"
+            });
+        }
+    }, [cur]);
+
+
     const renderWord = (word, index) => {
 
         const isCurrentWord = index === cur;
@@ -179,7 +197,11 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
             firstPendingIndex = word.letters.findIndex((letter) => letter.className === "pending");
 
         return (
-            <div key={index} className="word">
+            <div
+                key={index}
+                className="word"
+                ref={isCurrentWord ? currentWordRef : null}
+            >
                 {word.letters.map((letter, i) => {
                     let className = letter.className;
                     if (isCurrentWord && i === firstPendingIndex)
@@ -200,11 +222,12 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         );
     };
 
-
     return (
         <div className="container">
-            <div className="text-container">
-                {renderedWords.map((wordObj, wordIndex) => renderWord(wordObj, wordIndex))}
+            <div className="text-container" ref={containerRef}>
+                {renderedWords
+                    .slice(start, end)
+                    .map((wordObj, i) => renderWord(wordObj, i))}
             </div>
         </div>
     );

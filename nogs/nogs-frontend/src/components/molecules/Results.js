@@ -6,7 +6,7 @@ import Tooltip from "../atoms/Tooltip";
 /**
  * @param gameInfo : { accuracy: float, timeUsed: int, wpm: int, raw: int }
  */
-export default function Results({ gameInfo, setShowResult }) {
+export default function Results({ gameInfo, setShowResult, isCompetition }) {
 
     return (
         <div className="resultsContainer">
@@ -26,7 +26,7 @@ export default function Results({ gameInfo, setShowResult }) {
             </div>
             <div className="resultsDivider" />
             <button className="button resultsButton" onClick={() => setShowResult(false)}>
-                Play again
+                {isCompetition ? "Exit" : "Play again"}
             </button>
         </div>
     );
