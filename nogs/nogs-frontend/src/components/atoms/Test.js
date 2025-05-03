@@ -222,12 +222,20 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         );
     };
 
+    const WORDS_PER_LINE = 7;
+    const LINES_TO_SHOW = 3;
+    const WORDS_TO_SHOW = WORDS_PER_LINE * LINES_TO_SHOW;
+
+    // Calculate the start index for slicing
+    const startIndex = Math.max(0, Math.floor(cur / WORDS_PER_LINE) * WORDS_PER_LINE - WORDS_PER_LINE);
+    const endIndex = startIndex + WORDS_TO_SHOW;
+
     return (
         <div className="container">
             <div className="text-container" ref={containerRef}>
                 {renderedWords
-                    .slice(start, end)
-                    .map((wordObj, i) => renderWord(wordObj, i))}
+                    .slice(startIndex, endIndex)
+                    .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
             </div>
         </div>
     );
