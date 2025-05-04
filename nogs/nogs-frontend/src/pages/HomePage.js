@@ -67,19 +67,30 @@ export default function HomePage() {
             submitTest();
     }, [gameControls, showResult, location.state]);
 
+    const handleFinish = (data) => {
+        //meto logo no AXIOS
+        setGameInfo({
+            accuracy: data.accuracy,
+            timeUsed: data.timeUsed,
+            raw: data.raw,
+            wpm: data.wpm,
+        });
+        setShowResult(true);
+    }
+
     return (
         <div>
             {!showResult ?
                 <>
                     <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-                    <Test targetText={test} setGameInfo={setGameInfo} setShowResult={setShowResult} />
+                    <Test targetText={test} time={gameControls.time} handleFinish={handleFinish} />
                     <button
                         onClick={loadTest}
                     >
                         Restart
-                    </button> : null
+                    </button>
                 </>
-                : <Results gameInfo={gameInfo} setShowResult={setShowResult} />
+                : <Results gameInfo={gameInfo} handleLeave={() => setShowResult(false)} />
             }
         </div>
     );

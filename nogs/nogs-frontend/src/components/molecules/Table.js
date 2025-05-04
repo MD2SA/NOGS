@@ -2,19 +2,14 @@ import React from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
 import "../../css/Table.css";
 
-const columns = [
-    { key: 'id', label: 'ID' },
-    { key: 'name', label: 'Name' },
-    { key: 'email', label: 'Email' }
-];
+// const columns = [
+//     { key: 'id', label: 'ID' },
+//     { key: 'name', label: 'Name' },
+//     { key: 'email', label: 'Email' }
+// ];
 
-const data = Array.from({ length: 1000 }, (_, i) => ({
-    id: i + 1,
-    name: `User ${i + 1}`,
-    email: `user${i + 1}@example.com`
-}));
 
-export default function Table({ width = 400, height = 250 }) {
+export default function Table({ data, width = 400, height = 250 }) {
 
     const headers = Array.from(new Set(data.flatMap((row) => Object.keys(row))));
     /*

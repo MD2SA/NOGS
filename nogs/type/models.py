@@ -66,7 +66,8 @@ class UserStats(models.Model):
     best_wpm = models.FloatField(null=True, blank=True)
     avg_wpm = models.FloatField(null=True, blank=True)
     avg_accuracy = models.FloatField(null=True, blank=True)
-    total_game = models.PositiveIntegerField(default=0)
+    total_games = models.PositiveIntegerField(default=0)
+    total_time_played = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Stats for {self.user.username}"

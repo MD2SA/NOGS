@@ -11,7 +11,7 @@ export default function Competition({ data }) {
             <div>Lotation: {data.occupied}/{data.lotation} shamers</div>
             <button
                 className="competition-button"
-                onClick={()=>navigate('/competitions/competition/',{id:data.id})}
+                onClick={() => navigate('/competitions/competition/', { state: { id: data.id } })}
             >Join</button>
         </div>
     );

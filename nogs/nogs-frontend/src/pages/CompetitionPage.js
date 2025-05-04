@@ -1,22 +1,28 @@
+import axios from "axios";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Test from "../components/atoms/Test";
 import Results from "../components/molecules/Results";
 import Table from "../components/molecules/Table";
-import Game from "../components/organisms/Game";
 import "../css/Competition.css";
 
 
 export default function CompetitionPage() {
 
-    const [tries, setTries] = useState(3);
-    const [displayGame, setDisplayGame] = useState(false);
+    const location = useLocation();
 
-    const compete = () => {
-        if (tries <= 0) {
-            return;
-        }
-        setDisplayGame(true);
-        setTries(tries - 1);
+    const { id } = location?.state || {};
+
+    const [displayGame, setDisplayGame] = useState(false);
+    const [showResult, setShowResult] = useState(false);
+
+    //axios info
+    const [tries, setTries] = useState(3); // ir buscar isto ao axios
+    const [test, setTest] = useState("today is the day im going to go to school for the first time in a long time"); //ir buscar isto ao acxio
+
+    const COMPETITION_URL = "meter aqui url"
+    const loadCompetition = () => {
+        axios.get(COMPETITION_URL + "/" + id);
     }
 
     const [gameControls, setGameControls] = useState({
@@ -24,28 +30,61 @@ export default function CompetitionPage() {
         time: null,
         wordCount: 10,
     });
-    const [test, setTest] = useState("The quick brown fox jumps over the lazy dog.");
+
     const [gameInfo, setGameInfo] = useState({
         accuracy: 0.0,
         timeUsed: 0,
         wpm: 0,
         raw: 0,
     });
-    const [showResult, setShowResult] = useState(false);
+
+
+    const handleStart = () => {
+        setTries(tries - 1);
+    }
+
+    const handleFinish = (data) => {
+        setGameInfo({
+            accuracy: data.accuracy,
+            timeUsed: data.timeUsed,
+            raw: data.raw,
+            wpm: data.wpm,
+        });
+        setShowResult(true);
+        //EM VEZ DISTO METO DIRETAMETNE NO SERVER
+        /*
+         * PUT IN AXIOS DJNAGO HERE
+         *
+         */
+    }
+    const handleLeave = () => {
+        setDisplayGame(false);
+        setShowResult(false);
+    }
+
+    const data = Array.from({ length: 30 }, (_, i) => ({
+        "#": i + 1,
+        name: `User ${i + 1}`,
+        wpm: (Math.random() * 300).toFixed(0),
+        acc: `${(Math.random() * 100).toFixed(2)}%`,
+    }));
 
     return (
         <div>
+            < h1 className="title" > TIME TO LOCK IN</h1 >
             {!displayGame ?
                 <div>
-                    < h1 className="title" > TIME TO LOCK IN</h1 >
                     <div className="competition-container">
-                        <Table />
+                        <div className="sub-container">
+                            <h3 className="sub-title">LeaderBoard</h3>
+                            <Table data={data} />
+                        </div>
                         <div className="resultsDivider" />
                         <div className="sub-container">
                             <h3 className="sub-title">
                                 Tries left : {tries}
                             </h3>
-                            <button className="resultsButton" onClick={() => compete()} >
+                            <button className="resultsButton" onClick={() => setDisplayGame(true)} >
                                 Play
                             </button>
                         </div>
@@ -53,13 +92,10 @@ export default function CompetitionPage() {
                 </div>
                 :
                 <div>
-                    <h3 className="sub-title">
-                        Tries left : {tries}
-                    </h3>
                     {!showResult ?
-                        <Test targetText={test} setGameInfo={setGameInfo} setShowResult={setShowResult} />
+                        <Test targetText={test} time={gameControls.time} handleStart={handleStart} handleFinish={handleFinish} />
                         :
-                        <Results gameInfo={gameInfo} setShowResult={setShowResult} />
+                        <Results gameInfo={gameInfo} handleLeave={handleLeave} />
                     }
                 </div>
             }

@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import "../../css/Test.css";
 
-export default function Test({ targetText, setGameInfo, setShowResult }) {
+export default function Test({ targetText, time, handleStart, handleFinish }) {
 
-    const targetWords = targetText.split(" ");
+    const targetWords = targetText?.split(" ");
 
     const [renderedWords, setRenderedWords] = useState(targetWords.map(word => {
         return {
@@ -17,6 +17,7 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
 
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
+
 
     const isCorrect = (renderedWord) => {
         if (!renderedWord) return false;
@@ -36,8 +37,7 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
                 return acc + (letter.className !== "correct" ? 1 : 0);
             }, 0);
         });
-
-        return 1 - (errors / sizeTarget);
+        return Math.max(1 - (errors / sizeTarget), 0);
     }
 
     const finishTest = () => {
@@ -51,13 +51,7 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         const rawRaw = (targetText.length / 5) / timeUsedRaw;
         const raw = Math.round(rawRaw * 60);
         const wpm = Math.round(rawRaw * accuracyRaw * 60);
-        setGameInfo({
-            accuracy: accuracy,
-            timeUsed: timeUsed,
-            raw: raw,
-            wpm: wpm,
-        });
-        setShowResult(true);
+        handleFinish({ accuracy, timeUsed, raw, wpm });
     };
 
     const handleBackSpace = (e) => {
@@ -108,7 +102,10 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
     }
 
     const handleNormalKey = (key) => {
-        if (startTime === 0) setStartTime(Date.now());
+        if (startTime === 0) {
+            setStartTime(Date.now());
+            if (handleStart) handleStart();
+        }
 
         setRenderedWords(prev => {
             const updatedWords = prev.map((word, index) => {
@@ -149,7 +146,7 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         }));
         setCur(0);
         setStartTime(0);
-    }, [targetText]);
+    }, [targetText, time]);
 
     useEffect(() => {
         const handleKeyPress = (e) => {
@@ -168,17 +165,21 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
     const containerRef = useRef(null);
     const currentWordRef = useRef(null);
 
+    //ESTE USEEFFECT FOI FEITO PELO CHAT
     useEffect(() => {
         if (containerRef.current && currentWordRef.current) {
             const container = containerRef.current;
             const current = currentWordRef.current;
 
+            // Calcula os retangulos do container e do elemento "palavra"
             const containerRect = container.getBoundingClientRect();
             const currentRect = current.getBoundingClientRect();
 
+            // Calcula o deslocamento necessário para centralizar a palavra
             const offset = currentRect.left - containerRect.left;
             const scrollOffset = offset - container.offsetWidth / 2 + current.offsetWidth / 2;
 
+            // Rola o container até a posição calculada, com comportamento suave
             container.scrollBy({
                 left: scrollOffset,
                 behavior: "smooth"
@@ -222,11 +223,10 @@ export default function Test({ targetText, setGameInfo, setShowResult }) {
         );
     };
 
-    const WORDS_PER_LINE = 7;
+    const WORDS_PER_LINE = 10;
     const LINES_TO_SHOW = 3;
     const WORDS_TO_SHOW = WORDS_PER_LINE * LINES_TO_SHOW;
 
-    // Calculate the start index for slicing
     const startIndex = Math.max(0, Math.floor(cur / WORDS_PER_LINE) * WORDS_PER_LINE - WORDS_PER_LINE);
     const endIndex = startIndex + WORDS_TO_SHOW;
 
