@@ -7,26 +7,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Game, UserStats, User
 
+from nogs.nogs.utils import generate_phrase
+
 @api_view(['GET'])
 def generate_game(request):
-    mode = request.GET.get('mode')
-    time_seconds = validate_input(
-        request.GET.get('time_seconds'), MAX_TIME_SECONDS)
-    word_count = validate_input(request.GET.get('word_count'), MAX_WORD_COUNT)
-    try:
-        if mode == Game.MODE_TIME and time_seconds:
-            estimated_words = int((time_seconds / 60) * MAX_WPM)
-            text = generate_words(estimated_words)
-        elif mode == Game.MODE_WORDS and word_count:
-            text = generate_words(word_count)
-        else:
-            return Response(
-                {'error': 'Invalid parameters for selected mode or out-of-range values'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        return Response({'test': text}, status=status.HTTP_200_OK)
-    except ValueError as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    mode = request.data.get('mode')
+    time_seconds = request.data.get('time_seconds')
+    word_count = request.data.get('word_count')
+    phrase = generate_phrase(mode=mode,time_seconds=time_seconds, word_count=word_count)
+    return Response({'test': phrase}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

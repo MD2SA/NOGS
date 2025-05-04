@@ -3,6 +3,9 @@ import random
 from pathlib import Path
 from django.conf import settings
 
+from nogs.type.models import Game
+
+
 def load_words_from_file(filepath):
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
@@ -26,7 +29,7 @@ def validate_input(value, max_value):
         if value is None:
             return None
         value = int(value)
-        return value if DEFAULT_WORD_COUNT <= value <= max_value else DEFAULT_WORD_COUNT
+        return value if DEFAULT_WORD_COUNT <= value <= max_value else None
     except (ValueError, TypeError):
         return None
 
@@ -36,11 +39,10 @@ def generate_words(count):
         raise ValueError("Word list is empty or could not be loaded.")
     return ' '.join(random.choices(DEFAULT_WORD_LIST, k=count))
 
-def generate_phrase(time_seconds=None,word_count=DEFAULT_WORD_COUNT):
+def generate_phrase(mode=None,time_seconds=None,word_count=DEFAULT_WORD_COUNT):
     time_seconds = validate_input(time_seconds, MAX_TIME_SECONDS)
     word_count = validate_input(word_count, MAX_WORD_COUNT)
-
-    if time_seconds is None:
+    if mode == Game.MODE_WORDS or time_seconds is None:
         phrase = generate_words(word_count)
     else:
         estimated_words = int((time_seconds / 60) * MAX_WPM)
