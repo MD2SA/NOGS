@@ -3,7 +3,6 @@ import random
 from pathlib import Path
 from django.conf import settings
 
-from nogs.type.models import Game
 
 
 def load_words_from_file(filepath):
@@ -39,9 +38,10 @@ def generate_words(count):
         raise ValueError("Word list is empty or could not be loaded.")
     return ' '.join(random.choices(DEFAULT_WORD_LIST, k=count))
 
-def generate_phrase(mode=None,time_seconds=None,word_count=DEFAULT_WORD_COUNT):
+def generate_phrase(mode=None,time_seconds=None,word_count=None):
+    from type.models import Game # evitar loop de import
     time_seconds = validate_input(time_seconds, MAX_TIME_SECONDS)
-    word_count = validate_input(word_count, MAX_WORD_COUNT)
+    word_count = validate_input(word_count, MAX_WORD_COUNT) or DEFAULT_WORD_COUNT
     if mode == Game.MODE_WORDS or time_seconds is None:
         phrase = generate_words(word_count)
     else:

@@ -18,6 +18,27 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
+    const [timerActive, setTimerActive] = useState(false);
+    const [timer, setTimer] = useState(time);
+
+
+    useEffect(() => {
+        if (!timerActive) return;
+
+        const interval = setInterval(() => {
+            setTimer(prev => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    finishTest();
+                    return null;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [timerActive]);
+
 
     const isCorrect = (renderedWord) => {
         if (!renderedWord) return false;
@@ -26,10 +47,17 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     const getAccuracy = () => {
 
-        // reduce funciona como um acumulador, comeca no "0" e vai acumulando no acc
-        let sizeTarget = targetWords.reduce((acc, word) => {
-            return acc + word.length;
-        }, 0);
+        let sizeTarget = 0
+        if (!time)
+            sizeTarget = targetWords.reduce((acc, word) => {
+                return acc + word.length;
+            }, 0);
+        else
+            for (let i = 0; i < targetWords.length; i++)
+                if (i > cur) break;
+                else sizeTarget += targetWords[i].length
+
+
 
         let errors = 0;
         renderedWords.forEach(word => {
@@ -41,7 +69,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     }
 
     const finishTest = () => {
-        const accuracyRaw = getAccuracy();
+        const accuracyRaw = getAccuracy(cur);
         const accuracy = +(accuracyRaw * 100).toFixed(
             accuracyRaw * 100 % 1 === 0 ? 0 : (accuracyRaw * 10 % 1 === 0 ? 1 : 2)
         );
@@ -105,6 +133,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
         if (startTime === 0) {
             setStartTime(Date.now());
             if (handleStart) handleStart();
+            setTimerActive(true);
         }
 
         setRenderedWords(prev => {
@@ -146,6 +175,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
         }));
         setCur(0);
         setStartTime(0);
+        setTimerActive(false);
     }, [targetText, time]);
 
     useEffect(() => {
@@ -231,12 +261,15 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const endIndex = startIndex + WORDS_TO_SHOW;
 
     return (
-        <div className="container">
-            <div className="text-container" ref={containerRef}>
-                {renderedWords
-                    .slice(startIndex, endIndex)
-                    .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
+        <>
+            {time && <div>{timer}s left</div>}
+            <div className="container">
+                <div className="text-container" ref={containerRef}>
+                    {renderedWords
+                        .slice(startIndex, endIndex)
+                        .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

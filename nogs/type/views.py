@@ -1,19 +1,15 @@
-import json
-import random
-from pathlib import Path
-from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Game, UserStats, User
+from .models import UserStats, User
 
-from nogs.nogs.utils import generate_phrase
+from .generate import generate_phrase
 
 @api_view(['GET'])
 def generate_game(request):
-    mode = request.data.get('mode')
-    time_seconds = request.data.get('time_seconds')
-    word_count = request.data.get('word_count')
+    mode = request.GET.get('mode')
+    time_seconds = request.GET.get('time_seconds')
+    word_count = request.GET.get('word_count')
     phrase = generate_phrase(mode=mode,time_seconds=time_seconds, word_count=word_count)
     return Response({'test': phrase}, status=status.HTTP_200_OK)
 

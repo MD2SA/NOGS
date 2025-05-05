@@ -26,12 +26,16 @@ def join_competition(request, competition_id):
     try:
         competition = Competition.objects.get(id=competition_id, is_active=True)
     except Competition.DoesNotExist:
-        return Response({'error': 'competition not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Competition not found'}, status=status.HTTP_404_NOT_FOUND)
 
     user = request.user
 
     if competition.participants.filter(id=user.id).exists():
-        return Response({'error': 'user already joined'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'detail': 'User already joined'}, status=status.HTTP_403_FORBIDDEN)
+    current_lotation = competition.participants.count()
+    if competition.capacity and current_lotation >= competition.capacity:
+        return Response({'detail': 'Competition is full'}, status=status.HTTP_400_BAD_REQUEST)
+
 
     # noinspection PyUnresolvedReferences
     data = { 'user':user.id, 'competition': competition.id}

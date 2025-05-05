@@ -1,40 +1,22 @@
-import { useState } from "react";
 import axios from "axios";
-import { LOGIN_URL, REGISTER_URL } from "../../assets/urls/djangoUrls";
+import { useState } from "react";
+import { LOGIN_URL } from "../../assets/urls/djangoUrls";
+import "../../css/Profile.css"
 
 
-export default function SignUp() {
+export default function Login() {
 
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    });
-
+    const [formData, setFormData] = useState({ username: '', password: '', });
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
-    const handleUp = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         setMessage('');
-
-        axios.post(REGISTER_URL, formData)
-            .then(response => {
-                console.log(response.data);
-                setMessage("User registered successfully!");
-            })
-            .catch(error => {
-                console.error(error);
-                setMessage("Something went wrong.");
-            });
-    }
-
-    const handleIn = (e) => {
-        e.preventDefault();
-        setMessage('');
-        axios.post(LOGIN_URL, formData)
+        axios.post(LOGIN_URL, formData, { withCredentials: true })
             .then(response => {
                 console.log(response.data);
                 setMessage("SignIn successfull!");
@@ -46,8 +28,8 @@ export default function SignUp() {
     }
 
     return (
-        <div>
-            <h2>Sign Up</h2>
+        <div className="account-container">
+            <h2 class="title account-title">Login</h2>
             <input
                 name="username"
                 placeholder="Username"
@@ -62,9 +44,8 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
             />
-            <button onClick={handleUp} >Sign Up</button>
-            <button onClick={handleIn} >Sign In</button>
             {message && <p>{message}</p>}
+            <button onClick={handleLogin} >Login</button>
         </div>
     );
 }

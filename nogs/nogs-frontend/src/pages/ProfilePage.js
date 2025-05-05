@@ -1,10 +1,10 @@
-import SignUp from "../components/molecules/SignUp";
+import Login from "../components/molecules/Login";
 
 
 export default function ProfilePage() {
-    return(
+    return (
         <div>
-            <SignUp/>
+            <Login />
         </div>
     );
 }

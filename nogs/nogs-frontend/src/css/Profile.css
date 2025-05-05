@@ -1,0 +1,12 @@
+.account-container {
+    background-color: #fdfff0;
+    border-radius: 25px;
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-title {
+    color: #98a3a3;
+    text-shadow: -2px 1px 0px #484d4e;
+}
