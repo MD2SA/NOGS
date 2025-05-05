@@ -18,28 +18,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
-    const [timerActive, setTimerActive] = useState(false);
-    const [timer, setTimer] = useState(time);
-
-
-    useEffect(() => {
-        if (!timerActive) return;
-
-        const interval = setInterval(() => {
-            setTimer(prev => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    finishTest();
-                    return null;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [timerActive]);
-
-
     const isCorrect = (renderedWord) => {
         if (!renderedWord) return false;
         return renderedWord.letters.every(letter => letter.className === "correct");
@@ -133,7 +111,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
         if (startTime === 0) {
             setStartTime(Date.now());
             if (handleStart) handleStart();
-            setTimerActive(true);
         }
 
         setRenderedWords(prev => {
@@ -175,7 +152,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
         }));
         setCur(0);
         setStartTime(0);
-        setTimerActive(false);
     }, [targetText, time]);
 
     useEffect(() => {
@@ -262,7 +238,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     return (
         <>
-            {time && <div>{timer}s left</div>}
             <div className="container">
                 <div className="text-container" ref={containerRef}>
                     {renderedWords
