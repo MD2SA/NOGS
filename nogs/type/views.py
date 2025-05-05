@@ -1,64 +1,47 @@
-from django.shortcuts import render
-from rest_framework.response import Response
+import json
+import random
+from pathlib import Path
+from django.conf import settings
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework import status
-from .serializers import *
-from .models import *
+from .models import Game, UserStats, User
 
-DEFAULT_WORD_LIST = [
-    'python', 'django', 'code', 'keyboard', 'speed',
-    'typing', 'developer', 'algorithm', 'function', 'class'
-]
-MAX_WPM = 450
-MAX_TIME_SECONDS = 600  # 10 minutos
-MAX_WORD_COUNT = 4500
-
+from nogs.nogs.utils import generate_phrase
 
 @api_view(['GET'])
 def generate_game(request):
-    mode = request.GET.get('mode')
-    time_seconds = request.GET.get('time_seconds')
-    word_count = request.GET.get('word_count')
-    try:
-        if mode == Game.MODE_TIME and time_seconds:
-            time_seconds = int(time_seconds)
-            if not (1 <= time_seconds <= MAX_TIME_SECONDS):
-                return Response(
-                    {'error': f'Time should be between 1 and {MAX_TIME_SECONDS} seconds'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            estimated_words = int((time_seconds / 60) * MAX_WPM)
-            test = ' '.join(random.choices(DEFAULT_WORD_LIST, k=estimated_words))
-        elif mode == Game.MODE_WORDS and word_count:
-            word_count = int(word_count)
-            if not (1 <= word_count <= MAX_WORD_COUNT):
-                return Response(
-                    {'error': f'Word count should be between 1 and {MAX_WORD_COUNT} words'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            test = ' '.join(random.choices(DEFAULT_WORD_LIST, k=word_count))
-        else:
-            return Response(
-                {'error': 'Invalid parameters for selected mode'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        return Response({'test': test})
-    except (ValueError, TypeError):
-        return Response(
-            {'error': 'Parameters must be valid integers'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    mode = request.data.get('mode')
+    time_seconds = request.data.get('time_seconds')
+    word_count = request.data.get('word_count')
+    phrase = generate_phrase(mode=mode,time_seconds=time_seconds, word_count=word_count)
+    return Response({'test': phrase}, status=status.HTTP_200_OK)
 
 
-@api_view(['PUT'])
+@api_view(['POST'])
 def submit_result(request):
-    accuracy = request.PUT.get('accuracy')
-    time_used = request.PUT.get('time_used')
-    raw = request.PUT.get('raw')
-    wpm = request.PUT.get('wpm')
-    return Response({
-        'accuracy': accuracy,
-        'time_used': time_used,
-        'raw': raw,
-        'wpm': wpm
-    });
+    try:
+        user_id = int(request.data.get('user_id'))
+        accuracy = float(request.data.get('accuracy'))
+        time_used = int(request.data.get('time_used'))
+        wpm = int(request.data.get('wpm'))
+    except (TypeError, ValueError):
+        return Response({'error': 'Invalid input data types.'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+    stats, created = UserStats.objects.get_or_create(user=user)
+
+    total_games = stats.total_games
+    stats.avg_wpm = ((stats.avg_wpm or 0)*total_games + wpm) / (total_games + 1)
+    stats.avg_accuracy = ((stats.avg_accuracy or 0) * total_games + accuracy) / (total_games + 1)
+    stats.best_wpm = max((stats.best_wpm or 0), wpm)
+    stats.total_time_played += time_used
+    stats.total_games += 1
+
+    stats.total_time_played += time_used
+    stats.save()
+
+    return Response(status=status.HTTP_200_OK)

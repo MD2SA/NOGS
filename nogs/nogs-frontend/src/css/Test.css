@@ -23,15 +23,12 @@
     font-size: 1.7em;
     line-height: 1em;
     font-weight: 600;
-    margin: .25em .3em;
     letter-spacing: 0.05em;
     display: inline-block;
-    /* Ensures uniform background size */
     font-family: 'Roboto mono', monospace;
 }
 
 .current {
-    /* background-color: #eee; */
     background-color: #FAFFCC;
     color: grey;
 }
@@ -42,6 +39,10 @@
 
 .incorrect {
     color: red;
+}
+
+.extra {
+    color: #800000;
 }
 
 .pending {

@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/molecules/Layout';
+import CompetitionsPage from './pages/CompetitionsPage';
 import CompetitionPage from './pages/CompetitionPage';
 import HomePage from './pages/HomePage';
-import Profile from './pages/Profile';
+import ProfilePage from './pages/ProfilePage';
 
 
 export default function App() {
@@ -11,10 +12,11 @@ export default function App() {
             <Routes>
                 <Route element={<Layout />}>
                     <Route path='/' element={<HomePage />} />
-                    <Route path='/competition' element={<CompetitionPage />} />
+                    <Route path='/competitions' element={<CompetitionsPage />} />
+                    <Route path='/competitions/competition' element={<CompetitionPage />} />
                     <Route path='/team' element={<HomePage />} />
                     <Route path='/friends' element={<HomePage />} />
-                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/profile' element={<ProfilePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

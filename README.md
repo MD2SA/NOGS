@@ -29,12 +29,32 @@ MODELS->SERIALIZERS->VIEWS->URLS->FRONTED
 ### PAGINA COMPETICAO
 
 - [ ] Ver competições disponíveis
+  - [x] frontend
+  - [x] backend
 
 - [ ] Entrar em competição
-
+  - [x] frontend
+  - [x] backend
+   
 - [ ] LeaderBoard da competição
+  - [x] frontend
+  - [x] backend
 
 - [ ] Jogar competição
+  - [x] frontend
+  - [x] backend
+  - 
+- [ ] Criar competição
+  - [ ] frontend
+  - [x] backend
+
+### PAGINA PRINCIPAl
+
+- [x] Escolher modo
+- [x] Gerar frase
+- [ ] Guardar resultados
+  - [x] frontend
+  - [ ] backend
 
 ### PAGINA PERFIL
 

@@ -6,7 +6,7 @@ import Results from "../molecules/Results";
 import GameControls from "../molecules/GameControls";
 import { useLocation } from "react-router-dom";
 
-export default function Game() {
+export default function Game({ isCompetition = false, setDisplayGame = () => { } }) {
 
     const location = useLocation();
 
@@ -77,7 +77,7 @@ export default function Game() {
                         onClick={loadTest}
                     >
                         Restart
-                    </button>
+                    </button> : null
                 </>
                 : <Results gameInfo={gameInfo} setShowResult={setShowResult} />
             }

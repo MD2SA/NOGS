@@ -88,3 +88,9 @@ button:hover {
     font-size: 6vh;
     color: #fdfff0;
 }
+
+.sub-title {
+    font-family: 'Gliker', sans-serif;
+    font-size: 4vh;
+    color: #fdfff0;
+}
