@@ -19,6 +19,7 @@
     grid-row-gap: 15vh;
     justify-items: center;
     align-items: start;
+    gap: 5vw;
     padding: 16px;
 }
 

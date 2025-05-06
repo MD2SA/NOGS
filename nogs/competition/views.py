@@ -46,11 +46,11 @@ def competition_participants(request,competition_id):
         except CompetitionParticipant.DoesNotExist:
             return Response({'error': 'Participants not found'}, status=status.HTTP_404_NOT_FOUND)
     elif request.method == 'PUT':
-        return update_competition_participant(request,competition_id)
+        return play_game(request,competition_id)
 
 
 
-def update_competition_participant(request, competition_id):
+def play_game(request, competition_id):
     try:
         competition = Competition.objects.get(id=competition_id)
 

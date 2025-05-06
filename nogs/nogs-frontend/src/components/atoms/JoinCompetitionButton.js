@@ -10,9 +10,12 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
 
     const { user } = useAuth();
     const handleJoin = () => {
+        if (!user) {
+            alert('Login to join');
+            return;
+        }
         setIsLoading(false);
         setError(null);
-
         axios.post(COMPETITION_URL(competitionId), { withCredentials: true })
             .then(response => {
                 console.log(response);
