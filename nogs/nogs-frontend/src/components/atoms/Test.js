@@ -18,7 +18,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
-
     const isCorrect = (renderedWord) => {
         if (!renderedWord) return false;
         return renderedWord.letters.every(letter => letter.className === "correct");
@@ -26,10 +25,17 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     const getAccuracy = () => {
 
-        // reduce funciona como um acumulador, comeca no "0" e vai acumulando no acc
-        let sizeTarget = targetWords.reduce((acc, word) => {
-            return acc + word.length;
-        }, 0);
+        let sizeTarget = 0
+        if (!time)
+            sizeTarget = targetWords.reduce((acc, word) => {
+                return acc + word.length;
+            }, 0);
+        else
+            for (let i = 0; i < targetWords.length; i++)
+                if (i > cur) break;
+                else sizeTarget += targetWords[i].length
+
+
 
         let errors = 0;
         renderedWords.forEach(word => {
@@ -41,7 +47,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     }
 
     const finishTest = () => {
-        const accuracyRaw = getAccuracy();
+        const accuracyRaw = getAccuracy(cur);
         const accuracy = +(accuracyRaw * 100).toFixed(
             accuracyRaw * 100 % 1 === 0 ? 0 : (accuracyRaw * 10 % 1 === 0 ? 1 : 2)
         );
@@ -231,12 +237,14 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const endIndex = startIndex + WORDS_TO_SHOW;
 
     return (
-        <div className="container">
-            <div className="text-container" ref={containerRef}>
-                {renderedWords
-                    .slice(startIndex, endIndex)
-                    .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
+        <>
+            <div className="container">
+                <div className="text-container" ref={containerRef}>
+                    {renderedWords
+                        .slice(startIndex, endIndex)
+                        .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -62,3 +62,9 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.error-message {
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: red;
+}

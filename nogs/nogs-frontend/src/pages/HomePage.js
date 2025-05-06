@@ -40,18 +40,18 @@ export default function HomePage() {
 
     const submitTest = () => {
 
-        axios.put(SUBMIT_RESULT_URL, {
-            params: {
-                accuracy: gameInfo.accuracy,
-                time_used: gameInfo.timeUsed,
-                raw: gameInfo.raw,
-                wpm: gameInfo.wpm,
-            }
-        }).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.error("There was an error loading the test:", error);
-        });
+        // axios.put(SUBMIT_RESULT_URL, {
+        //     params: {
+        //         accuracy: gameInfo.accuracy,
+        //         time_used: gameInfo.timeUsed,
+        //         raw: gameInfo.raw,
+        //         wpm: gameInfo.wpm,
+        //     }
+        // }).then((response) => {
+        //     console.log(response);
+        // }).catch((error) => {
+        //     console.error("There was an error loading the test:", error);
+        // });
     }
 
     const [lastRefresh, setLastRefresh] = useState(-1);
