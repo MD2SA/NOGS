@@ -56,7 +56,13 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
+
+# esta de baixo tem de ficar de fora
+#CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'nogs.urls'
 
