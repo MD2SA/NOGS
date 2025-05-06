@@ -1,17 +1,24 @@
-import { useState } from "react";
+import LogoutButton from "../components/atoms/LoggoutButton";
 import { useAuth } from "../components/AuthContext";
 import AccountManager from "../components/molecules/AccountManager";
-import Login from "../components/molecules/Login";
+import Stats from "../components/organisms/Stats";
 
 
 export default function ProfilePage() {
 
     const { user } = useAuth();
 
-
     return (
         <div>
-            <AccountManager/>
+            {user ?
+                (
+                    <>
+                        <LogoutButton />
+                        <Stats />
+                    </>
+                )
+                : <AccountManager />
+            }
         </div>
     );
 }

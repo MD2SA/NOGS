@@ -13,12 +13,9 @@ export const AuthProvider = ({ children }) => {
         return axios.post(LOGIN_URL, data, { withCredentials: true })
             .then((response) => {
                 setUser(response.data.user);
-                console.log("here");
                 return { success: true, message: 'Login successful!' };
             })
             .catch(error => {
-                console.error(error);
-                console.log("here2");
                 return { success: false, message: 'Something went wrong.' };
             });
     }
@@ -30,7 +27,6 @@ export const AuthProvider = ({ children }) => {
                 return { success: true, message: 'Signup successful!' };
             })
             .catch(error => {
-                console.error(error);
                 return { success: false, message: 'Something went wrong.' };
             });
     }
