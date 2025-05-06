@@ -39,14 +39,11 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
 
         let errors = 0;
-        console.log(renderedWords);
         renderedWords.forEach(word => {
             errors += word.letters.reduce((acc, letter) => {
                 return acc + (letter.className !== "correct" ? 1 : 0);
             }, 0);
         });
-        console.log("sizetarget", sizeTarget)
-        console.log("error", errors);
         return Math.max(1 - (errors / sizeTarget), 0);
     }
 
@@ -145,7 +142,6 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
 
     useEffect(() => {
-        console.log("RESET EFFECT RUN");
         setRenderedWords(targetWords.map(word => {
             return {
                 lettersTyped: 0,

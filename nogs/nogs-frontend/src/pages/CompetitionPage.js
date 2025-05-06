@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { COMPETITION_PARTICIPANTS_URL, COMPETITION_URL } from "../assets/urls/djangoUrls";
 import Test from "../components/atoms/Test";
 import Results from "../components/molecules/Results";
 import Table from "../components/molecules/Table";
@@ -9,37 +10,33 @@ import "../css/Competition.css";
 
 export default function CompetitionPage() {
 
-    const location = useLocation();
-
-    const { id } = location?.state || {};
+    const { data } = useLocation()?.state || {};
+    console.log("DATA", data);
 
     const [displayGame, setDisplayGame] = useState(false);
     const [showResult, setShowResult] = useState(false);
 
     //axios info
-    const [tries, setTries] = useState(3); // ir buscar isto ao axios
-    const [test, setTest] = useState("today is the day im going to go to school for the first time in a long time"); //ir buscar isto ao acxio
+    const [tries, setTries] = useState(); // ir buscar isto ao axios
+    const [test, setTest] = useState(data.phrase); //ir buscar isto ao acxio
 
-    const COMPETITION_URL = "meter aqui url"
     const loadCompetition = () => {
-        axios.get(COMPETITION_URL + "/" + id);
     }
 
-    const [gameControls, setGameControls] = useState({
-        mode: 'words',
-        time: null,
-        wordCount: 10,
-    });
+    useEffect(() => {
+        loadCompetition();
+    }, []);
 
-    const [gameInfo, setGameInfo] = useState({
-        accuracy: 0.0,
-        timeUsed: 0,
-        wpm: 0,
-        raw: 0,
-    });
 
 
     const handleStart = () => {
+        axios.put(COMPETITION_PARTICIPANTS_URL(data.id), { gameInfo }, { withCredentials: true })
+            .then(response => {
+                setTries(response.data.tries_left);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         setTries(tries - 1);
     }
 
@@ -62,43 +59,47 @@ export default function CompetitionPage() {
         setShowResult(false);
     }
 
-    const data = Array.from({ length: 30 }, (_, i) => ({
+    const info = Array.from({ length: 30 }, (_, i) => ({
         "#": i + 1,
         name: `User ${i + 1}`,
         wpm: (Math.random() * 300).toFixed(0),
         acc: `${(Math.random() * 100).toFixed(2)}%`,
     }));
 
+    const [gameInfo, setGameInfo] = useState({
+        accuracy: 0.0,
+        timeUsed: 0,
+        wpm: 0,
+        raw: 0,
+    });
     return (
         <div>
-            < h1 className="title" > TIME TO LOCK IN</h1 >
-            {!displayGame ?
+            <h1 className="title">TIME TO LOCK IN</h1>
+            {!displayGame ? (
                 <div>
                     <div className="competition-container">
                         <div className="sub-container">
                             <h3 className="sub-title">LeaderBoard</h3>
-                            <Table data={data} />
+                            <Table data={info} />
                         </div>
                         <div className="resultsDivider" />
                         <div className="sub-container">
-                            <h3 className="sub-title">
-                                Tries left : {tries}
-                            </h3>
-                            <button className="resultsButton" onClick={() => setDisplayGame(true)} >
+                            <h3 className="sub-title">Tries left: {tries}</h3>
+                            <button className="resultsButton" onClick={() => setDisplayGame(true)}>
                                 Play
                             </button>
                         </div>
                     </div>
                 </div>
-                :
+            ) : (
                 <div>
-                    {!showResult ?
-                        <Test targetText={test} time={gameControls.time} handleStart={handleStart} handleFinish={handleFinish} />
-                        :
+                    {!showResult ? (
+                        <Test targetText={data.phrase} time={data.time_seconds} handleStart={handleStart} handleFinish={handleFinish} />
+                    ) : (
                         <Results gameInfo={gameInfo} handleLeave={handleLeave} />
-                    }
+                    )}
                 </div>
-            }
-        </div >
+            )}
+        </div>
     );
 }

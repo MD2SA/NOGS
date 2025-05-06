@@ -4,7 +4,7 @@ import { useAuth } from "../AuthContext";
 
 export default function SignUp({ changeScreen }) {
 
-    const [formData, setFormData] = useState({ username: '', email: '', password: '', });
+    const [formData, setFormData] = useState({ username: '', password: '', });
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
@@ -25,14 +25,6 @@ export default function SignUp({ changeScreen }) {
                 name="username"
                 placeholder="Username"
                 value={formData.username}
-                onChange={handleChange}
-                required
-                className="account-input"
-            />
-            <input
-                name="email"
-                placeholder="Email"
-                value={formData.email}
                 onChange={handleChange}
                 required
                 className="account-input"

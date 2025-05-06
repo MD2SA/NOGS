@@ -4,7 +4,6 @@ import { useAuth } from "../AuthContext";
 export default function Card() {
 
     const { user } = useAuth();
-    console.log(user);
 
     return (
         <div style={{ height: 100, width: 100, backgroundColor: "red" }}>

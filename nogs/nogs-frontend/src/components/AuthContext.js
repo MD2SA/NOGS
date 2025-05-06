@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import { LOGIN_URL, SIGNUP_URL } from "../assets/urls/djangoUrls";
+import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL } from "../assets/urls/djangoUrls";
 
 
 const AuthContext = createContext(null);
@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
                 return { success: true, message: 'Login successful!' };
             })
             .catch(error => {
+                console.log(error);
                 return { success: false, message: 'Something went wrong.' };
             });
     }
@@ -27,14 +28,24 @@ export const AuthProvider = ({ children }) => {
                 return { success: true, message: 'Signup successful!' };
             })
             .catch(error => {
+                console.log(error);
                 return { success: false, message: 'Something went wrong.' };
             });
     }
 
-    const logout = null;
+    const logout = () => {
+        return axios.get(LOGOUT_URL, { withCredentials: true })
+            .then(response => {
+                setUser(null);
+                return { success: true, message: 'Logout successful!' };
+            })
+            .catch(error => {
+                return { success: false, message: 'Something went wrong.' };
+            });
+    };
 
     return (
-        <AuthContext.Provider value={{ user, login, signup }} >
+        <AuthContext.Provider value={{ user, signup, login, logout }} >
             {children}
         </AuthContext.Provider >
     );

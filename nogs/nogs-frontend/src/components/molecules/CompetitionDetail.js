@@ -7,12 +7,18 @@ export default function CompetitionDetail({ data }) {
 
     return (
         <div className="competition-info-container">
-            <div>Required trophies: {data.league} <span className="emoji">🏆</span></div>
-            <div>Mode: {data.time_seconds} s</div>
-            <div>Lotation: {data.participants.length}/{data.capacity} shamers</div>
+            <div className="competition-detail">
+                <span>Required trophies: {data.league} <span className="emoji">🏆</span></span>
+            </div>
+            <div className="competition-detail">
+                <span>Mode: {data.time_seconds} s</span>
+            </div>
+            <div className="competition-detail">
+                <span>Lotation: {data.participants.length}/{data.capacity} shamers</span>
+            </div>
             <JoinCompetitionButton
                 competitionId={data.id}
-                OnJoinSuccess={() => navigate('/competitions/competition/', { state: { id: data.id } })} />
+                OnJoinSuccess={() => navigate('/competitions/competition/', { state: { data: data } })} />
         </div>
     );
 }
