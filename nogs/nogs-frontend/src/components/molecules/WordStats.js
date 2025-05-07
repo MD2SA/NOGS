@@ -1,8 +1,9 @@
+import axios from "axios";
 
 
 export default function WordStats() {
 
-    axios.get(
+    axios.get();
 
 
     return (

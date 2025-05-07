@@ -6,16 +6,16 @@ from rest_framework.permissions import IsAuthenticated
 from .models import UserStats, User
 
 from .generate import generate_phrase
+from .serializers import ResultSerializer, GameSerializer
 
 
 @api_view(['GET'])
 def generate_game(request):
-    mode = request.GET.get('mode')
-    time_seconds = request.GET.get('time_seconds')
-    word_count = request.GET.get('word_count')
-    phrase = generate_phrase(
-        mode=mode, time_seconds=time_seconds, word_count=word_count)
-    return Response({'test': phrase}, status=status.HTTP_200_OK)
+    game_serializer = GameSerializer(data=request.data)
+    if game_serializer.is_valid():
+        game_serializer.save()
+        return Response(game_serializer.data, status=status.HTTP_200_OK)
+    return Response(game_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -23,6 +23,6 @@ def generate_game(request):
 def submit_result(request):
     user = request.user
     if user is not None:
-        serializer = StatsSerializer(data=request.data)
+        serializer = ResultSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

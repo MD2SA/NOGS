@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Competition, CompetitionParticipant
+from ..type.models import Game
+from ..type.serializers import GameSerializer
+
 
 class CompetitionSerializer(serializers.ModelSerializer):
+    game = serializers.PrimaryKeyRelatedField(queryset=Game.objects.all())
     class Meta:
         model = Competition
         fields = '__all__'
@@ -11,6 +15,11 @@ class CompetitionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.setdefault('created_by', self.context['request'].user)
         return super().create(validated_data)
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['game'] = GameSerializer(instance.game).data
+        return ret
 
 
 class CompetitionParticipantSerializer(serializers.ModelSerializer):

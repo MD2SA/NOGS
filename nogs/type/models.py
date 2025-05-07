@@ -1,30 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import random
-
-
-class GameManager(models.Manager):
-    def create_game(self, mode, time_seconds=None, word_count=None):
-        word_list = [
-            'python', 'django', 'code', 'keyboard', 'speed',
-            'typing', 'developer', 'algorithm', 'function', 'class'
-        ]
-
-        if mode == Game.MODE_TIME and time_seconds:
-            MAX_WPM = 450
-            estimated_words = int((time_seconds / 60) * MAX_WPM)
-            phrase = ' '.join(random.choices(word_list, k=estimated_words))
-        elif mode == Game.MODE_WORDS and word_count:
-            phrase = ' '.join(random.choices(word_list, k=word_count))
-        else:
-            raise ValueError("Parâmetros inválidos para o modo selecionado")
-
-        return self.create(
-            mode=mode,
-            time_seconds=time_seconds,
-            words_count=word_count,
-            phrase=phrase
-        )
+from nogs.type.generate import generate_phrase
 
 
 class Game(models.Model):
@@ -41,7 +17,14 @@ class Game(models.Model):
     time_seconds = models.PositiveIntegerField(null=True, blank=True)
     words_count = models.PositiveIntegerField(null=True, blank=True)
 
-    objects = GameManager()
+    def save(self, *args, **kwargs):
+        if not self.phrase:
+            self.phrase = generate_phrase(
+                mode=self.mode,
+                time_seconds=self.time_seconds,
+                word_count=self.words_count,
+            )
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Game {self.id} - Mode {self.get_mode_display()} - Phrase: {self.phrase}"
@@ -49,20 +32,18 @@ class Game(models.Model):
 
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    session_id = models.CharField(max_length=100, null=True, blank=True)
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
     accuracy = models.FloatField(null=True)
-    played_date = models.DateTimeField('date played')
     wpm = models.FloatField(null=True)
     time = models.FloatField(null=True)
+    played_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Result {self.id} - Game {self.game.id} - accuracy: {self.accuracy} - played_date: {self.played_date} - wpm: {self.wpm} - time: {self.time}"
 
+
 class UserStats(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    #Mudar isto para incluir best e avgs para diferentes modos
-    #Posso ver o modo atraves do game do result
     best_wpm = models.FloatField(null=True, blank=True)
     avg_wpm = models.FloatField(null=True, blank=True)
     avg_accuracy = models.FloatField(null=True, blank=True)
@@ -71,6 +52,7 @@ class UserStats(models.Model):
 
     def __str__(self):
         return f"Stats for {self.user.username}"
+
 
 class FriendShip(models.Model):
     """atencao na implementacao disto temos de fazer simetria"""
