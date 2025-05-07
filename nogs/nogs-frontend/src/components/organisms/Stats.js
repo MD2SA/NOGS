@@ -6,12 +6,10 @@ import WordStats from "../molecules/WordStats";
 
 export default function Stats() {
 
-    const { user } = useAuth();
-
     return (
         <div>
             <Card />
-            <TimeStats />
+            <div className="horizontal-divider" />
             <WordStats />
         </div>
     );

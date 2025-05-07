@@ -1,7 +1,3 @@
-import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
-import { COMPETITION_PARTICIPANTS_URL } from "../../assets/urls/djangoUrls";
 import Table from "../atoms/Table";
 
 

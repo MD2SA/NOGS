@@ -34,6 +34,7 @@ export default function CompetitionPage() {
         setIsLoading(true);
         axios.get(COMPETITION_PARTICIPANTS_URL(data.id))
             .then(response => {
+                console.log(response);
                 const participant = response.data.find(p => p.user_id === (user?.id || null))
                 if (participant)
                     setTries(participant.tries_left);
