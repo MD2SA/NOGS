@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useAuth } from "../AuthContext";
 
 
-export default function SignUp({changeScreen}) {
+export default function SignUp({ changeScreen }) {
 
-    const [formData, setFormData] = useState({ username: '', first_name: '', last_name: '', email: '', password: '', });
+    const [formData, setFormData] = useState({ username: '', password: '', });
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
@@ -27,20 +27,6 @@ export default function SignUp({changeScreen}) {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="account-input"
-            />
-            <input
-                name="first"
-                placeholder="First"
-                value={formData.first_name}
-                onChange={handleChange}
-                className="account-input"
-            />
-            <input
-                name="last"
-                placeholder="Last"
-                value={formData.last_name}
-                onChange={handleChange}
                 className="account-input"
             />
             <input

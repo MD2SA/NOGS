@@ -6,7 +6,7 @@ import keyboard from '../../assets/images/keyboard.png';
 import competition from '../../assets/images/competition.png';
 import team from '../../assets/images/team.png';
 import friends from '../../assets/images/friends.png';
-import user from '../../assets/images/user.png';
+import ProfileIcon from './ProfileIcon';
 
 export default function Header() {
 
@@ -22,7 +22,7 @@ export default function Header() {
                 <img src={friends} onClick={() => navigate('/friends')} />
             </div>
             <div className="rightHeaderNav">
-                <img src={user} onClick={() => navigate('/profile')} />
+                <ProfileIcon/>
             </div>
         </div>
     );

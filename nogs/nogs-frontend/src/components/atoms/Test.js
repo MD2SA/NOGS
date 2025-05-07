@@ -18,6 +18,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
+
     const isCorrect = (renderedWord) => {
         if (!renderedWord) return false;
         return renderedWord.letters.every(letter => letter.className === "correct");
@@ -31,9 +32,9 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
                 return acc + word.length;
             }, 0);
         else
-            for (let i = 0; i < targetWords.length; i++)
+            for (let i = 0; i < renderedWords.length; i++)
                 if (i > cur) break;
-                else sizeTarget += targetWords[i].length
+                else sizeTarget += renderedWords[i].letters.length
 
 
 
@@ -47,7 +48,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
     }
 
     const finishTest = () => {
-        const accuracyRaw = getAccuracy(cur);
+        const accuracyRaw = getAccuracy();
         const accuracy = +(accuracyRaw * 100).toFixed(
             accuracyRaw * 100 % 1 === 0 ? 0 : (accuracyRaw * 10 % 1 === 0 ? 1 : 2)
         );
@@ -238,6 +239,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     return (
         <>
+            {time && <div>{}s left</div> || <div>{cur} / {targetWords.length}</div>}
             <div className="container">
                 <div className="text-container" ref={containerRef}>
                     {renderedWords

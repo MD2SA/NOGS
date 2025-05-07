@@ -5,6 +5,6 @@ app_name = 'competition'
 
 urlpatterns = [
     path('api/competitions', views.competitions),
-    path('api/competitions/<int:competition_id>/join', views.join_competition),
-    path('api/competition_details/<int:competition_id>',views.competition_details),
+    path('api/competition/<int:competition_id>',views.competition),
+    path('api/competition_participants/<int:competition_id>', views.competition_participants),
 ]

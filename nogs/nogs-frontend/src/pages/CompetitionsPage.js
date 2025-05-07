@@ -10,7 +10,8 @@ export default function CompetitionPage() {
     const [message, setMessage] = useState('');
     const loadCompetitions = () => {
         axios.get(COMPETITIONS_URL)
-            .then(response => setCompetitions(response.data))
+            .then(response => {
+                setCompetitions(response.data); console.log(response);})
             .catch(error => setMessage("No competitions available"));
     };
 
@@ -18,8 +19,6 @@ export default function CompetitionPage() {
         setMessage("Loading...");
         loadCompetitions();
     }, []);
-
-    console.log(competitions);
 
     return (
         <div className="competitions-container">
