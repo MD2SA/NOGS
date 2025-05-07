@@ -47,5 +47,8 @@ def logout_view(request):
 
 @api_view(['GET'])
 #@permission_classes([IsAuthenticated])
-def user_view(request):
-    return Response({'username': request.user.username})
+def me(request):
+    user = User.objects.get(username="albuq")
+    serializer = UserSerializer(user)
+    print(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)

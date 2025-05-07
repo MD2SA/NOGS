@@ -4,6 +4,7 @@ import CompetitionDetail from "../components/molecules/CompetitionDetail";
 import "../css/Competition.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
+import CreateCompetition from "../components/atoms/CreateCompetition";
 
 export default function CompetitionPage() {
 
@@ -23,11 +24,12 @@ export default function CompetitionPage() {
     }, []);
 
     const { user } = useAuth();
-    console.log(user);
 
     return (
         <div className="competitions-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
+            {/*{user?.is_staff && <CreateCompetition />}*/}
+            {true && <CreateCompetition />}
             <div className="competition-grid">
                 {competitions?.length ? (
                     competitions.map((data, index) => (
