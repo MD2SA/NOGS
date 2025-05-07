@@ -123,3 +123,73 @@
     color: #fdfff0;
     transform: translateY(-2px);
 }
+
+.credentials-wrapper {
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.credentials-heading {
+    color: #fdfff0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 1px 2px 0px #484d4e;
+    margin-bottom: 1rem;
+}
+
+.credentials-box {
+    background-color: #b1b9b9;
+    border-radius: 25px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    box-shadow: 4px 6px 0 #888;
+}
+
+.credentials-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 2rem;
+    border-right: 2px solid #1e1e1e;
+    padding-right: 2rem;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #1e1e1e;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    margin-bottom: 1rem;
+}
+
+.rank .score {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.rank .title {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.credentials-right {
+    text-align: left;
+    color: #1e1e1e;
+}
+
+.username {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.horizontal-divider {
+    height: 5px;
+    width: 60vw;
+    background-color: rgba(255, 255, 255, 0.2);
+}

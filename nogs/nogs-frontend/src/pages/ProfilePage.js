@@ -9,16 +9,16 @@ export default function ProfilePage() {
     const { user } = useAuth();
 
     return (
-        <div>
-            {user ?
-                (
-                    <>
-                        <LogoutButton />
-                        <Stats />
-                    </>
-                )
-                : <AccountManager />
-            }
-        </div>
+            <div>
+                {user ?
+                    (
+                        <>
+                            <LogoutButton />
+                            <Stats />
+                        </>
+                    )
+                    : <AccountManager />
+                }
+            </div>
     );
 }

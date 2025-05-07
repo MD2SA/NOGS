@@ -49,4 +49,8 @@ def logout_view(request):
 @api_view(['GET'])
 #@permission_classes([IsAuthenticated])
 def user_view(request):
- return Response({'username': request.user})
+    print("On loggout:")
+    print(f"Is anonymous? {isinstance(request.user, AnonymousUser)}")  # False
+    print(f"User after login: {request.user}")  # The logged-in user
+    print(f"Before logout: {request.session.session_key}")
+    return Response({'username': request.user.username})
