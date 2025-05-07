@@ -22,3 +22,7 @@ def generate_game(request):
 @permission_classes([IsAuthenticated])
 def submit_result(request):
     user = request.user
+    if user is not None:
+        serializer = StatsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
