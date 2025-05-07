@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'Team.apps.TeamConfig',
     'competition.apps.CompetitionConfig',
     'type.apps.TypeConfig',
     'django.contrib.admin',

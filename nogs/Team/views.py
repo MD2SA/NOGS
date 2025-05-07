@@ -1,3 +1,38 @@
-from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
-# Create your views here.
+
+from .models import Team, TeamMembership
+from .serializers import TeamSerializer, TeamMembershipSerializer
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) #user tem que estar logado,se nao da erro
+def join_team(request, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': 'Team not found'}, status=status.HTTP_404_NOT_FOUND)
+    if TeamMembership.objects.filter(user=request.user).exists():
+        return Response({'error': 'User already in a team'}, status=status.HTTP_400_BAD_REQUEST)
+    data = {
+        'user': request.user.id,
+        'team': team.id,
+        'role': 'member'
+    }
+    serializer = TeamMembershipSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def team_list(request):
+    if request.method == 'GET':
+        teams = Team.objects.all()
+        serializer = TeamSerializer(teams, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'error': 'Invalid metho'}, status=status.HTTP_400_BAD_REQUEST)
