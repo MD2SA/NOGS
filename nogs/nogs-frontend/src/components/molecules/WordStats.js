@@ -3,11 +3,11 @@ import axios from "axios";
 
 export default function WordStats() {
 
-    axios.get();
+    // axios.get();
 
 
     return (
-        <div classname="stats-container">
+        <div className="stats-container">
 
         </div>
     );

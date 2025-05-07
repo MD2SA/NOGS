@@ -13,6 +13,7 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = '__all__'
+    phrase = serializers.CharField(required=False, allow_blank=True)
 
 
 class ResultSerializer(serializers.ModelSerializer):

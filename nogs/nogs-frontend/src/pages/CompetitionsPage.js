@@ -3,6 +3,8 @@ import { COMPETITIONS_URL } from "../assets/urls/djangoUrls";
 import CompetitionDetail from "../components/molecules/CompetitionDetail";
 import "../css/Competition.css";
 import axios from "axios";
+import { useAuth } from "../components/AuthContext";
+import CreateCompetition from "../components/atoms/CreateCompetition";
 
 export default function CompetitionPage() {
 
@@ -11,7 +13,8 @@ export default function CompetitionPage() {
     const loadCompetitions = () => {
         axios.get(COMPETITIONS_URL)
             .then(response => {
-                setCompetitions(response.data); console.log(response);})
+                setCompetitions(response.data); console.log(response);
+            })
             .catch(error => setMessage("No competitions available"));
     };
 
@@ -20,9 +23,13 @@ export default function CompetitionPage() {
         loadCompetitions();
     }, []);
 
+    const { user } = useAuth();
+
     return (
         <div className="competitions-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
+            {/*{user?.is_staff && <CreateCompetition />}*/}
+            {true && <CreateCompetition />}
             <div className="competition-grid">
                 {competitions?.length ? (
                     competitions.map((data, index) => (

@@ -6,18 +6,18 @@ export default function Card() {
     const { user } = useAuth();
 
     return (
-        <div class="credentials-wrapper">
-            <h1 class="credentials-heading">Credentials:</h1>
-            <div class="credentials-box">
-                <div class="credentials-left">
-                    <div class="avatar"></div>
-                    <div class="rank">
-                        <div class="score">1876 🏆</div>
-                        <div class="title">Pro Shamer</div>
+        <div className="credentials-wrapper">
+            <h1 className="credentials-heading">Credentials:</h1>
+            <div className="credentials-box">
+                <div className="credentials-left">
+                    <div className="avatar"></div>
+                    <div className="rank">
+                        <div className="score">1876 🏆</div>
+                        <div className="title">Pro Shamer</div>
                     </div>
                 </div>
-                <div class="credentials-right">
-                    <h2 class="username">{user.username}</h2>
+                <div className="credentials-right">
+                    <h2 className="username">{user.username}</h2>
                     <p><strong>Birth:</strong>{user.date_joined}</p>
                     <p><strong>Team:</strong> DevNOGS</p>
                     <p><strong>Phrases written:</strong> 17497</p>
