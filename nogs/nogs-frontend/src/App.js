@@ -18,7 +18,7 @@ export default function App() {
                     <Route path='/team' element={<HomePage />} />
                     <Route path='/friends' element={<HomePage />} />
                     <Route path='/profile' element={<ProfilePage />} />
-                    <Route path='/testes' element={<Testes/>}/>
+                    <Route path='/testes' element={<Testes />} />
                 </Route>
             </Routes>
         </BrowserRouter>
