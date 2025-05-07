@@ -32,18 +32,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',
-    'Team.apps.TeamConfig',
-    'competition.apps.CompetitionConfig',
-    'type.apps.TypeConfig',
-    'django.contrib.admin',
+    'corsheaders',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     'rest_framework',
-    'corsheaders',
+    'accounts.apps.AccountsConfig',
+    'Team.apps.TeamConfig',
+    'competition.apps.CompetitionConfig',
+    'type.apps.TypeConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,14 +58,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-CORS_ALLOWED_ALL_ORIGINS = True
-
-SESSION_COOKIE_SAMESITE = None
-SESSION_COOKIE_SECURE = False
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

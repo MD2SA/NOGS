@@ -4,6 +4,7 @@ import CompetitionsPage from './pages/CompetitionsPage';
 import CompetitionPage from './pages/CompetitionPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
+import Testes from './Testes';
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
                     <Route path='/team' element={<HomePage />} />
                     <Route path='/friends' element={<HomePage />} />
                     <Route path='/profile' element={<ProfilePage />} />
+                    <Route path='/testes' element={<Testes/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

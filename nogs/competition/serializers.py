@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Competition, CompetitionParticipant
-from ..type.models import Game
-from ..type.serializers import GameSerializer
+from type.models import Game
+from type.serializers import GameSerializer
 
 
 class CompetitionSerializer(serializers.ModelSerializer):

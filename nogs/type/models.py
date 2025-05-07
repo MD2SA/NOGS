@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from nogs.type.generate import generate_phrase
+from .generate import generate_phrase
 
 
 class Game(models.Model):
@@ -15,23 +15,23 @@ class Game(models.Model):
     phrase = models.TextField()
     mode = models.CharField(max_length=10, choices=MODE_CHOICES)
     time_seconds = models.PositiveIntegerField(null=True, blank=True)
-    words_count = models.PositiveIntegerField(null=True, blank=True)
+    word_count = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.phrase:
-            self.phrase = generate_phrase(
-                mode=self.mode,
-                time_seconds=self.time_seconds,
-                word_count=self.words_count,
-            )
-        super().save(*args, **kwargs)
+       if not self.phrase:
+           self.phrase = generate_phrase(
+               mode=self.mode,
+               time_seconds=self.time_seconds,
+               word_count=self.word_count,
+           )
+       super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Game {self.id} - Mode {self.get_mode_display()} - Phrase: {self.phrase}"
 
 
 class Result(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
     accuracy = models.FloatField(null=True)
     wpm = models.FloatField(null=True)
@@ -52,25 +52,3 @@ class UserStats(models.Model):
 
     def __str__(self):
         return f"Stats for {self.user.username}"
-
-
-class FriendShip(models.Model):
-    """atencao na implementacao disto temos de fazer simetria"""
-    STATUS_CHOICES = [
-        ('pending','Pending'),
-        ('accepted','Accepted'),
-        ('recused','Recused'),
-    ]
-    from_user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="friendships_sent")
-    to_user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="friendships_received")
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES,default='pending')
-
-    class Meta:
-        unique_together = ('from_user','to_user')
-
-    def __str__(self):
-        return f"{self.from_user} → {self.to_user} ({self.status})"
-
-
-
-
