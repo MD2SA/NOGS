@@ -35,4 +35,29 @@ def team_list(request):
         teams = Team.objects.all()
         serializer = TeamSerializer(teams, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response({'error': 'Invalid metho'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Invalid method'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def leave_team(request):
+    try:
+        membership = TeamMembership.objects.get(user=request.user)
+        membership.delete()
+        return Response({'message': 'Left the team successfully'}, status=status.HTTP_204_NO_CONTENT)
+    except TeamMembership.DoesNotExist:
+        return Response({'error': 'User is not in any team'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_team(request):
+    serializer = TeamSerializer(data=request.data)
+    if serializer.is_valid():
+        team = serializer.save()
+        TeamMembership.objects.create(
+            user=request.user,
+            team=team,
+            role='leader'
+        )
+        return Response(TeamSerializer(team).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
