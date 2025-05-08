@@ -32,7 +32,7 @@ export default function HomePage() {
                 word_count: gameControls.wordCount,
             }
         }).then((response) => {
-            setTest(response.data.test);
+            setTest(response.data.phrase);
         }).catch((error) => {
             console.error("There was an error loading the test:", error);
         });
@@ -89,6 +89,7 @@ export default function HomePage() {
                     >
                         Restart
                     </button>
+
                 </>
                 : <Results gameInfo={gameInfo} handleLeave={() => setShowResult(false)} />
             }

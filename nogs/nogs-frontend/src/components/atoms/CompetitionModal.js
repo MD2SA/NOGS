@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import GameForm from "./GameForm";
 
-export default function Modal({ isOpen, onClose, children }) {
+export default function CompetitionModal({ isOpen, onClose }) {
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
@@ -29,7 +30,36 @@ export default function Modal({ isOpen, onClose, children }) {
                 >
                     &times;
                 </button>
-                {children}
+
+                <h2 className="modal-title">Create New Competition</h2>
+                <form className="competition-form">
+                    <div className="form-group">
+                        <label htmlFor="competition-end-of-event">End of Event:</label>
+                        <input
+                            name="competition-end-of-event"
+                            type="date"
+                            className="form-input"
+                        />
+                        <label htmlFor="competition-capacity">Capacity:</label>
+                        <input
+                            name="competition-capacity"
+                            type="number"
+                            className="form-input"
+                        />
+                        <label htmlFor="competition-capacity">Capacity:</label>
+                        <input
+                            name="competition-capacity"
+                            type="number"
+                            className="form-input"
+                        />
+                    </div>
+                    <div className="competition-generate-game">
+                        <GameForm />
+                    </div>
+                    <button type="submit" className="submit-button">
+                        Create Competition
+                    </button>
+                </form>
             </div>
         </div>,
         document.body
