@@ -1,0 +1,139 @@
+/* Friends Page scroll wrapper */
+.friends-page {
+  width: 100vw;           /* 🔑 Full screen width */
+  height: 100vh;          /* Full screen height */
+  overflow-y: auto;       /* Vertical scrolling */
+  overflow-x: hidden;     /* Prevent horizontal shift */
+}
+
+
+.friends-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #111;
+  color: #eee;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Title and subtitle */
+.friends-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #f0b400;
+  text-align: center;
+}
+
+.friends-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+/* Search input */
+.friends-search {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #1c1c1c;
+  color: #eee;
+  font-size: 1rem;
+}
+
+/* Friend list and items */
+.friend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-item {
+  background-color: #1c1c1c;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  color: #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.friend-item.pending {
+  color: #f0b400;
+}
+
+/* Buttons */
+.friend-actions {
+  display: flex;
+}
+
+.friend-actions button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.4rem;
+  background-color: #444;
+  color: #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+  outline: none;
+  box-shadow: none;
+}
+
+.friend-actions button:hover {
+  background-color: #666;
+}
+
+.remove-btn {
+  background-color: #7e1e1e;
+}
+
+.remove-btn:hover {
+  background-color: #a62828;
+}
+
+.pending .remove-btn {
+  background-color: #7e1e1e;
+  outline: none;
+  box-shadow: none;
+}
+
+.pending .remove-btn:hover {
+  background-color: #a62828;
+}
+
+.add-friend-button {
+  margin-bottom: 1rem;
+  background-color: #333;
+  color: #f0b400;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+
+.add-friend-button:hover {
+  background-color: #555;
+}
+
+.add-friend-section {
+  margin-bottom: 2rem;
+}
+
+.accept-btn {
+  background-color: #2e7d32; /* green */
+}
+
+.accept-btn:hover {
+  background-color: #43a047;
+}
+
+
