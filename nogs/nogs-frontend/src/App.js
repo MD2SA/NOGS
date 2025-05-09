@@ -4,7 +4,8 @@ import CompetitionsPage from './pages/CompetitionsPage';
 import CompetitionPage from './pages/CompetitionPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
-import Testes from './Testes';
+import FriendsPage from './pages/FriendsPage';
+import MessagePage from './pages/MessagePage';
 
 
 export default function App() {
@@ -16,9 +17,10 @@ export default function App() {
                     <Route path='/competitions' element={<CompetitionsPage />} />
                     <Route path='/competitions/competition' element={<CompetitionPage />} />
                     <Route path='/team' element={<HomePage />} />
-                    <Route path='/friends' element={<HomePage />} />
                     <Route path='/profile' element={<ProfilePage />} />
-                    <Route path='/testes' element={<Testes />} />
+                    <Route path="/friends" element={<FriendsPage />} />
+                    <Route path="/messages/:friendId" element={<MessagePage />} />
+
                 </Route>
             </Routes>
         </BrowserRouter>
