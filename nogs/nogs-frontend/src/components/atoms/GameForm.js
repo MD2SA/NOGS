@@ -13,7 +13,7 @@ export default function GameForm() {
         time: [15, 30, 60, 120],
     };
 
-    const handleSubmit = async (e) => {
+    const generateGame = async (e) => {
         e.preventDefault();
         if (value === null) {
             alert('Please select an option.');
@@ -76,7 +76,7 @@ export default function GameForm() {
                 ))}
             </div>
 
-            <button type="submit">Game</button>
+            <button onClick={generateGame}>Generate game</button>
 
             {phrase && <p className="phrase-result">{phrase}</p>}
             {error && <p className="error-message">{error}</p>}
