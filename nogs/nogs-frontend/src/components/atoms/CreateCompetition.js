@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Modal from "./CompetitionModal"; // adjust the import path as needed
+import CompetitionModal from "./CompetitionModal";
 import { ME_URL } from "../../assets/urls/djangoUrls";
+import "../../css/CreateCompetition.css"
 
 export default function CreateCompetition() {
     const [isStaff, setIsStaff] = useState(false);
@@ -39,23 +40,7 @@ export default function CreateCompetition() {
                     >
                         Create Competition
                     </button>
-
-                    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                        <h2 className="modal-title">Create New Competition</h2>
-                        <form className="competition-form">
-                            <div className="form-group">
-                                <label htmlFor="competition-name">Competition Name:</label>
-                                <input
-                                    id="competition-name"
-                                    type="text"
-                                    className="form-input"
-                                />
-                            </div>
-                            <button type="submit" className="submit-button">
-                                Create Competition
-                            </button>
-                        </form>
-                    </Modal>
+                    <CompetitionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                 </>
             )}
         </>
