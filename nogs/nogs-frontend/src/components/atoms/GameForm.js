@@ -36,7 +36,7 @@ export default function GameForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="game-form">
+        <div className="game-form">
             <div className="section">
                 <p className="section-title">Choose Mode:</p>
                 {['words', 'time'].map((type) => (
@@ -76,11 +76,11 @@ export default function GameForm() {
                 ))}
             </div>
 
-            <button type="submit" className="submit-btn">Generate Game</button>
+            <button type="submit">Game</button>
 
             {phrase && <p className="phrase-result">{phrase}</p>}
             {error && <p className="error-message">{error}</p>}
-        </form>
+        </div>
     );
 }
 

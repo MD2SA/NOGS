@@ -23,13 +23,7 @@ export default function CompetitionModal({ isOpen, onClose }) {
     return createPortal(
         <div className="modal-overlay">
             <div className="modal-content">
-                <button
-                    className="modal-close-button"
-                    onClick={onClose}
-                    aria-label="Close modal"
-                >
-                    &times;
-                </button>
+                <button className="modal-close-button" onClick={onClose} > &times; </button>
 
                 <h2 className="modal-title">Create New Competition</h2>
                 <form className="competition-form">
