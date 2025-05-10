@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-
+from django.http import JsonResponse, HttpResponseNotFound
 
 from .models import Team, TeamMembership
 from .serializers import TeamSerializer, TeamMembershipSerializer
@@ -61,3 +61,15 @@ def create_team(request):
         )
         return Response(TeamSerializer(team).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def team_detail(request, team_id):
+    try:
+        team = Team.objects.get(pk=team_id)
+        return JsonResponse({
+            'id': team.id,
+            'name': team.name,
+            'description': team.description,
+            'members': list(team.members.values('id', 'username')),  # ajusta se quiseres
+        })
+    except Team.DoesNotExist:
+        return HttpResponseNotFound("Team not found")

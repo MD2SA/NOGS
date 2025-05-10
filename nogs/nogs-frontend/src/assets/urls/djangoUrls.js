@@ -11,3 +11,9 @@ export const ME_URL = "http://127.0.0.1:8000/accounts/api/me/";
 export const COMPETITIONS_URL = "http://127.0.0.1:8000/competition/api/competitions";
 export const COMPETITION_URL = (id) => "http://127.0.0.1:8000/competition/api/competition/" + id
 export const COMPETITION_PARTICIPANTS_URL = (id) => "http://127.0.0.1:8000/competition/api/competition_participants/" + id
+
+export const TEAMS_URL = "http://127.0.0.1:8000/Team/teams/";
+export const TEAM_JOIN_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/join/`;
+export const TEAM_LEAVE_URL = "http://127.0.0.1:8000/Team/teams/leave/";
+export const TEAM_DETAIL_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/`;
+

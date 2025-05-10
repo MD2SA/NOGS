@@ -6,7 +6,8 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import FriendsPage from './pages/FriendsPage';
 import MessagePage from './pages/MessagePage';
-
+import TeamPage from './pages/TeamPage';
+import TeamsPage from './pages/TeamsPage';
 
 export default function App() {
     return (
@@ -16,11 +17,11 @@ export default function App() {
                     <Route path='/' element={<HomePage />} />
                     <Route path='/competitions' element={<CompetitionsPage />} />
                     <Route path='/competitions/competition' element={<CompetitionPage />} />
-                    <Route path='/team' element={<HomePage />} />
+                    <Route path='/team' element={<TeamsPage />} />
+                    <Route path='/teams/team' element={<TeamPage />} />
                     <Route path='/profile' element={<ProfilePage />} />
                     <Route path="/friends" element={<FriendsPage />} />
                     <Route path="/messages/:friendId" element={<MessagePage />} />
-
                 </Route>
             </Routes>
         </BrowserRouter>
