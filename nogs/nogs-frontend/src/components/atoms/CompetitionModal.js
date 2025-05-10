@@ -25,7 +25,6 @@ export default function CompetitionModal({ isOpen, onClose }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
     }
 
 
