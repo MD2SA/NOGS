@@ -18,3 +18,117 @@
     display: block;
     margin: 4px 0;
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #1b1b1b;
+    color: #fdfff0;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(72, 77, 78, 1);
+    position: relative;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #fdfff0;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.modal-title {
+    font-family: 'Gliker', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fdfff0;
+}
+
+.competition-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.competition-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-input {
+    background-color: #484d4e;
+    color: #fdfff0;
+    border: 1px solid #aeb8b8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 1rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #fdfff0;
+}
+
+.submit-button {
+    background-color: #484d4e;
+    color: #fdfff0;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Gliker', sans-serif;
+}
+
+.submit-button:hover {
+    background-color: #5a6061;
+}
+
+.submit-button:disabled {
+    background-color: #3a3e3e;
+    cursor: not-allowed;
+}
+
+.phrase-result {
+    background-color: #484d4e;
+    padding: 12px;
+    border-radius: 8px;
+    word-break: break-word;
+    text-align: center;
+}
+
+.error-message {
+    color: #ff6b6b;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}

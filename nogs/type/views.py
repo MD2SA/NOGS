@@ -13,7 +13,6 @@ from .serializers import ResultSerializer
 def generate_game(request):
     word_count = request.GET.get('word_count')
     phrase = generate_phrase(word_count)
-    print(phrase)
     return Response({'phrase': phrase}, status=status.HTTP_200_OK)
 
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { COMPETITION_PARTICIPANTS_URL, COMPETITION_URL } from "../../assets/urls/djangoUrls";
+import { COMPETITION_PARTICIPANTS_URL } from "../../assets/urls/djangoUrls";
 import { useAuth } from "../AuthContext";
 
 export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) {
@@ -16,7 +16,7 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
         }
         setIsLoading(false);
         setError(null);
-        axios.post(COMPETITION_URL(competitionId), { withCredentials: true })
+        axios.post(COMPETITION_PARTICIPANTS_URL(competitionId), { withCredentials: true })
             .then(response => {
                 if (OnJoinSuccess) OnJoinSuccess();
             })
