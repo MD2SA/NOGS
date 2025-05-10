@@ -18,7 +18,6 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
         setError(null);
         axios.post(COMPETITION_URL(competitionId), { withCredentials: true })
             .then(response => {
-                console.log(response);
                 if (OnJoinSuccess) OnJoinSuccess();
             })
             .catch(error => {

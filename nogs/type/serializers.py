@@ -1,19 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Result, Game, UserStats
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
-
-
-class GameSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Game
-        fields = '__all__'
-    phrase = serializers.CharField(required=False, allow_blank=True)
+from .models import Result, UserStats
 
 
 class ResultSerializer(serializers.ModelSerializer):

@@ -1,14 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from type.models import Game
 
 class Competition(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     end_of_event = models.DateTimeField(null=True)
-    game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)  # ← string reference
+    phrase = models.TextField(null=False)
     capacity = models.PositiveIntegerField(null=True, blank=True, default=50)
 
     participants = models.ManyToManyField(User, through='CompetitionParticipant', related_name='competitions')

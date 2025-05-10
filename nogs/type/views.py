@@ -6,16 +6,15 @@ from rest_framework.permissions import IsAuthenticated
 from .models import UserStats, User
 
 from .generate import generate_phrase
-from .serializers import ResultSerializer, GameSerializer
+from .serializers import ResultSerializer
 
 
 @api_view(['GET'])
 def generate_game(request):
-    game_serializer = GameSerializer(data=request.GET)
-    if game_serializer.is_valid():
-        game_serializer.save()
-        return Response(game_serializer.data, status=status.HTTP_200_OK)
-    return Response(game_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    word_count = request.GET.get('word_count')
+    phrase = generate_phrase(word_count)
+    print(phrase)
+    return Response({'phrase': phrase}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

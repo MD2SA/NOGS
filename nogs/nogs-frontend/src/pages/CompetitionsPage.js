@@ -6,14 +6,15 @@ import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 import CreateCompetition from "../components/atoms/CreateCompetition";
 
-export default function CompetitionPage() {
+export default function CompetitionsPage() {
 
     const [competitions, setCompetitions] = useState();
     const [message, setMessage] = useState('');
+
     const loadCompetitions = () => {
         axios.get(COMPETITIONS_URL)
             .then(response => {
-                setCompetitions(response.data); console.log(response);
+                setCompetitions(response.data);
             })
             .catch(error => setMessage("No competitions available"));
     };
@@ -31,7 +32,7 @@ export default function CompetitionPage() {
             {/*{user?.is_staff && <CreateCompetition />}*/}
             {true && <CreateCompetition />}
             <div className="competition-grid">
-                {competitions?.length ? (
+                {(competitions?.length) ? (
                     competitions.map((data, index) => (
                         <CompetitionDetail key={`competition-${index}`} data={data} />
                     ))
@@ -43,68 +44,3 @@ export default function CompetitionPage() {
     );
 }
 
-    //     {
-    //         id: 1,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 2,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 3,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 4,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 1,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 2,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 3,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    //     {
-    //         id: 4,
-    //         league: "BRONZE",
-    //         modeOption: "10",
-    //         mode: "words",
-    //         occupied: "30",
-    //         lotation: "50",
-    //     },
-    // ]);

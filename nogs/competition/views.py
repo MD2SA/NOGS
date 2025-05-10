@@ -48,10 +48,6 @@ def competition_participants(request,competition_id):
     elif request.method == 'PUT':
         return play_game(request,competition_id)
 
-@api_view(['PUT','POST'])
-
-
-
 
 def play_game(request, competition_id):
     try:

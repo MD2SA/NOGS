@@ -25,7 +25,7 @@ export default function Results({ gameInfo, handleLeave }) {
                 </Tooltip>
             </div>
             <div className="resultsDivider" />
-            <button className="button resultsButton" onClick={handleLeave}>
+            <button className="resultsButton" onClick={handleLeave}>
                 Leave
             </button>
         </div>

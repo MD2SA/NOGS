@@ -34,7 +34,6 @@ export default function CompetitionPage() {
         setIsLoading(true);
         axios.get(COMPETITION_PARTICIPANTS_URL(data.id))
             .then(response => {
-                console.log(response);
                 const participant = response.data.find(p => p.user_id === (user?.id || null))
                 if (participant)
                     setTries(participant.tries_left);
@@ -108,7 +107,7 @@ export default function CompetitionPage() {
             ) : (
                 <div>
                     {!showResult ? (
-                        <Test targetText={data.phrase} time={data.time_seconds} handleStart={handleStart} handleFinish={handleFinish} />
+                        <Test targetText={data.phrase} handleStart={handleStart} handleFinish={handleFinish} />
                     ) : (
                         <Results gameInfo={gameInfo} handleLeave={handleLeave} />
                     )}

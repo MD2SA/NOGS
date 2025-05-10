@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "../../css/Test.css";
 
-export default function Test({ targetText, time, handleStart, handleFinish }) {
+export default function Test({ targetText, handleStart, handleFinish }) {
 
     const targetWords = targetText?.split(" ");
 
@@ -26,15 +26,9 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     const getAccuracy = () => {
 
-        let sizeTarget = 0
-        if (!time)
-            sizeTarget = targetWords.reduce((acc, word) => {
-                return acc + word.length;
-            }, 0);
-        else
-            for (let i = 0; i < renderedWords.length; i++)
-                if (i > cur) break;
-                else sizeTarget += renderedWords[i].letters.length
+        let sizeTarget = targetWords.reduce((acc, word) => {
+            return acc + word.length;
+        }, 0);
 
 
 
@@ -153,7 +147,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
         }));
         setCur(0);
         setStartTime(0);
-    }, [targetText, time]);
+    }, [targetText]);
 
     useEffect(() => {
         const handleKeyPress = (e) => {
@@ -239,7 +233,7 @@ export default function Test({ targetText, time, handleStart, handleFinish }) {
 
     return (
         <>
-            {time && <div>{}s left</div> || <div>{cur} / {targetWords.length}</div>}
+            <div>{cur} / {targetWords.length}</div>
             <div className="container">
                 <div className="text-container" ref={containerRef}>
                     {renderedWords
