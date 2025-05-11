@@ -1,3 +1,4 @@
+
 //type
 export const GENERATE_GAME_URL = "http://127.0.0.1:8000/type/api/generate";
 export const SUBMIT_RESULT_URL = "http://127.0.0.1:8000/type/api/submit";
@@ -14,3 +15,10 @@ export const COMPETITION_DETAIL_URL = (id) => "http://127.0.0.1:8000/competition
 export const COMPETITION_PARTICIPANTS_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/participants`
 export const COMPETITION_TRY_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/try`
 export const COMPETITION_SUBMIT_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/submit`
+
+//teams
+export const TEAMS_URL = "http://127.0.0.1:8000/Team/teams/";
+export const TEAM_JOIN_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/join/`;
+export const TEAM_LEAVE_URL = "http://127.0.0.1:8000/Team/teams/leave/";
+export const TEAM_DETAIL_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/`;
+
