@@ -1,46 +1,32 @@
 import { useEffect, useState } from "react";
-import { COMPETITIONS_URL } from "../assets/urls/djangoUrls";
-import CompetitionDetail from "../components/molecules/CompetitionDetail";
+import { useLocation } from "react-router-dom";
+
 import "../css/Competition.css";
-import axios from "axios";
-import { useAuth } from "../components/AuthContext";
-import CreateCompetition from "../components/atoms/CreateCompetition";
+import Competition from "../components/organisms/Competition";
+import CompetitionComposer from "../components/organisms/CompetitionComposer";
 
 export default function CompetitionsPage() {
 
-    const [competitions, setCompetitions] = useState();
-    const [message, setMessage] = useState('');
-
-    const loadCompetitions = () => {
-        axios.get(COMPETITIONS_URL)
-            .then(response => {
-                setCompetitions(response.data);
-            })
-            .catch(error => setMessage("No competitions available"));
-    };
+    const location = useLocation();
+    const [shownCompetition, setShownCompetition] = useState();
+    const [lastRefresh, setLastRefresh] = useState(-1);
 
     useEffect(() => {
-        setMessage("Loading...");
-        loadCompetitions();
-    }, []);
-
-    const { user } = useAuth();
+        if (location.state?.refresh !== lastRefresh) {
+            setShownCompetition(null)
+            setLastRefresh(location.state?.refresh);
+        }
+    }, [location.state]);
 
     return (
-        <div className="competitions-container">
-            <h1 className="title">ACTIVE COMPETITIONS:</h1>
-            {/*{user?.is_staff && <CreateCompetition />}*/}
-            {true && <CreateCompetition />}
-            <div className="competition-grid">
-                {(competitions?.length) ? (
-                    competitions.map((data, index) => (
-                        <CompetitionDetail key={`competition-${index}`} data={data} />
-                    ))
-                ) : (
-                    <h2 className="sub-title">{message}</h2>
-                )}
-            </div>
-        </div>
+        <>
+            {!shownCompetition ? (
+                <CompetitionComposer setShownCompetition={setShownCompetition} />
+            ) : (
+                <Competition data={shownCompetition} />
+            )}
+        </>
+
     );
 }
 

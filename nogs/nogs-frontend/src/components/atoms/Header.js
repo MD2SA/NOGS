@@ -17,12 +17,12 @@ export default function Header() {
             <div className="leftHeaderNav">
                 <img src={logo} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
                 <img src={keyboard} onClick={() => navigate('/', { replace: true, state: { refresh: Date.now() } })} />
-                <img src={competition} onClick={() => navigate('/competitions')} />
+                <img src={competition} onClick={() => navigate('/competitions', { replace: true, state: { refresh: Date.now() } })} />
                 <img src={team} onClick={() => navigate('/team')} />
                 <img src={friends} onClick={() => navigate('/friends')} />
             </div>
             <div className="rightHeaderNav">
-                <ProfileIcon/>
+                <ProfileIcon />
             </div>
         </div>
     );

@@ -13,12 +13,11 @@ from .serializers import ResultSerializer
 def generate_game(request):
     word_count = request.GET.get('word_count')
     phrase = generate_phrase(word_count)
-    print(phrase)
     return Response({'phrase': phrase}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def submit_result(request):
     user = request.user
     if user is not None:

@@ -1,4 +1,1 @@
-- NO DJANGO update_competition_participant está sempre para o user 11
-
-- MEter em grande parte das views o [isAuthenticated]
 

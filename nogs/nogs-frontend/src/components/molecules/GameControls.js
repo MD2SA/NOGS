@@ -6,16 +6,9 @@ import "../../css/GameControls.css";
  * @param gameControls: { mode: 'words'|'time', time:null|int, wordCount:null|int}
  *
  */
-export default function GameControls({ gameControls, setGameControls }) {
+export default function GameControls({ wordCount, setWordCount }) {
 
     const wordOptions = [10, 25, 50, 100];
-
-    const setOption = (option) => {
-        setGameControls(prevData => ({
-            ...prevData,
-            wordCount: option,
-        }));
-    }
 
     return (
         <div className="game-controls">
@@ -28,8 +21,8 @@ export default function GameControls({ gameControls, setGameControls }) {
             <div className="divider" />
             <OptionSelector
                 options={wordOptions}
-                selectedOption={gameControls.wordCount}
-                setSelectedOption={setOption}
+                selectedOption={wordCount}
+                setSelectedOption={(option)=>setWordCount(option)}
             />
         </div>
     );

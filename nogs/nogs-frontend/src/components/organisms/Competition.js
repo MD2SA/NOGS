@@ -1,42 +1,30 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { COMPETITION_PARTICIPANTS_URL } from "../assets/urls/djangoUrls";
-import Test from "../components/atoms/Test";
-import Results from "../components/molecules/Results";
-import "../css/Competition.css";
-import CompetitionTable from "../components/molecules/CompetitionTable";
-import { useAuth } from "../components/AuthContext";
+import { COMPETITION_PARTICIPANTS_URL, COMPETITION_SUBMIT_URL, COMPETITION_TRY_URL } from "../../assets/urls/djangoUrls";
+import "../../css/Competition.css";
+import CompetitionTable from "../molecules/CompetitionTable";
+import { useAuth } from "../AuthContext";
+import Game from "./Game";
 
 
-export default function CompetitionPage() {
+export default function Competition({data}) {
 
-    const { data } = useLocation()?.state || {};
-    const { user } = useAuth();
+    const { api, user } = useAuth();
 
     const [tries, setTries] = useState();
     const [participantData, setParticipantData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const [displayGame, setDisplayGame] = useState(false);
-    const [showResult, setShowResult] = useState(false);
     const [isValidTry, setIsValidTry] = useState(true);
-
-    const [gameInfo, setGameInfo] = useState({
-        accuracy: 0.0,
-        timeUsed: 0,
-        wpm: 0,
-        raw: 0,
-    });
 
 
     const getParticipantData = () => {
         setIsLoading(true);
-        axios.get(COMPETITION_PARTICIPANTS_URL(data.id))
+        api.get(COMPETITION_PARTICIPANTS_URL(data.id))
             .then(response => {
-                const participant = response.data.find(p => p.user_id === (user?.id || null))
+                const participant = response.data.find(p => p.user === (user?.id || -1))
                 if (participant)
-                    setTries(participant.tries_left);
+                    setTries(participant.tries);
                 else
                     setTries(0);
                 setParticipantData(response.data);
@@ -52,10 +40,11 @@ export default function CompetitionPage() {
     }, []);
 
 
-    const handleStart = () => {
-        axios.put(COMPETITION_PARTICIPANTS_URL(data.id), { gameInfo }, { withCredentials: true })
+    const onStartTest = () => {
+        api.post(COMPETITION_TRY_URL(data.id))
             .then(response => {
-                setTries(response.data.tries_left);
+                console.log(response);
+                setTries(response.data.tries);
                 isValidTry(true);
             })
             .catch(error => {
@@ -63,23 +52,6 @@ export default function CompetitionPage() {
             });
     }
 
-    const handleFinish = (data) => {
-        if (!isValidTry) {
-            handleLeave();
-            return;
-        }
-        setGameInfo({
-            accuracy: data.accuracy,
-            timeUsed: data.timeUsed,
-            raw: data.raw,
-            wpm: data.wpm,
-        });
-        setShowResult(true);
-    }
-    const handleLeave = () => {
-        setDisplayGame(false);
-        setShowResult(false);
-    }
 
     return (
         <div>
@@ -105,13 +77,13 @@ export default function CompetitionPage() {
                     </div>
                 </div>
             ) : (
-                <div>
-                    {!showResult ? (
-                        <Test targetText={data.phrase} handleStart={handleStart} handleFinish={handleFinish} />
-                    ) : (
-                        <Results gameInfo={gameInfo} handleLeave={handleLeave} />
-                    )}
-                </div>
+                <Game
+                    isCompetition={true}
+                    SubmissionURL={COMPETITION_SUBMIT_URL(data.id)}
+                    targetText={data.phrase}
+                    onStartTest={onStartTest}
+                    onLeave={() => { setDisplayGame(false); getParticipantData(); }}
+                />
             )}
         </div>
     );
