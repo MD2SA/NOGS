@@ -4,8 +4,12 @@ import { createPortal } from "react-dom";
 import { COMPETITIONS_URL } from "../../assets/urls/djangoUrls";
 import GameForm from "./GameForm";
 import moment from "moment/moment";
+import { useAuth } from "../AuthContext";
 
 export default function CompetitionModal({ isOpen, onClose }) {
+
+    const { api } = useAuth();
+
     const [gamePhrase, setGamePhrase] = useState('');
     const [formData, setFormData] = useState({
         endOfEvent: '',
@@ -48,7 +52,7 @@ export default function CompetitionModal({ isOpen, onClose }) {
                 ? moment(formData.endOfEvent).toISOString()
                 : null;
 
-            await axios.post(COMPETITIONS_URL, {
+            await api.post(COMPETITIONS_URL, {
                 end_of_event: formattedDate,
                 max_tries: formData.maxTries || null,
                 capacity: formData.capacity,

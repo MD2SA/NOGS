@@ -1,18 +1,13 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { COMPETITION_PARTICIPANTS_URL, COMPETITION_SUBMIT_URL, COMPETITION_TRY_URL } from "../assets/urls/djangoUrls";
-import Test from "../components/atoms/Test";
-import Results from "../components/molecules/Results";
-import "../css/Competition.css";
-import CompetitionTable from "../components/molecules/CompetitionTable";
-import { useAuth } from "../components/AuthContext";
-import Game from "../components/organisms/Game";
+import { COMPETITION_PARTICIPANTS_URL, COMPETITION_SUBMIT_URL, COMPETITION_TRY_URL } from "../../assets/urls/djangoUrls";
+import "../../css/Competition.css";
+import CompetitionTable from "../molecules/CompetitionTable";
+import { useAuth } from "../AuthContext";
+import Game from "./Game";
 
 
-export default function CompetitionPage() {
+export default function Competition({data}) {
 
-    const { data } = useLocation()?.state || {};
     const { api, user } = useAuth();
 
     const [tries, setTries] = useState();
@@ -87,16 +82,9 @@ export default function CompetitionPage() {
                     SubmissionURL={COMPETITION_SUBMIT_URL(data.id)}
                     targetText={data.phrase}
                     onStartTest={onStartTest}
-                    onLeave={() => {setDisplayGame(false);getParticipantData();}}
+                    onLeave={() => { setDisplayGame(false); getParticipantData(); }}
                 />
             )}
         </div>
     );
 }
-// {
-//     !showResult ? (
-//         <Test targetText={data.phrase} handleStart={handleStart} handleFinish={handleFinish} />
-//     ) : (
-//     <Results gameInfo={gameInfo} handleLeave={handleLeave} />
-// )
-// }

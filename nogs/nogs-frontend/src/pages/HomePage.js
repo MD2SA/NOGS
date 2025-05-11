@@ -6,10 +6,12 @@ import Test from "../components/atoms/Test";
 import Results from "../components/molecules/Results";
 import GameControls from "../components/molecules/GameControls";
 import Game from "../components/organisms/Game";
+import { useAuth } from "../components/AuthContext";
 
 export default function HomePage() {
 
     const location = useLocation();
+    const { api } = useAuth();
 
     const [wordCount, setWordCount] = useState(10);
     const [showResult, setShowResult] = useState(false);
@@ -31,9 +33,6 @@ export default function HomePage() {
             });
     };
 
-    const submitTest = () => { }
-
-
     useEffect(() => {
         if (location.state?.refresh !== lastRefresh) {
             setShowResult(false);
@@ -41,8 +40,6 @@ export default function HomePage() {
             setLastRefresh(location.state?.refresh);
         } else if (showResult === false)
             loadTest();
-        else
-            submitTest();
     }, [wordCount, showResult, location.state]);
 
 
@@ -55,7 +52,7 @@ export default function HomePage() {
                 setGameInfo={setGameInfo}
                 SubmissionURL={SUBMIT_RESULT_URL}
                 fetchNewTest={(wordCount) =>
-                    axios.get(GENERATE_GAME_URL, { params: { word_count: wordCount } })
+                    api.get(GENERATE_GAME_URL, { params: { word_count: wordCount } })
                         .then(res => res.data.phrase)
                 }
             />

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { COMPETITION_PARTICIPANTS_URL } from "../../assets/urls/djangoUrls";
 import { useAuth } from "../AuthContext";
@@ -16,7 +15,6 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
         }
         setIsLoading(false);
         setError(null);
-        // axios.post(COMPETITION_PARTICIPANTS_URL(competitionId), { withCredentials: true })
         api.post(COMPETITION_PARTICIPANTS_URL(competitionId))
             .then(response => {
                 if (OnJoinSuccess) OnJoinSuccess();

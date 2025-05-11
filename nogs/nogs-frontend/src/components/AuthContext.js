@@ -15,14 +15,11 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Verifica se há usuário logado ao carregar (ex: refresh da página)
     useEffect(() => {
         async function loadUserFromStorage() {
             const token = getCSRFToken();
             if (token) {
                 try {
-                    // Aqui você pode adicionar uma requisição para verificar
-                    // o token se necessário, ou carregar do localStorage
                     const storedUser = localStorage.getItem('user');
                     if (storedUser) {
                         setUser(JSON.parse(storedUser));

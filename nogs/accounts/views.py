@@ -14,9 +14,13 @@ def register(request):
     password = request.data.get('password')
     if not username or not password:
         return Response({'detail': 'Username or password is required'}, status=status.HTTP_400_BAD_REQUEST)
+    if len(username) >= 15:
+        return Response({'detail': 'Username is too long, 15 characters max'}, status=status.HTTP_400_BAD_REQUEST)
     if User.objects.filter(username=username).exists():
         return Response({'error':'Username already exists'}, status=status.HTTP_409_CONFLICT)
     user = User.objects.create_user(username=username, password=password)
+    authenticate(request, username=username, password=password)
+    login(request, user)
     serializer = UserSerializer(user)
     return Response({ 'message': 'Usuário registrado com sucesso','user':serializer.data },
                     status=status.HTTP_201_CREATED
