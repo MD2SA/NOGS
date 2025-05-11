@@ -2,7 +2,6 @@ import Table from "../atoms/Table";
 
 
 export default function CompetitionTable({ data }) {
-    console.log(data);
 
     const transformedData = data.
         sort((a, b) => b.wpm - a.wpm)

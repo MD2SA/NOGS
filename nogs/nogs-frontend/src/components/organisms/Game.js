@@ -65,13 +65,12 @@ export default function Game({
     }
 
     const handleSubmit = (data) => {
-        console.log(data);
         const serverData = { ...data, time_used: data.timeUsed }
         delete serverData.timeUsed;
+
         api.post(SubmissionURL, serverData)
             .then(response => console.log("Submitted:", response))
             .catch(error => console.error("Submit error:", error));
-        // axios.put(SubmissionURL, { data })
     }
 
     useEffect(() => {

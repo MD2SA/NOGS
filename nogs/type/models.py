@@ -4,9 +4,9 @@ from .generate import generate_phrase
 
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    accuracy = models.FloatField(null=True)
+    accuracy = models.FloatField(0)
     wpm = models.FloatField()
-    time_used = models.IntegerField()
+    time_used = models.FloatField()
     played_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

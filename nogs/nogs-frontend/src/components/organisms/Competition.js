@@ -43,7 +43,6 @@ export default function Competition({data}) {
     const onStartTest = () => {
         api.post(COMPETITION_TRY_URL(data.id))
             .then(response => {
-                console.log(response);
                 setTries(response.data.tries);
                 isValidTry(true);
             })
