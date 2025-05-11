@@ -18,7 +18,7 @@ class CompetitionParticipant(models.Model):
 
     wpm = models.IntegerField(null=True, blank=True)
     accuracy = models.FloatField(null=True, blank=True)
-    tries = models.PositiveIntegerField(default=0)
+    tries = models.PositiveIntegerField(null=True)
 
     class Meta:
         unique_together = ('user', 'competition')

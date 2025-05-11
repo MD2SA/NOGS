@@ -12,4 +12,5 @@ export const ME_URL = "http://127.0.0.1:8000/accounts/api/me/";
 export const COMPETITIONS_URL = "http://127.0.0.1:8000/competition/api/competitions";
 export const COMPETITION_DETAIL_URL = (id) => "http://127.0.0.1:8000/competition/api/competition/" + id
 export const COMPETITION_PARTICIPANTS_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/participants`
-export const COMPETITION_PLAY_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/play`
+export const COMPETITION_TRY_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/try`
+export const COMPETITION_SUBMIT_URL = (id) => `http://127.0.0.1:8000/competition/api/competition/${id}/submit`

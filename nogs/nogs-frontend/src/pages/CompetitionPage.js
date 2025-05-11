@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { COMPETITION_PARTICIPANTS_URL } from "../assets/urls/djangoUrls";
+import { COMPETITION_PARTICIPANTS_URL, COMPETITION_SUBMIT_URL, COMPETITION_TRY_URL } from "../assets/urls/djangoUrls";
 import Test from "../components/atoms/Test";
 import Results from "../components/molecules/Results";
 import "../css/Competition.css";
@@ -13,7 +13,7 @@ import Game from "../components/organisms/Game";
 export default function CompetitionPage() {
 
     const { data } = useLocation()?.state || {};
-    const { user } = useAuth();
+    const { api, user } = useAuth();
 
     const [tries, setTries] = useState();
     const [participantData, setParticipantData] = useState([]);
@@ -25,13 +25,13 @@ export default function CompetitionPage() {
 
     const getParticipantData = () => {
         setIsLoading(true);
-        axios.get(COMPETITION_PARTICIPANTS_URL(data.id))
+        api.get(COMPETITION_PARTICIPANTS_URL(data.id))
             .then(response => {
-                const participant = response.data.find(p => p.user_id === (user?.id || null))
+                const participant = response.data.find(p => p.user === (user?.id || -1))
                 if (participant)
-                    setTries(participant.tries_left);
+                    setTries(participant.tries);
                 else
-                    setTries(1);
+                    setTries(0);
                 setParticipantData(response.data);
                 setIsLoading(false);
             })
@@ -46,9 +46,10 @@ export default function CompetitionPage() {
 
 
     const onStartTest = () => {
-        axios.put(COMPETITION_PARTICIPANTS_URL(data.id), {}, { withCredentials: true })
+        api.post(COMPETITION_TRY_URL(data.id))
             .then(response => {
-                setTries(response.data.tries_left);
+                console.log(response);
+                setTries(response.data.tries);
                 isValidTry(true);
             })
             .catch(error => {
@@ -56,12 +57,6 @@ export default function CompetitionPage() {
             });
     }
 
-    const onFinishTest = () => {
-        if (!isValidTry) {
-            setDisplayGame(false)
-            return;
-        }
-    }
 
     return (
         <div>
@@ -89,10 +84,10 @@ export default function CompetitionPage() {
             ) : (
                 <Game
                     isCompetition={true}
+                    SubmissionURL={COMPETITION_SUBMIT_URL(data.id)}
                     targetText={data.phrase}
                     onStartTest={onStartTest}
-                    onFinishTest={onFinishTest}
-                    onLeave={() => setDisplayGame(false)}
+                    onLeave={() => {setDisplayGame(false);getParticipantData();}}
                 />
             )}
         </div>

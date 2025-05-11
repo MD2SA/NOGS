@@ -88,7 +88,6 @@ export const AuthProvider = ({ children }) => {
 
     api.interceptors.request.use(config => {
         const token = getCSRFToken();
-        console.log(token);
         if (token)
             config.headers['X-CSRFToken'] = token;
         // if (token && ['post', 'put', 'patch', 'delete'].includes(config.method.toLowerCase())) {

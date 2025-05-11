@@ -5,6 +5,7 @@ import Test from "../atoms/Test";
 import Results from "../molecules/Results";
 import GameControls from "../molecules/GameControls";
 import { GENERATE_GAME_URL } from "../../assets/urls/djangoUrls";
+import { useAuth } from "../AuthContext";
 
 export default function Game({
     isCompetition = false,
@@ -15,6 +16,7 @@ export default function Game({
     onLeave,
 }) {
     const location = useLocation();
+    const { api } = useAuth();
     const [showResult, setShowResult] = useState(false);
     const [wordCount, setWordCount] = useState(10);
     const [lastRefresh, setLastRefresh] = useState(-1);
@@ -64,9 +66,12 @@ export default function Game({
 
     const handleSubmit = (data) => {
         console.log(data);
+        const serverData = { ...data, time_used: data.timeUsed }
+        delete serverData.timeUsed;
+        api.post(SubmissionURL, serverData)
+            .then(response => console.log("Submitted:", response))
+            .catch(error => console.error("Submit error:", error));
         // axios.put(SubmissionURL, { data })
-        //     .then(response => console.log("Submitted:", response))
-        //     .catch(error => console.error("Submit error:", error));
     }
 
     useEffect(() => {

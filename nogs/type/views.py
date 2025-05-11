@@ -17,7 +17,7 @@ def generate_game(request):
 
 
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def submit_result(request):
     user = request.user
     if user is not None:
