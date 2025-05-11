@@ -15,6 +15,8 @@ export default function CompetitionsPage() {
         axios.get(COMPETITIONS_URL)
             .then(response => {
                 setCompetitions(response.data);
+                if (response.data.length > 0)
+                    setMessage("");
             })
             .catch(error => setMessage("No competitions available"));
     };
@@ -29,8 +31,7 @@ export default function CompetitionsPage() {
     return (
         <div className="competitions-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
-            {/*{user?.is_staff && <CreateCompetition />}*/}
-            {true && <CreateCompetition />}
+            {user?.is_staff && <CreateCompetition />}
             <div className="competition-grid">
                 {(competitions?.length) ? (
                     competitions.map((data, index) => (

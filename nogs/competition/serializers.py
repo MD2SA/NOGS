@@ -15,9 +15,8 @@ class CompetitionSerializer(serializers.ModelSerializer):
 
 
 class CompetitionParticipantSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(source='user.id', read_only=True)  # ID do usuário
     username = serializers.CharField(source='user.username', read_only=True)  # Nome de usuário
 
     class Meta:
         model = CompetitionParticipant
-        fields = ['user_id', 'username', 'competition', 'wpm', 'accuracy', 'tries']
+        fields = ['user', 'username', 'competition', 'wpm', 'accuracy', 'tries']

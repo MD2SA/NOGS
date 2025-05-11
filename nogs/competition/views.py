@@ -85,8 +85,8 @@ def _handle_join_competition(request, competition_id):
         return Response({'error':'Competition has already ended'}, status=status.HTTP_409_CONFLICT)
 
     user = request.user
-    if competition.participants.filter(user=user).exists():
-        return Response({'error':'User already joined'}, status=status.HTTP_409_CONFLICT)
+    if user in competition.participants.all():
+        return Response({'message':'User already joined'}, status=status.HTTP_200_OK)
 
     current_lotation = competition.participants.count()
     if competition.capacity and current_lotation >= competition.capacity:
@@ -96,7 +96,6 @@ def _handle_join_competition(request, competition_id):
     serializer = CompetitionParticipantSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        competition.participants.add(user.id)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

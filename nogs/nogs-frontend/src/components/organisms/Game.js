@@ -1,54 +1,101 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Test from "../atoms/Test";
 import Results from "../molecules/Results";
 import GameControls from "../molecules/GameControls";
+import { GENERATE_GAME_URL } from "../../assets/urls/djangoUrls";
 
-export default function Game({ SubmissionURL, targetText, time, handleStart, handleFinish, handleLeave, gameInfo }) {
-
+export default function Game({
+    isCompetition = false,
+    SubmissionURL,
+    targetText,
+    onStartTest,
+    onFinishTest,
+    onLeave,
+}) {
+    const location = useLocation();
     const [showResult, setShowResult] = useState(false);
+    const [wordCount, setWordCount] = useState(10);
+    const [lastRefresh, setLastRefresh] = useState(-1);
+    const [curPhrase, setCurPhrase] = useState(targetText);
+    const [gameInfo, setGameInfo] = useState({
+        accuracy: 0.0,
+        timeUsed: 0,
+        wpm: 0,
+        raw: 0,
+    });
 
-    const submitTest = () => {
-        axios.put(SubmissionURL, { gameInfo })
+
+    const fetchNewTest = () => {
+        axios.get(GENERATE_GAME_URL, { params: { word_count: wordCount, } })
             .then((response) => {
-                console.log(response);
+                setCurPhrase(response.data.phrase);
             }).catch((error) => {
                 console.error("There was an error loading the test:", error);
             });
     }
 
-    const [lastRefresh, setLastRefresh] = useState(-1);
+    const restartTest = () => {
+        if (!isCompetition) {
+            fetchNewTest();
+            setShowResult(false);
+        }
+    };
+
+    const handleFinish = (data) => {
+        if (onFinishTest) onFinishTest();
+        handleSubmit(data);
+        setGameInfo({
+            accuracy: data.accuracy,
+            timeUsed: data.timeUsed,
+            raw: data.raw,
+            wpm: data.wpm,
+        });
+        setShowResult(true);
+    };
+
+    const handleLeave = () => {
+        if (onLeave) onLeave();
+        setShowResult(false);
+        if (!isCompetition)
+            fetchNewTest();
+    }
+
+    const handleSubmit = (data) => {
+        console.log(data);
+        // axios.put(SubmissionURL, { data })
+        //     .then(response => console.log("Submitted:", response))
+        //     .catch(error => console.error("Submit error:", error));
+    }
 
     useEffect(() => {
-        if (location.state?.refresh !== lastRefresh) {
+        if (!isCompetition && location.state?.refresh !== lastRefresh || showResult === false) {
+            if (!isCompetition)
+                fetchNewTest();
             setShowResult(false);
-            loadTest();
             setLastRefresh(location.state?.refresh);
-        } else if (showResult === false)
-            loadTest();
-        else
-            submitTest();
-    }, [showResult, location.state]);
+        }
+    }, [showResult, location.state, wordCount]);
+
 
     return (
         <div>
-            {!showResult ?
+            {!showResult ? (
                 <>
-                    <GameControls gameControls={gameControls} setGameControls={setGameControls} />
+                    {!isCompetition && <GameControls wordCount={wordCount} setWordCount={setWordCount} />}
                     <Test
-                        targetText={targetText}
-                        time={time}
-                        handleStart={handleStart}
+                        targetText={isCompetition ? targetText : curPhrase}
+                        handleStart={onStartTest}
                         handleFinish={handleFinish}
                     />
-                    <button
-                        onClick={loadTest}
-                    >
-                        Restart
-                    </button> : null
+                    {!isCompetition && <button onClick={restartTest}>Restart</button>}
+
                 </>
-                : <Results gameInfo={gameInfo} handleLeave={handleLeave} />
-            }
-        </div >
+            ) : (
+                <Results gameInfo={gameInfo} handleLeave={handleLeave} />
+            )}
+        </div>
     );
 }
+

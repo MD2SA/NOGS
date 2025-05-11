@@ -5,14 +5,13 @@ import { GENERATE_GAME_URL, SUBMIT_RESULT_URL } from "../assets/urls/djangoUrls"
 import Test from "../components/atoms/Test";
 import Results from "../components/molecules/Results";
 import GameControls from "../components/molecules/GameControls";
+import Game from "../components/organisms/Game";
 
 export default function HomePage() {
 
     const location = useLocation();
 
-    const [gameControls, setGameControls] = useState({
-        wordCount: 10,
-    });
+    const [wordCount, setWordCount] = useState(10);
     const [showResult, setShowResult] = useState(false);
     const [test, setTest] = useState("The quick brown fox jumps over the lazy dog.");
     const [gameInfo, setGameInfo] = useState({
@@ -24,7 +23,7 @@ export default function HomePage() {
     const [lastRefresh, setLastRefresh] = useState(-1);
 
     const loadTest = () => {
-        axios.get(GENERATE_GAME_URL, { params: { word_count: gameControls.wordCount, } })
+        axios.get(GENERATE_GAME_URL, { params: { word_count: wordCount, } })
             .then((response) => {
                 setTest(response.data.phrase);
             }).catch((error) => {
@@ -44,34 +43,22 @@ export default function HomePage() {
             loadTest();
         else
             submitTest();
-    }, [gameControls, showResult, location.state]);
+    }, [wordCount, showResult, location.state]);
 
-    const handleFinish = (data) => {
-        //meto logo no AXIOS
-        setGameInfo({
-            accuracy: data.accuracy,
-            timeUsed: data.timeUsed,
-            raw: data.raw,
-            wpm: data.wpm,
-        });
-        setShowResult(true);
-    }
 
     return (
         <div>
-            {!showResult ?
-                <>
-                    <GameControls gameControls={gameControls} setGameControls={setGameControls} />
-                    <Test targetText={test} time={gameControls.time} handleFinish={handleFinish} />
-                    <button
-                        onClick={loadTest}
-                    >
-                        Restart
-                    </button>
-
-                </>
-                : <Results gameInfo={gameInfo} handleLeave={() => setShowResult(false)} />
-            }
+            <Game
+                isCompetition={false}
+                targetText={test}
+                gameInfo={gameInfo}
+                setGameInfo={setGameInfo}
+                SubmissionURL={SUBMIT_RESULT_URL}
+                fetchNewTest={(wordCount) =>
+                    axios.get(GENERATE_GAME_URL, { params: { word_count: wordCount } })
+                        .then(res => res.data.phrase)
+                }
+            />
         </div>
     );
 }

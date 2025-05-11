@@ -14,7 +14,7 @@ class Competition(models.Model):
 
 class CompetitionParticipant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, null=True)
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
 
     wpm = models.IntegerField(null=True, blank=True)
     accuracy = models.FloatField(null=True, blank=True)

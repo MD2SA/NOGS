@@ -11,7 +11,7 @@ export default function CompetitionDetail({ data }) {
                 <span>Mode:  {data.word_count} words</span>
             </div>
             <div className="competition-detail">
-                <span>Lotation: {/*data.participants.length*/}/{data.capacity} shamers</span>
+                <span>Lotation: {data.participants.length}/{data.capacity} shamers</span>
             </div>
             <JoinCompetitionButton
                 competitionId={data.id}

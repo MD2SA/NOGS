@@ -46,7 +46,7 @@ export default function CompetitionPage() {
 
 
     const onStartTest = () => {
-        axios.put(COMPETITION_PARTICIPANTS_URL(data.id), {}, { withCredentials: true })
+        axios.put(COMPETITION_PARTICIPANTS_URL(data.id), { }, { withCredentials: true })
             .then(response => {
                 setTries(response.data.tries_left);
                 isValidTry(true);
