@@ -10,7 +10,7 @@ class Result(models.Model):
     played_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Result {self.id} - Game {self.game.id} - accuracy: {self.accuracy} - played_date: {self.played_date} - wpm: {self.wpm} - time: {self.time}"
+        return f"Result {self.id} - accuracy: {self.accuracy} - played_date: {self.played_date} - wpm: {self.wpm} - time: {self.time_used}"
 
 
 class UserStats(models.Model):

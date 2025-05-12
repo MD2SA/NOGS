@@ -6,7 +6,7 @@ import { useAuth } from "../AuthContext";
 import Game from "./Game";
 
 
-export default function Competition({data}) {
+export default function Competition({ data }) {
 
     const { api, user } = useAuth();
 
@@ -68,8 +68,8 @@ export default function Competition({data}) {
                         </div>
                         <div className="resultsDivider" />
                         <div className="sub-container">
-                            <h3 className="sub-title">Tries left: {tries}</h3>
-                            <button className="resultsButton" onClick={() => setDisplayGame(tries > 0)}>
+                            <h3 className="sub-title">Tries left: {tries !== null ? tries : "unlimited"}</h3>
+                            <button className="resultsButton" onClick={() => setDisplayGame(tries > 0 || tries === null)}>
                                 Play
                             </button>
                         </div>

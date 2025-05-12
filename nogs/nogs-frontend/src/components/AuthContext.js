@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL } from "../assets/urls/djangoUrls";
+import { LOGIN_URL, LOGOUT_URL, ME_URL, SIGNUP_URL } from "../assets/urls/djangoUrls";
 
 const api = axios.create({
     withCredentials: true,
@@ -83,6 +83,17 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // const me = async () => {
+    //     try {
+    //         await api.get(ME_URL)
+    //             .then(response=>{
+    //         })
+    //             .catch();
+    //     } catch (error) {
+    //
+    //     }
+    // }
+    //
     api.interceptors.request.use(config => {
         const token = getCSRFToken();
         if (token)

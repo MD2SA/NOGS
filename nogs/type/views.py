@@ -33,9 +33,6 @@ def submit_result(request):
 def _handle_save_user_stats(request):
     user_stats, created = UserStats.objects.get_or_create(user=request.user)  # Unpack the tuple
 
-    print(f"userstats:{user_stats.best_wpm}")
-    print(request.data)
-
     wpm = request.data.get('wpm', 0) or 0  # Default to 0 if None
     accuracy = request.data.get('accuracy', 0) or 0
     time_used = request.data.get('time_used', 0) or 0

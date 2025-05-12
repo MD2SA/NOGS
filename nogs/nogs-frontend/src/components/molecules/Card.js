@@ -1,9 +1,13 @@
 import { useAuth } from "../AuthContext";
+import { DateTime } from "luxon";
+import { ME_URL } from "../../assets/urls/djangoUrls";
+import { useEffect, useState } from "react";
 
 
 export default function Card() {
 
-    const { user } = useAuth();
+    const { api, user } = useAuth();
+    console.log("USER", user);
 
     return (
         <div className="credentials-wrapper">
@@ -18,22 +22,13 @@ export default function Card() {
                 </div>
                 <div className="credentials-right">
                     <h2 className="username">{user.username}</h2>
-                    <p><strong>Birth:</strong>{user.date_joined}</p>
-                    <p><strong>Team:</strong> DevNOGS</p>
-                    <p><strong>Phrases written:</strong> 17497</p>
-                    <p><strong>Best Leaderboard:</strong> 25th</p>
+                    <p><strong>Birth:</strong>{DateTime.fromISO(user.date_joined).toLocaleString(DateTime.DATE_SHORT)}</p>
+                    <p><strong>Team:</strong> {user.team || "None" }</p>
+                    <p><strong>Phrases written:</strong> {user.total_games_played}</p>
+                    <p><strong>Time played:</strong> {user.total_time_played} s</p>
+
                 </div>
             </div>
         </div>
     );
 }
-// <div class="credentials-container">
-//     <div class="credentials-card">
-//         <h1 class="credentials-title">Credentials</h1>
-//         <div class="credentials-content">
-//             <h2 class="credentials-username">{user.username}</h2>
-//             <p>Birth: {user.date_joined}</p>
-//             <p>Team: {user.team || "None"}</p>
-//         </div>
-//     </div>
-// </div>

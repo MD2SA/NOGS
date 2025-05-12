@@ -11,9 +11,11 @@ export default function CompetitionTable({ data }) {
                 name: username,
                 wpm: wpm,
                 accuracy: accuracy,
-                'tries left': tries,
+                ...(tries !== null && { 'tries left': tries }),
+
             }
         ));
+    console.log(transformedData);
 
     return (
         <Table data={transformedData} />

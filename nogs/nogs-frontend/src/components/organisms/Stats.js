@@ -6,6 +6,7 @@ import WordStats from "../molecules/WordStats";
 
 export default function Stats() {
 
+
     return (
         <div>
             <Card />

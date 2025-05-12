@@ -43,15 +43,11 @@ def login_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
-    print(f"Is anonymous? {isinstance(request.user, AnonymousUser)}")  # False
-    print(f"User after login: {request.user}")  # The logged-in user
     logout(request)
     return Response({'message':'Logged out successfully'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def me(request):
-    user = User.objects.get(username="albuq")
-    serializer = UserSerializer(user)
-    print(serializer.data)
+    serializer = UserSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
