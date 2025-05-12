@@ -13,7 +13,6 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadUserFromStorage() {
@@ -28,7 +27,6 @@ export const AuthProvider = ({ children }) => {
                     console.error('Failed to load user', error);
                 }
             }
-            setLoading(false);
         }
         loadUserFromStorage();
     }, []);
@@ -83,17 +81,26 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const me = async () => {
-    //     try {
-    //         await api.get(ME_URL)
-    //             .then(response=>{
-    //         })
-    //             .catch();
-    //     } catch (error) {
-    //
-    //     }
-    // }
-    //
+    const me = async () => {
+        try {
+            const response = await api.get(ME_URL)
+            setUser(response.data);
+            localStorage.setItem('user', JSON.stringify(response.data));
+            return {
+                success: true,
+                user: response?.data
+            };
+        } catch (error) {
+            console.log(error);
+            setUser(null)
+            localStorage.removeItem('user');
+            return {
+                success: false,
+                user: null,
+            }
+        }
+    }
+
     api.interceptors.request.use(config => {
         const token = getCSRFToken();
         if (token)
@@ -111,10 +118,10 @@ export const AuthProvider = ({ children }) => {
             signup,
             login,
             logout,
+            me,
             isAuthenticated: !!user,
-            loading
         }}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 }

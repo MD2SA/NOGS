@@ -1,13 +1,10 @@
-import { useAuth } from "../AuthContext";
 import { DateTime } from "luxon";
-import { ME_URL } from "../../assets/urls/djangoUrls";
-import { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext";
 
 
 export default function Card() {
 
-    const { api, user } = useAuth();
-    console.log("USER", user);
+    const { user } = useAuth();
 
     return (
         <div className="credentials-wrapper">

@@ -52,6 +52,7 @@ def leave_team(request):
 @permission_classes([IsAuthenticated])
 def create_team(request):
     serializer = TeamSerializer(data=request.data)
+    print(serializer.is_valid())
     if serializer.is_valid():
         team = serializer.save()
         TeamMembership.objects.create(

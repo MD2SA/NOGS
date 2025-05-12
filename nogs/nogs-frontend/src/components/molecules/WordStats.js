@@ -1,11 +1,10 @@
-import axios from "axios";
-
+import { useAuth } from "../AuthContext";
 
 export default function WordStats() {
 
-    // axios.get();
+    const { user } = useAuth();
 
-
+    console.log(user);
     return (
         <div className="stats-container">
 

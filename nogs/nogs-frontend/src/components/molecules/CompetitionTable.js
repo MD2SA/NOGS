@@ -15,7 +15,6 @@ export default function CompetitionTable({ data }) {
 
             }
         ));
-    console.log(transformedData);
 
     return (
         <Table data={transformedData} />
