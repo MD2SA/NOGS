@@ -31,7 +31,7 @@ export default function CreateTeam() {
 
     return (
         <>
-            {isStaff && (
+            {(
                 <>
                     <button
                         className="create-team-button"
@@ -39,7 +39,7 @@ export default function CreateTeam() {
                     >
                         Create Team
                     </button>
-                    <TeamModal isOpen={isModalOpen} onClose={handleCloseModal} />
+                    <TeamModal isOpen={isModalOpen} onClose={handleCloseModal}/>
                 </>
             )}
         </>
