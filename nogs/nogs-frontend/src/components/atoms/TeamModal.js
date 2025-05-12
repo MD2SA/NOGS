@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import axios from "axios";
 import { CREATE_TEAM_URL } from "../../assets/urls/djangoUrls";
+import {useAuth} from "../AuthContext";
 
 
 
 export default function TeamModal({ isOpen, onClose }) {
+    const {api} = useAuth();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -27,11 +29,9 @@ export default function TeamModal({ isOpen, onClose }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(
+            await api.post(
                 CREATE_TEAM_URL,
-                //{ team_name: name, description },
-                {name, description},
-                { withCredentials: true }
+                {name,description},
             );
             alert("Team created successfully!");
             onClose();
