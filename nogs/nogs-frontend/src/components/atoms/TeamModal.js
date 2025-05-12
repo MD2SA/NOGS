@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import axios from "axios";
+import { CREATE_TEAM_URL } from "../../assets/urls/djangoUrls";
+
 
 
 export default function TeamModal({ isOpen, onClose }) {
@@ -26,8 +28,9 @@ export default function TeamModal({ isOpen, onClose }) {
         e.preventDefault();
         try {
             await axios.post(
-                "/api/teams/", // ajusta para o endpoint correto
-                { name, description },
+                CREATE_TEAM_URL,
+                //{ team_name: name, description },
+                {name, description},
                 { withCredentials: true }
             );
             alert("Team created successfully!");

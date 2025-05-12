@@ -21,4 +21,5 @@ export const TEAMS_URL = "http://127.0.0.1:8000/Team/teams/";
 export const TEAM_JOIN_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/join/`;
 export const TEAM_LEAVE_URL = "http://127.0.0.1:8000/Team/teams/leave/";
 export const TEAM_DETAIL_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/`;
+export const CREATE_TEAM_URL = "http://127.0.0.1:8000/Team/teams/create/";
 
