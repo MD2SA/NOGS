@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.http import JsonResponse, HttpResponseNotFound
 
-from .models import Team, TeamMembership
-from .serializers import TeamSerializer, TeamMembershipSerializer
+from .models import Team, TeamMembership, TeamMessage
+from .serializers import TeamSerializer, TeamMembershipSerializer, TeamMessageSerializer
 
 
 @api_view(['POST'])
@@ -74,3 +74,43 @@ def team_detail(request, team_id):
         })
     except Team.DoesNotExist:
         return HttpResponseNotFound("Team not found")
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_team(request):
+    try:
+        membership = TeamMembership.objects.get(user=request.user)
+        team = membership.team
+        serializer = TeamSerializer(team)
+        return Response(serializer.data, status=200)
+    except TeamMembership.DoesNotExist:
+        return Response({"detail": "Not in a team"}, status=404)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_message(request, team_id):
+    try:
+        membership = TeamMembership.objects.get(user=request.user, team_id=team_id)
+    except TeamMembership.DoesNotExist:
+        return Response({"detail": "You are not a member of this team."}, status=403)
+
+    data = {
+        "sender": request.user.id,
+        "team": team_id,
+        "message": request.data.get("message", "")
+    }
+
+    serializer = TeamMessageSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+    return Response(serializer.errors, status=400)
+
+
+
+
+

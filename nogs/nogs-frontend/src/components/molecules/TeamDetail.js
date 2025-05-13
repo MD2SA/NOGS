@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import JoinTeamButton from "../atoms/JoinTeamButton";
 
-export default function TeamDetail({ data }) {
-    const navigate = useNavigate();
-
+export default function TeamDetail({ data, setShownTeam }) {
     return (
         <div className="competition-info-container">
             <div className="competition-detail">
@@ -14,8 +12,9 @@ export default function TeamDetail({ data }) {
             </div>
             <JoinTeamButton
                 teamId={data.id}
-                onJoinSuccess={() => navigate('/teams/team/', { state: { data: data } })}
+                onJoinSuccess={() => setShownTeam(data)}
             />
         </div>
     );
 }
+
