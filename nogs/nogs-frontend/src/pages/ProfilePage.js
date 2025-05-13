@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import LogoutButton from "../components/atoms/LoggoutButton";
 import { useAuth } from "../components/AuthContext";
 import AccountManager from "../components/molecules/AccountManager";
-import Stats from "../components/organisms/Stats";
+import WordStats from "../components/molecules/WordStats";
+import Card from "../components/molecules/Card";
+
+import "../css/Profile.css"
 
 
 export default function ProfilePage() {
@@ -19,7 +22,11 @@ export default function ProfilePage() {
                 (
                     <>
                         <LogoutButton />
-                        <Stats />
+                        <div>
+                            <Card />
+                            <div className="horizontal-divider" />
+                            <WordStats />
+                        </div>
                     </>
                 )
                 : <AccountManager />
