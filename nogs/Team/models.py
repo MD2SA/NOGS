@@ -25,3 +25,13 @@ class TeamMembership(models.Model):
 
     def __str__(self):
         return f"{self.user.username} is a {self.get_role_display()} in {self.team.name}"
+
+
+class TeamMessage(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    team = models.OneToOneField(Team, on_delete=models.CASCADE)
+    message = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender.username} is a {self.team.name}"

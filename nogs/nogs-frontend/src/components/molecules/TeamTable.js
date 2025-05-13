@@ -1,10 +1,11 @@
 import Table from "../atoms/Table";
 
 export default function TeamTable({ data }) {
-    const transformedData = data.map(({ name, description }, index) => ({
+    console.log(data);
+    const transformedData = data.map(({ id, username }, index) => ({
         '#': index + 1,
-        name: name,
-        description: description.length > 50 ? description.slice(0, 50) + '...' : description
+        Username: username,
+        ID: id
     }));
 
     return <Table data={transformedData} />;

@@ -1,43 +1,79 @@
 import { useEffect, useState } from "react";
-import { TEAMS_URL } from "../assets/urls/djangoUrls";
-import TeamDetail from "../components/molecules/TeamDetail";
+
 import "../css/Competition.css";
-import axios from "axios";
-import { useAuth } from "../components/AuthContext";
+import {
+  TEAMS_URL,
+  TEAM_LEAVE_URL,
+  TEAM_JOIN_URL,
+  MY_TEAM_URL,
+} from "../assets/urls/djangoUrls";
+
+import Team from "../components/organisms/Team";
+import TeamComposer from "../components/organisms/TeamComposer";
 import CreateTeam from "../components/atoms/CreateTeam";
+import {useAuth} from "../components/AuthContext";
 
 export default function TeamsPage() {
-    const [teams, setTeams] = useState();
-    const [message, setMessage] = useState('');
+  const { api, user } = useAuth();
+  const [myTeam, setMyTeam] = useState(null);
+  const [teams, setTeams] = useState([]);
 
-    const loadTeams = () => {
-        axios.get(TEAMS_URL)
-            .then(response => {
-                setTeams(response.data);
-            })
-            .catch(error => setMessage("No teams available"));
-    };
+  // Verifica se o utilizador já está numa equipa ao entrar na página
+  useEffect(() => {
+    fetchMyTeam();
+  }, []);
 
-    useEffect(() => {
-        setMessage("Loading...");
-        loadTeams();
-    }, []);
+  // Buscar equipa atual do utilizador
+  const fetchMyTeam = async () => {
+    try {
+      const response = await api.get(MY_TEAM_URL);
+      setMyTeam(response.data);
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setMyTeam(null);
+        fetchTeams();
+      } else {
+        console.error("Erro ao verificar equipa:", error);
+      }
+    }
+  };
 
-    const { user } = useAuth();
+  // Buscar todas as equipas (caso não esteja em nenhuma)
+  const fetchTeams = async () => {
+    try {
+      const response = await api.get(TEAMS_URL);
+      setTeams(response.data);
+    } catch (error) {
+      console.error("Erro ao carregar equipas:", error);
+    }
+  };
 
-    return (
-        <div className="competitions-container">
-            <h1 className="title">AVAILABLE TEAMS:</h1>
-            {user && <CreateTeam />}
-            <div className="competition-grid">
-                {(teams?.length) ? (
-                    teams.map((data, index) => (
-                        <TeamDetail key={`team-${index}`} data={data} />
-                    ))
-                ) : (
-                    <h2 className="sub-title">{message}</h2>
-                )}
-            </div>
-        </div>
-    );
+  // Sair da equipa
+  const handleLeaveTeam = async () => {
+    try {
+      await api.delete(TEAM_LEAVE_URL);
+      setMyTeam(null);
+      fetchTeams(); // volta a mostrar lista
+    } catch (error) {
+      console.error("Erro ao sair da equipa:", error);
+    }
+  };
+
+  // Quando se junta a uma equipa, atualiza a vista
+  const handleJoinSuccess = (team) => {
+    fetchMyTeam(team);
+  };
+
+  return (
+    <div className="competitions-container">
+      {myTeam ? (
+        <Team team={myTeam} onLeave={handleLeaveTeam} />
+      ) : (
+        <>
+          <TeamComposer data={teams} setShownTeam={handleJoinSuccess} />
+
+        </>
+      )}
+    </div>
+  );
 }

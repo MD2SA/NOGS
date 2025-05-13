@@ -1,16 +1,21 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Team, TeamMembership
+from .models import Team, TeamMembership, TeamMessage
+
 
 class TeamSerializer(serializers.ModelSerializer):
+    members = serializers.SerializerMethodField()
+
     class Meta:
         model = Team
         fields = '__all__'
         read_only_fields = ['created_at']
 
-        def create(self, validated_data):
-            validated_data.setdefault('created_by', self.context['request'].user)
-            return super().create(validated_data)
+    def get_members(self, obj):
+        return [
+            {"id": membership.user.id, "username": membership.user.username}
+            for membership in obj.teammembership_set.all()
+        ]
 
 
 class TeamMembershipSerializer(serializers.ModelSerializer):
@@ -19,3 +24,8 @@ class TeamMembershipSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['joined_at']
 
+class TeamMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= TeamMessage
+        fields = '__all__'
+        read_only_fields = ['sender', 'team', 'created_at']
