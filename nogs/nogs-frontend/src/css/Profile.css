@@ -193,3 +193,39 @@
     width: 60vw;
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* Geral */
+.stats-container {
+    display: flex;
+    gap: 2rem;
+    background-color: #2e3335;
+    padding: 1.5rem 2rem;
+    border-radius: 1.5rem;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.05),
+        inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    margin: 2rem auto;
+}
+
+/* Cada bloco de estatística */
+.stats-atom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.stats-atom p:first-child {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stats-atom p:last-child {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    margin: 0.25rem 0 0 0;
+}
