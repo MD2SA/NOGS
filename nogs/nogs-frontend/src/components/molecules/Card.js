@@ -20,9 +20,9 @@ export default function Card() {
                 <div className="credentials-right">
                     <h2 className="username">{user.username}</h2>
                     <p><strong>Birth:</strong>{DateTime.fromISO(user.date_joined).toLocaleString(DateTime.DATE_SHORT)}</p>
-                    <p><strong>Team:</strong> {user.team || "None" }</p>
-                    <p><strong>Phrases written:</strong> {user.total_games_played}</p>
-                    <p><strong>Time played:</strong> {user.total_time_played} s</p>
+                    <p><strong>Team:</strong> {user.team || "None"}</p>
+                    <p><strong>Phrases written:</strong> {user.total_games || 0}</p>
+                    <p><strong>Time played:</strong> {user.total_time_played || 0} s</p>
 
                 </div>
             </div>

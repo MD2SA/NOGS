@@ -15,6 +15,12 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        const hostname = window.loaction.hostname
+        if( hostname === "localhost"){
+            const port = window.location.port ? `:${window.location.port}`
+            const pathname = window.location.pathname;
+
+        }
         async function loadUserFromStorage() {
             const token = getCSRFToken();
             if (token) {
