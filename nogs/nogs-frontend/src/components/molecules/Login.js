@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../../css/Profile.css"
 import { useAuth } from "../AuthContext";
 
 

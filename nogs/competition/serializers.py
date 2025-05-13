@@ -19,4 +19,4 @@ class CompetitionParticipantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CompetitionParticipant
-        fields = ['user', 'username', 'competition', 'wpm', 'accuracy', 'tries']
+        fields = ['user', 'username', 'competition', 'wpm', 'accuracy', 'tries','position']
