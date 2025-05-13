@@ -1,81 +1,139 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Friends.css';
+import { useAuth } from '../components/AuthContext';
+import {
+  GET_FRIENDS_URL,
+  SEND_FRIEND_REQUEST_URL,
+  RESPOND_FRIEND_REQUEST_URL,
+  ALL_USERS_URL,
+  REMOVE_FRIEND_URL,
+  MESSAGES_URL
+} from "../assets/urls/djangoUrls";
 
 function FriendsPage() {
   const navigate = useNavigate();
+  const { api } = useAuth();
 
   const [friends, setFriends] = useState([]);
   const [pending, setPending] = useState([]);
-  const [received, setReceived] = useState([
-    { id: 6, name: 'Fiona' },
-    { id: 7, name: 'George' }
-  ]);
+  const [received, setReceived] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddFriend, setShowAddFriend] = useState(false);
   const [addFriendQuery, setAddFriendQuery] = useState('');
-
-  const [allUsers] = useState([
-    { id: 10, name: 'Daniel' },
-    { id: 11, name: 'Eva' },
-    { id: 12, name: 'Frank' },
-    { id: 13, name: 'Alice' },
-    { id: 14, name: 'George' }
-  ]);
+  const [friendToRemove, setFriendToRemove] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    setFriends([
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' }
-    ]);
-    setPending([
-      { id: 4, name: 'Diana' },
-      { id: 5, name: 'Eli' }
-    ]);
+    const fetchData = async () => {
+      try {
+        const [friendsRes, usersRes] = await Promise.all([
+          api.get(GET_FRIENDS_URL),
+          api.get(ALL_USERS_URL)
+        ]);
+        setFriends(friendsRes.data.friends);
+        setPending(friendsRes.data.sent_requests || []);
+        setReceived(friendsRes.data.received_requests || []);
+        setAllUsers(usersRes.data);
+        console.log('all users:', usersRes.data);
+      } catch (err) {
+        console.error('Failed to fetch data', err);
+      }
+    };
+    fetchData();
   }, []);
 
-  // filter your friends
   const filteredFriends = friends.filter(friend =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+    friend.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // filter candidates for new friends
   const filteredNewUsers = allUsers.filter(user =>
-  user.name.toLowerCase().includes(addFriendQuery.toLowerCase()) &&
-  !friends.some(f => f.id === user.id) &&
-  !pending.some(p => p.id === user.id) &&
-  !received.some(r => r.id === user.id)
-);
+    user.username.toLowerCase().includes(addFriendQuery.toLowerCase()) &&
+    !friends.some(f => f.id === user.id) &&
+    !pending.some(p => p.id === user.id) &&
+    !received.some(r => r.id === user.id)
+  );
 
+  const displayUsers = filteredNewUsers.slice(0, 3);
 
-  // display at most 3: top matches or fallback to any 3
-  const displayUsers = filteredNewUsers.length > 0
-  ? filteredNewUsers.slice(0, 3)
-  : allUsers
-      .filter(user =>
-        !friends.some(f => f.id === user.id) &&
-        !pending.some(p => p.id === user.id) &&
-        !received.some(r => r.id === user.id)
-      )
-      .slice(0, 3);
-
-  // handlers
-  const handleRemove = id => setFriends(friends.filter(f => f.id !== id));
-  const handleMessage = friend => navigate(`/messages/${friend.id}`);
-  const handleCancelRequest = id => setPending(pending.filter(p => p.id !== id));
-  const handleAcceptRequest = id => {
-    const accepted = received.find(r => r.id === id);
-    if (accepted) {
-      setFriends([...friends, accepted]);
-      setReceived(received.filter(r => r.id !== id));
-    }
+  const handleRemove = (id) => {
+    const friend = friends.find(f => f.id === id);
+    setFriendToRemove(friend);
+    setShowConfirm(true);
   };
-  const handleRejectRequest = id => setReceived(received.filter(r => r.id !== id));
-  const handleSendRequest = user => {
-    alert(`Sent friend request to ${user.name}`);
-    setAddFriendQuery('');
-    setShowAddFriend(false);
+
+const confirmRemove = async () => {
+  if (!friendToRemove) return;
+  console.log("✅ YES clicked! Calling /Friends/friends/remove/ for:", friendToRemove.id);
+
+  try {
+    const res = await api.get(REMOVE_FRIEND_URL(friendToRemove.id));
+    console.log("✅ Server response:", res.data);
+    setFriends(prev => prev.filter(f => f.id !== friendToRemove.id));
+  } catch (err) {
+    console.error('❌ Failed to remove friend', err);
+  }
+
+  setShowConfirm(false);
+  setFriendToRemove(null);
+};
+
+
+
+
+
+  const cancelRemove = () => {
+    setShowConfirm(false);
+    setFriendToRemove(null);
+  };
+
+  const handleMessage = friend =>
+    navigate(`/messages/${friend.id}`, {
+      state: { friendName: friend.username }
+    });
+
+  const handleCancelRequest = (id) => {
+    setPending(p => p.filter(x => x.id !== id));
+  };
+
+  const handleAcceptRequest = async (requestId) => {
+  try {
+    await api.post(RESPOND_FRIEND_REQUEST_URL, { request_id: requestId, action: 'accept' });
+
+    const acc = received.find(x => x.request_id === requestId);
+    if (acc) {
+      setFriends(f => [...f, { id: acc.id, username: acc.username }]); // send to friends list
+      setReceived(r => r.filter(x => x.request_id !== requestId)); // remove from received
+    }
+  } catch (err) {
+    console.error('Failed to accept request', err);
+  }
+};
+
+
+  const handleRejectRequest = async (requestId) => {
+  try {
+    await api.post(RESPOND_FRIEND_REQUEST_URL, {
+      request_id: requestId,
+      action: 'reject'
+    });
+    setReceived(r => r.filter(x => x.request_id !== requestId));
+  } catch (err) {
+    console.error('Failed to reject request', err);
+  }
+};
+
+
+  const handleSendRequest = async (user) => {
+    try {
+      await api.post(SEND_FRIEND_REQUEST_URL, { to_user_id: user.id });
+      setPending([...pending, user]);
+      setAddFriendQuery('');
+      setShowAddFriend(false);
+    } catch (err) {
+      console.error('Failed to send request', err);
+    }
   };
 
   return (
@@ -83,15 +141,10 @@ function FriendsPage() {
       <div className="friends-container">
         <h1 className="friends-title">Friends</h1>
 
-        {/* Add Friend Toggle */}
-        <button
-          className="add-friend-button"
-          onClick={() => setShowAddFriend(!showAddFriend)}
-        >
+        <button className="add-friend-button" onClick={() => setShowAddFriend(v => !v)}>
           {showAddFriend ? 'Close Search' : 'Add Friend'}
         </button>
 
-        {/* Main Friends Search */}
         <input
           type="text"
           className="friends-search"
@@ -100,7 +153,6 @@ function FriendsPage() {
           onChange={e => setSearchQuery(e.target.value)}
         />
 
-        {/* Add Friend Section */}
         {showAddFriend && (
           <div className="add-friend-section">
             <input
@@ -113,11 +165,9 @@ function FriendsPage() {
             <ul className="friend-list">
               {displayUsers.map(user => (
                 <li key={user.id} className="friend-item">
-                  <span>{user.name}</span>
+                  <span>{user.username}</span>
                   <div className="friend-actions">
-                    <button onClick={() => handleSendRequest(user)}>
-                      Send Request
-                    </button>
+                    <button onClick={() => handleSendRequest(user)}>Send Request</button>
                   </div>
                 </li>
               ))}
@@ -125,75 +175,62 @@ function FriendsPage() {
           </div>
         )}
 
-        {/* Your Friends */}
         <section className="friends-section">
           <h2 className="friends-subtitle">Your Friends</h2>
           <ul className="friend-list">
-            {filteredFriends.map(friend => (
-              <li key={friend.id} className="friend-item">
-                <span>{friend.name}</span>
+            {filteredFriends.map(f => (
+              <li key={f.id} className="friend-item">
+                <span>{f.username}</span>
                 <div className="friend-actions">
-                  <button onClick={() => handleMessage(friend)}>
-                    Message
-                  </button>
-                  <button
-                    onClick={() => handleRemove(friend.id)}
-                    className="remove-btn"
-                  >
-                    Remove
-                  </button>
+                  <button onClick={() => handleMessage(f)}>Message</button>
+                  <button onClick={() => handleRemove(f.id)} className="remove-btn">Remove</button>
                 </div>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* Pending Sent Requests */}
         <section className="friends-section">
           <h2 className="friends-subtitle">Pending Requests</h2>
           <ul className="friend-list">
-            {pending.map(friend => (
-              <li key={friend.id} className="friend-item pending">
-                <span>{friend.name} (Pending)</span>
+            {pending.map(f => (
+              <li key={f.id} className="friend-item pending">
+                <span>{f.username} (Pending)</span>
                 <div className="friend-actions">
-                  <button
-                    onClick={() => handleCancelRequest(friend.id)}
-                    className="remove-btn"
-                  >
-                    Cancel
-                  </button>
+                  <button onClick={() => handleCancelRequest(f.id)} className="remove-btn">Cancel</button>
                 </div>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* Pending Received Requests */}
         <section className="friends-section">
           <h2 className="friends-subtitle">Pending Requests Received</h2>
           <ul className="friend-list">
-            {received.map(friend => (
-              <li key={friend.id} className="friend-item pending">
-                <span>{friend.name} (Incoming)</span>
+            {received.map(f => (
+              <li key={f.id} className="friend-item pending">
+                <span>{f.username} (Incoming)</span>
                 <div className="friend-actions">
-                  <button
-                    className="accept-btn"
-                    onClick={() => handleAcceptRequest(friend.id)}
-                  >
-                    ✓
-                  </button>
-                  <button
-                    className="remove-btn"
-                    onClick={() => handleRejectRequest(friend.id)}
-                  >
-                    ✗
-                  </button>
+                  <button onClick={() => handleAcceptRequest(f.request_id)}>✓</button>
+                  <button onClick={() => handleRejectRequest(f.request_id)}>✗</button>
                 </div>
               </li>
             ))}
           </ul>
         </section>
       </div>
+
+      {showConfirm && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Remove <strong>{friendToRemove?.username}</strong> from your friends?</p>
+            <div className="popup-buttons">
+              <button className="confirm-btn" onClick={confirmRemove}>Yes</button>
+              <button className="cancel-btn" onClick={cancelRemove}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

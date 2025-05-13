@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'Team.apps.TeamConfig',
     'competition.apps.CompetitionConfig',
     'type.apps.TypeConfig',
+    'Friends.apps.FriendsConfig',
 ]
 
 MIDDLEWARE = [

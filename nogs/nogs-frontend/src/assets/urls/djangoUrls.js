@@ -23,3 +23,12 @@ export const TEAM_LEAVE_URL = "http://127.0.0.1:8000/Team/teams/leave/";
 export const TEAM_DETAIL_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/`;
 export const CREATE_TEAM_URL = "http://127.0.0.1:8000/Team/teams/create/";
 
+//friends
+export const GET_FRIENDS_URL = "http://127.0.0.1:8000/Friends/friends/";
+export const SEND_FRIEND_REQUEST_URL = "http://127.0.0.1:8000/Friends/friends/request/";
+export const RESPOND_FRIEND_REQUEST_URL = "http://127.0.0.1:8000/Friends/friends/respond/";
+export const REMOVE_FRIEND_URL = (id) => `http://127.0.0.1:8000/Friends/friends/remove/?friend_id=${id}`;
+export const ALL_USERS_URL = "http://127.0.0.1:8000/Friends/friends/all-users/";
+export const MESSAGES_URL = (id) => `http://127.0.0.1:8000/Friends/messages/${id}/`;
+
+

@@ -1,48 +1,64 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../css/MessagePage.css';
+import { useAuth } from '../components/AuthContext';
+import { MESSAGES_URL } from "../assets/urls/djangoUrls";
+
 
 function MessagePage() {
   const { friendId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const passedName = location.state?.friendName;
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
+  const { api, user } = useAuth();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await api.get(MESSAGES_URL(friendId));
+        const localId = user?.id || JSON.parse(localStorage.getItem('user'))?.id;
+        setMessages(res.data.map(m => ({
+          text: m.text,
+          sender: m.sender === localId ? 'you' : 'them'
+        })));
+      } catch (err) {
+        console.error('Failed to load messages', err);
+      }
+    };
+    fetchMessages();
+  }, [friendId, user]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const mockFriends = [
-    { id: 1, name: 'Alice' },
-    { id: 2, name: 'Bob' },
-    { id: 3, name: 'Charlie' }
-  ];
-
-  const friend = mockFriends.find(f => f.id === parseInt(friendId));
-
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim() === '') return;
-    setMessages([...messages, { text: input, sender: 'you' }]);
-    setInput('');
+    try {
+      await api.post(MESSAGES_URL(friendId), { text: input });
+      setMessages([...messages, { text: input, sender: 'you' }]);
+      setInput('');
+    } catch (err) {
+      console.error('Failed to send message', err);
+    }
   };
 
   return (
     <div className="message-page">
-      {/* 👇 Back Button */}
-      <button
-        className="back-button"
-        onClick={() => navigate('/friends')}
-      >
+      <button className="back-button" onClick={() => navigate('/friends')}>
         ← Back to Friends
       </button>
 
       <h1 className="chat-header">
-        Chat with {friend ? friend.name : 'Unknown User'}
+        Chat with {passedName || 'Unknown User'}
       </h1>
 
       <div className="message-area">
@@ -58,7 +74,6 @@ function MessagePage() {
             </div>
           ))
         )}
-        {/* 👇 Auto-scroll anchor */}
         <div ref={messagesEndRef} />
       </div>
 
