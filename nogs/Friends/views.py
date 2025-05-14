@@ -199,5 +199,7 @@ def remove_friend(request):
 @permission_classes([IsAuthenticated])
 def all_users(request):
     current_user = request.user
+    print(User.objects.all())
     users = User.objects.exclude(id=current_user.id)
+    print(users)
     return Response(PublicUserSerializer(users, many=True).data)

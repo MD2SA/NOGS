@@ -2,13 +2,6 @@ import React from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
 import "../../css/Table.css";
 
-// const columns = [
-//     { key: 'id', label: 'ID' },
-//     { key: 'name', label: 'Name' },
-//     { key: 'email', label: 'Email' }
-// ];
-
-
 export default function Table({ data, width = 400, height = 250 }) {
 
     const headers = Array.from(new Set(data.flatMap((row) => Object.keys(row))));

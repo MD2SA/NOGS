@@ -1,4 +1,8 @@
 .table-container {
+    font-size: 1vw;
+    height: 200px;
+    width: 250px;
+    background-color: #aeb8b8;
 }
 
 table {

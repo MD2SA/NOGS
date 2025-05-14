@@ -4,8 +4,8 @@ from .generate import generate_phrase
 
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    accuracy = models.FloatField(0)
-    wpm = models.FloatField()
+    accuracy =  models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    wpm = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     time_used = models.FloatField()
     played_date = models.DateTimeField(auto_now_add=True)
 
@@ -16,8 +16,8 @@ class Result(models.Model):
 class UserStats(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     best_wpm = models.FloatField(null=True, blank=True)
-    avg_wpm = models.FloatField(null=True, blank=True)
-    avg_accuracy = models.FloatField(null=True, blank=True)
+    avg_wpm = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    avg_accuracy = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total_games = models.PositiveIntegerField(default=0)
     total_time_played = models.PositiveIntegerField(default=0)
 

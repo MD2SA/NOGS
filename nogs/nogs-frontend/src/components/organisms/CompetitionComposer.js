@@ -29,10 +29,10 @@ export default function CompetitionComposer({ setShownCompetition }) {
     const { user } = useAuth();
 
     return (
-        <div className="competitions-container">
+        <div className="composer-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
             {user?.is_staff && <CreateCompetition />}
-            <div className="competition-grid">
+            <div className="composer-grid">
                 {(competitions?.length) ? (
                     competitions.map((data, index) => (
                         <CompetitionDetail key={`competition-${index}`} data={data} setShownCompetition={setShownCompetition} />
