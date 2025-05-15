@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
+import Modal from "./Modal";
 
 
 export default function LogoutButton() {
@@ -8,11 +9,11 @@ export default function LogoutButton() {
 
     return (
         <>
-            {!isModalVisible ? (
-                <button onClick={() => setIsModalVisible(true)} className="logout-button">
-                    Logout
-                </button>
-            ) : (
+            <button onClick={() => setIsModalVisible(true)} className="logout-button">
+                Logout
+            </button>
+
+            <Modal isOpen={isModalVisible}>
                 <div className="logout-modal">
                     <p className="logout-modal-text">Are you sure you want to log out?</p>
                     <button onClick={logout} className="logout-modal-button">
@@ -22,7 +23,7 @@ export default function LogoutButton() {
                         Cancel
                     </button>
                 </div>
-            )}
+            </Modal>
         </>
     );
 }
