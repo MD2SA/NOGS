@@ -21,7 +21,6 @@ export default function ProfilePage() {
             {user ?
                 (
                     <div className="profile-screen">
-                        <LogoutButton />
                         <div className="profile-content">
                             <div className="side-container">
                                 <Card />
@@ -29,6 +28,7 @@ export default function ProfilePage() {
                             <div className="resultsDivider" />
                             <div className="side-container">
                                 <WordStats />
+                                <LogoutButton className="profile-logout-button" />
                             </div>
                         </div>
                     </div>
