@@ -1,5 +1,4 @@
 import OptionSelector from "../molecules/OptionSelector";
-
 import "../../css/GameControls.css";
 
 /**

@@ -1,3 +1,7 @@
+.test-container {
+    position: relative;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -18,12 +22,23 @@
     justify-content: flex-start;
 }
 
+.word-counter {
+    position: absolute;
+    top: -2.5vh;
+    left: 4vh;
+    color: white;
+    font-size: calc(max(1.35vw,1.8vh));
+    font-family: 'Gliker', sans-serif;
+}
+
 .word {
     position: relative;
     font-size: 2.7em;
+    font-size:calc(min(3.9vw,5.5vh));
     line-height: 1em;
     font-weight: 600;
     letter-spacing: 0.05em;
+    letter-spacing: 0.25vh;
     display: inline-block;
     font-family: 'Roboto mono', monospace;
 }

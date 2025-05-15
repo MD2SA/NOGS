@@ -23,7 +23,7 @@
     padding: 0.6vw 1.2vw;
     border-radius: 999px;
     cursor: pointer;
-    font-size: 1.35vw;
+    font-size: calc(max(1.35vw,1.8vh));
 }
 
 .toggle-button.active {

@@ -14,7 +14,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
+    const handleLocation = () => {
         const hostname = window.location.hostname
         if (hostname === "localhost") {
             const port = window.location.port ? `:${window.location.port}` : "";
@@ -24,6 +24,10 @@ export const AuthProvider = ({ children }) => {
             window.location.replace(newUrl);
             alert("Redirected to 127.0.0.1 because of login problems with localhost");
         }
+    }
+
+    useEffect(() => {
+        handleLocation();
         async function loadUserFromStorage() {
             const token = getCSRFToken();
             if (token) {
