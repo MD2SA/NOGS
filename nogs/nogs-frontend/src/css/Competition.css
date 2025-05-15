@@ -140,14 +140,13 @@
 /* END OF COMPETITION DETAIL*/
 
 
-/* modal.css */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -155,30 +154,15 @@
 }
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
     position: relative;
-    max-width: 80%;
-    max-height: 80vh;
-    overflow: auto;
-    width: 500px;
-    /* or your preferred width */
-}
-
-.modal-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 5px 10px;
-}
-
-.modal-close-button:hover {
-    color: #666;
+    background: linear-gradient(135deg, #1c1c1c, #111);
+    border: 1px solid #2d2d2d;
+    border-radius: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation: gradientMove 15s ease infinite;
+    background-size: 200% 200%;
 }
 
 .swiper-slide h3 {
@@ -224,4 +208,22 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+.modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border-radius: 8px;
+    border: 2px solid #1a1a1a;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
 }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
-export default function Modal({ isOpen, onClose, children }) {
+export default function Modal({ isOpen, children }) {
 
     useEffect(() => {
         if (isOpen) {

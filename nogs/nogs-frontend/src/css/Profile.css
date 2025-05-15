@@ -67,23 +67,23 @@
     text-decoration: underline;
 }
 
-.logout-button {
-    background-color: #fdfff0;
-    color: #484d4e;
-    font-size: 1rem;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(72, 77, 78, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.logout-button:hover {
-    background-color: #484d4e;
-    color: #fdfff0;
-    transform: translateY(-2px);
-}
+/* .logout-button { */
+/*     background-color: #fdfff0; */
+/*     color: #484d4e; */
+/*     font-size: 1rem; */
+/*     padding: 12px; */
+/*     border: none; */
+/*     border-radius: 12px; */
+/*     cursor: pointer; */
+/*     box-shadow: 0 4px 8px rgba(72, 77, 78, 0.1); */
+/*     transition: background-color 0.3s ease, transform 0.2s ease; */
+/* } */
+/**/
+/* .logout-button:hover { */
+/*     background-color: #484d4e; */
+/*     color: #fdfff0; */
+/*     transform: translateY(-2px); */
+/* } */
 
 .logout-modal {
     background-color: #fdfff0;
