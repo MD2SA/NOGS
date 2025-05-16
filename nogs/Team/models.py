@@ -29,8 +29,8 @@ class TeamMembership(models.Model):
 
 class TeamMessage(models.Model):
     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    team = models.OneToOneField(Team, on_delete=models.CASCADE)
-    message = models.TextField(null=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    text = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

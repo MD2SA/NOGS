@@ -98,7 +98,6 @@ def team_messages_view(request, team_id):
         TeamMembership.objects.get(user=user, team_id=team_id)
     except TeamMembership.DoesNotExist:
         return Response({'error': 'You are not a member of this team'}, status=403)
-
     if request.method == 'GET':
         messages = TeamMessage.objects.filter(team_id=team_id)
         serializer = TeamMessageSerializer(messages, many=True)

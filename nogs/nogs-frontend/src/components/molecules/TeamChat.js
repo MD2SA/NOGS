@@ -5,7 +5,7 @@ import "../../css/Chat.css";
 import {TEAM_MESSAGES_URL} from "../../assets/urls/djangoUrls";
 
 export default function TeamChat({ teamId }) {
-  const { api } = useAuth();
+  const { api, user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
 
@@ -13,6 +13,7 @@ export default function TeamChat({ teamId }) {
     try {
       const response = await api.get(TEAM_MESSAGES_URL(teamId));
       setMessages(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
@@ -41,7 +42,7 @@ export default function TeamChat({ teamId }) {
     <div className="chat-container">
       <div className="chat-messages">
         {messages.map(msg => (
-          <div key={msg.id} className="chat-message">
+          <div key={msg.id} className={`chat-message ${user.id===msg.sender? "you": "them"}`} >
             <strong>{msg.sender_username}: </strong>
             <span>{msg.text}</span>
           </div>
