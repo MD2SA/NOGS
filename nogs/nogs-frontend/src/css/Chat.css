@@ -9,11 +9,30 @@
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .chat-message {
   padding: 0.5rem;
-  border-bottom: 1px solid #eee;
+  border-radius: 6px;
+  max-width: 70%;
+  word-wrap: break-word;
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+}
+
+/* Mensagens do utilizador atual */
+.chat-message.you {
+  align-self: flex-end;
+}
+
+/* Mensagens dos outros */
+.chat-message.them {
+  align-self: flex-start;
 }
 
 .chat-input {
@@ -29,3 +48,4 @@
 .chat-input button {
   padding: 0.5rem 1rem;
 }
+
