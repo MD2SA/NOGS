@@ -49,5 +49,6 @@
     display: flex;
     align-items: center;
     font-family: 'Gliker', sans-serif;
-    gap:3px;
+    color: #444;
+    gap: 3px;
 }
