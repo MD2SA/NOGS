@@ -89,26 +89,30 @@ def my_team(request):
         return Response({"detail": "Not in a team"}, status=404)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def send_message(request, team_id):
+def team_messages_view(request, team_id):
+    user = request.user
+
     try:
-        membership = TeamMembership.objects.get(user=request.user, team_id=team_id)
+        TeamMembership.objects.get(user=user, team_id=team_id)
     except TeamMembership.DoesNotExist:
-        return Response({"detail": "You are not a member of this team."}, status=403)
+        return Response({'error': 'You are not a member of this team'}, status=403)
 
-    data = {
-        "sender": request.user.id,
-        "team": team_id,
-        "message": request.data.get("message", "")
-    }
+    if request.method == 'GET':
+        messages = TeamMessage.objects.filter(team_id=team_id)
+        serializer = TeamMessageSerializer(messages, many=True)
+        return Response(serializer.data)
 
-    serializer = TeamMessageSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
+    elif request.method == 'POST':
+        text = request.data.get('text')
+        if not text:
+            return Response({'error': 'Text is required'}, status=400)
+        message = TeamMessage.objects.create(
+            sender=user, team_id=team_id, text=text
+        )
+        serializer = TeamMessageSerializer(message)
         return Response(serializer.data, status=201)
-
-    return Response(serializer.errors, status=400)
 
 
 

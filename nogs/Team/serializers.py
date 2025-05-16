@@ -25,6 +25,7 @@ class TeamMembershipSerializer(serializers.ModelSerializer):
         read_only_fields = ['joined_at']
 
 class TeamMessageSerializer(serializers.ModelSerializer):
+    sender_username = serializers.CharField(source='sender.username', read_only=True)
     class Meta:
         model= TeamMessage
         fields = '__all__'

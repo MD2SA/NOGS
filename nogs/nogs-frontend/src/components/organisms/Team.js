@@ -1,5 +1,6 @@
 import "../../css/Competition.css";
 import TeamTable from "../molecules/TeamTable";
+import TeamChat from "../molecules/TeamChat";
 
 export default function Team({ team, onLeave }) {
   return (
@@ -15,6 +16,7 @@ export default function Team({ team, onLeave }) {
           )}
         </div>
         <div className="resultsDivider" />
+        <TeamChat teamId={team.id} />
       </div>
       <button onClick={onLeave} className="btn-leave">Leave Team</button>
     </div>
