@@ -40,6 +40,7 @@ export default function CompetitionsPage() {
     }, [location.state]);
 
 
+
     const handleCloseSwiper = (ackCompetitionsIndex) => {
         if (ackCompetitionsIndex > 0) {
             const ackCompetitions = nackCompetitions.slice(0, ackCompetitionsIndex);
@@ -53,7 +54,6 @@ export default function CompetitionsPage() {
         }
         setModalVisible(false);
     }
-
 
     return (
         <>

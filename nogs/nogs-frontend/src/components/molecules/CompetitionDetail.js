@@ -38,7 +38,7 @@ export default function CompetitionDetail({ data, setShownCompetition }) {
                 <JoinButton
                     joinURL={COMPETITION_PARTICIPANTS_URL}
                     id={data.id}
-                    OnJoinSuccess={() => setShownCompetition(data)}
+                    onJoinSuccess={() => setShownCompetition(data)}
                 />
             </div>
         </div>

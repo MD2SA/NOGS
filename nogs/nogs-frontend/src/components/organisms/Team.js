@@ -6,7 +6,11 @@ export default function Team({ team, onLeave }) {
     return (
         <div>
             <h1 className="title">{team.name}</h1>
-            <div className="competition-container">
+            <div className="competition-container"
+                style={{
+                    alignItems: "flex-start",
+                }}
+            >
                 <div className="sub-container">
                     <h3 className="sub-title">Members</h3>
                     {team.members && team.members.length > 0 ? (

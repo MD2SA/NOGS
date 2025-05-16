@@ -17,10 +17,10 @@ export default function JoinButton({ joinURL, id, onJoinSuccess }) {
         api.post(joinURL(id))
             .then(response => {
                 if (onJoinSuccess) onJoinSuccess();
+                else console.log("NO JOIN SUCCES");
             })
             .catch(error => {
-                console.error(error);
-                setError(error?.data?.error || "Failed to join team");
+                setError(error?.data?.error || "Failed to join");
             })
             .finally(() => setIsLoading(false));
     };
