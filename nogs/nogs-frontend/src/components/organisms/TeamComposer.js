@@ -20,10 +20,10 @@ export default function TeamComposer({ setShownTeam }) {
     }, []);
 
     return (
-        <div className="teams-container">
+        <div className="composer-container">
             <h1 className="title">AVAILABLE TEAMS</h1>
             {user && <CreateTeam />}
-            <div className="team-grid">
+            <div className="composer-grid">
                 {teams.length ? (
                     teams.map((team, index) => (
                         <TeamDetail key={index} data={team} setShownTeam={setShownTeam} />

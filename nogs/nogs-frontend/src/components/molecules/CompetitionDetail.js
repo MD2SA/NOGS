@@ -1,5 +1,6 @@
-import JoinCompetitionButton from "../atoms/JoinCompetitionButton";
 import { DateTime } from "luxon";
+import JoinButton from "../atoms/JoinButton";
+import { COMPETITION_PARTICIPANTS_URL } from "../../assets/urls/djangoUrls";
 
 export default function CompetitionDetail({ data, setShownCompetition }) {
 
@@ -34,8 +35,9 @@ export default function CompetitionDetail({ data, setShownCompetition }) {
             </div>
 
             <div className="competition-actions">
-                <JoinCompetitionButton
-                    competitionId={data.id}
+                <JoinButton
+                    joinURL={COMPETITION_PARTICIPANTS_URL}
+                    id={data.id}
                     OnJoinSuccess={() => setShownCompetition(data)}
                 />
             </div>

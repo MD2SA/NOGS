@@ -13,7 +13,7 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
             alert('Login to join');
             return;
         }
-        setIsLoading(false);
+        setIsLoading(true);
         setError(null);
         api.post(COMPETITION_PARTICIPANTS_URL(competitionId))
             .then(response => {
@@ -32,7 +32,6 @@ export default function JoinCompetitionButton({ competitionId, OnJoinSuccess }) 
             <button
                 onClick={handleJoin}
                 disabled={isLoading}
-                className="competition-button"
             >
                 {isLoading ? 'Joining...' : 'Join'}
             </button>

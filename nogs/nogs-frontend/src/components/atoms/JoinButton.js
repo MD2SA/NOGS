@@ -1,21 +1,20 @@
 import { useState } from "react";
-import {MY_TEAM_URL, TEAM_JOIN_URL} from "../../assets/urls/djangoUrls";
 import { useAuth } from "../AuthContext";
 
-export default function JoinTeamButton({ teamId, onJoinSuccess }) {
+export default function JoinButton({ joinURL, id, onJoinSuccess }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const { user, api } = useAuth(); // pega o api do context
+    const { user, api } = useAuth();
 
     const handleJoin = () => {
         if (!user) {
-            alert("Login to join a team");
+            alert("Login to join");
             return;
         }
         setIsLoading(true);
         setError(null);
-        api.post(TEAM_JOIN_URL(teamId)) // igual à competição
+        api.post(joinURL(id))
             .then(response => {
                 if (onJoinSuccess) onJoinSuccess();
             })
@@ -27,17 +26,14 @@ export default function JoinTeamButton({ teamId, onJoinSuccess }) {
     };
 
 
-
-
     return (
         <>
             {error && <p className="error-message">{error}</p>}
             <button
                 onClick={handleJoin}
                 disabled={isLoading}
-                className="join-team-button"
             >
-                {isLoading ? "Joining..." : "Join Team"}
+                {isLoading ? "Joining..." : "Join"}
             </button>
         </>
     );
