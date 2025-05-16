@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import '../css/MessagePage.css';
+// import '../css/MessagePage.css';
 import { useAuth } from '../components/AuthContext';
 import { MESSAGES_URL } from "../assets/urls/djangoUrls";
 
