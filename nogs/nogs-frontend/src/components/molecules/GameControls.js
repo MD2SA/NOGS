@@ -1,5 +1,4 @@
 import OptionSelector from "../molecules/OptionSelector";
-
 import "../../css/GameControls.css";
 
 /**
@@ -13,7 +12,7 @@ export default function GameControls({ wordCount, setWordCount }) {
     return (
         <div className="game-controls">
             <button
-                className={'toggle-button active'}
+                className="control-label active"
                 tabIndex={-1} // se nao quiser que a tab ande de uma lado para outro
             >
                 words

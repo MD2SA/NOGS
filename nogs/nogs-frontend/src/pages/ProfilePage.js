@@ -20,14 +20,18 @@ export default function ProfilePage() {
         <div>
             {user ?
                 (
-                    <>
-                        <LogoutButton />
-                        <div>
-                            <Card />
-                            <div className="horizontal-divider" />
-                            <WordStats />
+                    <div className="profile-screen">
+                        <div className="profile-content">
+                            <div className="side-container">
+                                <Card />
+                            </div>
+                            <div className="resultsDivider" />
+                            <div className="side-container">
+                                <WordStats />
+                                <LogoutButton className="profile-logout-button" />
+                            </div>
                         </div>
-                    </>
+                    </div>
                 )
                 : <AccountManager />
             }

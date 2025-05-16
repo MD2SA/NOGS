@@ -1,4 +1,5 @@
-.competitions-container {
+/*COMPOSER*/
+.composer-container {
     height: calc(100vh- max(var(--header-height), var(--header-min-height)));
     width: 100vw;
     font-family: 'Gliker', sans-serif;
@@ -9,7 +10,7 @@
     align-items: center;
 }
 
-.competition-grid {
+.composer-grid {
     width: 80vw;
     height: 70vh;
     overflow-y: auto;
@@ -23,12 +24,11 @@
     padding: 16px;
 }
 
-
+/*END OF COMPOSER*/
 
 .competition-info-container {
     background-color: #484d4e;
     color: #fdfff0;
-    /* padding: 16px; */
     border-radius: 16px;
     width: 240px;
     font-family: 'Arial', sans-serif;
@@ -38,6 +38,7 @@
     gap: 10px;
 }
 
+/*COMPETITION PAGE*/
 .competition-container span.emoji {
     margin-left: 4px;
 }
@@ -52,45 +53,19 @@
     align-items: center;
 }
 
-.table-container {
-    font-size: 1vw;
-    height: 200px;
-    width: 250px;
-    background-color: #aeb8b8;
-}
-
 .sub-container {
-    display: flex;
+    width: 50%;
+    justify-items: center;
     flex-direction: column;
     gap: 10px;
 }
+
+/*END OF COMPETITION PAGE*/
 
 .error-message {
     color: white;
     text-decoration: underline;
     text-decoration-color: red;
-}
-
-
-.competition-info-container {
-    background-color: #1b1b1b;
-    color: #fdfff0;
-    border-radius: 16px;
-    width: 80%;
-    max-width: 400px;
-    padding: 16px;
-    font-family: 'Arial', sans-serif;
-    font-size: 1.2vw;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 4px 8px rgba(72, 77, 78, 1);
-    transition: transform 0.3s ease;
-    margin: 0 auto;
-}
-
-.competition-info-container:hover {
-    transform: scale(1.05);
 }
 
 .competition-detail {
@@ -100,14 +75,78 @@
     align-items: center;
 }
 
-/* modal.css */
+/* Competition Detail Container */
+.competition-card {
+    background: #1e1e1e;
+    color: #f8f9fa;
+    border-radius: 12px;
+    width: 280px;
+    padding: 20px;
+    font-family: 'Gliker', sans-serif;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.competition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.competition-header {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.competition-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Details Grid */
+.competition-details-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-label {
+    color: #adb5bd;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.competition-actions {
+    display: flex;
+    justify-content: center;
+}
+
+/* END OF COMPETITION DETAIL*/
+
+
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,30 +154,15 @@
 }
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
     position: relative;
-    max-width: 80%;
-    max-height: 80vh;
-    overflow: auto;
-    width: 500px;
-    /* or your preferred width */
-}
-
-.modal-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 5px 10px;
-}
-
-.modal-close-button:hover {
-    color: #666;
+    background: linear-gradient(135deg, #1c1c1c, #111);
+    border: 1px solid #2d2d2d;
+    border-radius: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation: gradientMove 15s ease infinite;
+    background-size: 200% 200%;
 }
 
 .swiper-slide h3 {
@@ -184,4 +208,22 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+.modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border-radius: 8px;
+    border: 2px solid #1a1a1a;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
 }

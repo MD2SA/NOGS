@@ -26,7 +26,6 @@ export default function CreateCompetition() {
             {(isStaff || true) && (
                 <>
                     <button
-                        className="create-competition-button"
                         onClick={() => setIsModalOpen(true)}
                     >
                         Create Competition

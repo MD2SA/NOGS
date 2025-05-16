@@ -1,16 +1,16 @@
-import ControlsButton from "../atoms/ControlsButton";
-
 
 export default function OptionSelector({ options, selectedOption, setSelectedOption }) {
     return (
         <>
             {options?.map((option) => (
-                <ControlsButton
+                <button
                     key={option}
-                    label={option}
-                    isActive={selectedOption === option}
+                    className={`toggle-button ${selectedOption === option ? 'active' : ''}`}
                     onClick={() => setSelectedOption(option)}
-                />
+                    tabIndex={-1} // se nao quiser que a tab ande de uma lado para outro
+                >
+                    {option}
+                </button>
             ))}
         </>
     );

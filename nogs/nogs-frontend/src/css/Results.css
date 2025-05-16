@@ -1,45 +1,99 @@
 .resultsContainer {
-    height: calc(100vh- max(var(--header-height), var(--header-min-height)));
+    height: calc(100vh - max(var(--header-height), var(--header-min-height)));
     width: 100vw;
-    font-family: 'Gliker', sans-serif;
-    font-size: 2.6vw;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    animation: gradientMove 15s ease infinite;
+    background-size: 200% 200%;
+    padding: 2vw;
+    box-sizing: border-box;
 }
 
 .resultAtomsContainer {
+    font-family: 'Gliker', sans-serif;
+    font-size: 2.6vw;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: rgba(30, 30, 30, 0.5);
+    padding: 2vw;
+    border-radius: 12px;
+    border: 1px solid #2d2d2d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .resultAtomLabel {
-    color: #aeb8b8;
+    color: rgba(174, 184, 184, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.6em;
 }
 
 .resultAtomValue {
     color: #fdfff0;
+    font-weight: 600;
+    text-shadow: 0 0 3px rgba(253, 255, 240, 0.3);
+    font-size: 1em;
 }
 
 .resultsDivider {
     width: 3px;
     height: 50vh;
-    background-color: #aeb8b8;
+    background: linear-gradient(to bottom,
+        transparent,
+        rgba(174, 184, 184, 0.4),
+        transparent);
+    border-radius: 3px;
 }
 
 .resultsButton {
     padding: 1vw 3vw;
     font-size: 2.5vw;
+    background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
+    border: 1px solid #2d2d2d;
+    color: #fdfff0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: 'Gliker', sans-serif;
+}
+
+.resultsButton:hover {
+    background: linear-gradient(135deg, #333, #252525);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 768px) {
     .resultsContainer {
         font-size: 4vw;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5vw;
+    }
+
+    .resultsDivider {
+        width: 60vw;
+        height: 3px;
+        background: linear-gradient(to right,
+            transparent,
+            rgba(174, 184, 184, 0.4),
+            transparent);
     }
 
     .resultsButton {
         font-size: 4vw;
+        padding: 2vw 6vw;
     }
 }
 
@@ -50,5 +104,9 @@
 
     .resultsButton {
         font-size: 6vw;
+    }
+
+    .resultAtomLabel {
+        letter-spacing: 0.05em;
     }
 }

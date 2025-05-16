@@ -2,33 +2,88 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #1e1e1e;
-    padding: 0.9vw 2vw;
-    border-radius: 999px;
-    color: white;
-    gap: 1.5vw;
+    background: linear-gradient(135deg, #1c1c1c, #111);
+    padding: 12px 24px;
+    border-radius: 12px;
+    gap: 16px;
+    border: 1px solid #2d2d2d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: 'Gliker', sans-serif;
 }
 
+.control-label {
+    border: none;
+    color: rgba(253, 255, 240, 0.7);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Gliker', sans-serif;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+    cursor: default;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: none;
+}
+
+.control-label.active {
+    color: #fdfff0;
+    font-weight: 600;
+    text-shadow: 0 0 12px rgba(253, 255, 240, 0.5);
+    position: relative;
+}
+
+.control-label.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: #fdfff0;
+    border-radius: 2px;
+}
+
+/* Mantemos o resto do CSS igual ao anterior */
 .divider {
-    width: 0.1vw;
-    height: 2.5vh;
-    background-color: rgba(255, 255, 255, 0.2);
+    width: 1px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .toggle-button {
-    box-shadow: none;
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
-    padding: 0.6vw 1.2vw;
-    border-radius: 999px;
+    color: rgba(253, 255, 240, 0.7);
+    padding: 8px 16px;
     cursor: pointer;
-    font-size: 1.35vw;
+    font-size: 0.9rem;
+    font-family: 'Gliker', sans-serif;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.toggle-button:hover {
+    color: #fdfff0;
+    text-shadow: 0 0 8px rgba(253, 255, 240, 0.3);
 }
 
 .toggle-button.active {
-    box-shadow: none;
-    background-color: #fdfff0;
-    color: #1e1e1e;
+    color: #fdfff0;
+    font-weight: 600;
+    text-shadow: 0 0 12px rgba(253, 255, 240, 0.5);
+    position: relative;
 }
 
+.toggle-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: #fdfff0;
+    border-radius: 2px;
+}

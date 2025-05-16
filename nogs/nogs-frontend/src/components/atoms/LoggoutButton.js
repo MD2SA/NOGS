@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
+import Modal from "./Modal";
 
 
 export default function LogoutButton() {
@@ -8,21 +9,35 @@ export default function LogoutButton() {
 
     return (
         <>
-            {!isModalVisible ? (
-                <button onClick={() => setIsModalVisible(true)} className="logout-button">
-                    Logout
-                </button>
-            ) : (
-                <div className="logout-modal">
+            <button
+                onClick={() => setIsModalVisible(true)}
+                className="logout-button"
+                aria-label="Logout"
+            >
+                <span className="logout-button-text">Logout</span>
+                <span className="logout-button-icon">→</span>
+            </button>
+
+            <Modal isOpen={isModalVisible}>
+                <div className="logout-modal-content">
+                    <h3 className="logout-modal-title">Confirm Logout</h3>
                     <p className="logout-modal-text">Are you sure you want to log out?</p>
-                    <button onClick={logout} className="logout-modal-button">
-                        Yes, log me out
-                    </button>
-                    <button onClick={() => setIsModalVisible(false)} className="logout-modal-button">
-                        Cancel
-                    </button>
+                    <div className="logout-modal-actions">
+                        <button
+                            onClick={() => setIsModalVisible(false)}
+                            className="logout-modal-button cancel"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={logout}
+                            className="logout-modal-button confirm"
+                        >
+                            Yes, Log Out
+                        </button>
+                    </div>
                 </div>
-            )}
+            </Modal>
         </>
     );
 }

@@ -14,7 +14,20 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    const handleLocation = () => {
+        const hostname = window.location.hostname
+        if (hostname === "localhost") {
+            const port = window.location.port ? `:${window.location.port}` : "";
+            const pathname = window.location.pathname;
+            const search = window.location.search;
+            const newUrl = `http://127.0.0.1${port}${pathname}${search}`;
+            window.location.replace(newUrl);
+            alert("Redirected to 127.0.0.1 because of login problems with localhost");
+        }
+    }
+
     useEffect(() => {
+        handleLocation();
         async function loadUserFromStorage() {
             const token = getCSRFToken();
             if (token) {
@@ -66,9 +79,6 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            // await api.get(LOGOUT_URL, {
-            //     headers: { 'X-CSRFToken': getCSRFToken() }
-            // });
             await api.get(LOGOUT_URL);
             setUser(null);
             localStorage.removeItem('user');
@@ -106,9 +116,6 @@ export const AuthProvider = ({ children }) => {
         const token = getCSRFToken();
         if (token)
             config.headers['X-CSRFToken'] = token;
-        // if (token && ['post', 'put', 'patch', 'delete'].includes(config.method.toLowerCase())) {
-        //     config.headers['X-CSRFToken'] = token;
-        // }
         return config;
     }, error => Promise.reject(error));
 
@@ -120,7 +127,6 @@ export const AuthProvider = ({ children }) => {
             login,
             logout,
             me,
-            isAuthenticated: !!user,
         }}>
             {children}
         </AuthContext.Provider>

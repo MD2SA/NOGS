@@ -21,12 +21,7 @@ export default function Game({
     const [wordCount, setWordCount] = useState(10);
     const [lastRefresh, setLastRefresh] = useState(-1);
     const [curPhrase, setCurPhrase] = useState(targetText);
-    const [gameInfo, setGameInfo] = useState({
-        accuracy: 0.0,
-        timeUsed: 0,
-        wpm: 0,
-        raw: 0,
-    });
+    const [gameInfo, setGameInfo] = useState(); //accuracy, timeUsed, raw, wpm,
 
 
     const fetchNewTest = () => {

@@ -1,15 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 import { COMPETITIONS_URL } from "../../assets/urls/djangoUrls";
 import GameForm from "./GameForm";
 import moment from "moment/moment";
 import { useAuth } from "../AuthContext";
+import Modal from "./Modal";
 
 export default function CompetitionModal({ isOpen, onClose }) {
-
     const { api } = useAuth();
-
     const [gamePhrase, setGamePhrase] = useState('');
     const [formData, setFormData] = useState({
         endOfEvent: '',
@@ -19,27 +16,9 @@ export default function CompetitionModal({ isOpen, onClose }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-            document.body.classList.add("modal-open");
-        } else {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        }
-
-        return () => {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        };
-    }, [isOpen]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
@@ -62,88 +41,80 @@ export default function CompetitionModal({ isOpen, onClose }) {
             onClose();
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create competition');
-            console.error('Error creating competition:', err);
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    if (!isOpen) return null;
-
-    return createPortal(
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <button
-                    className="modal-close-button"
-                    onClick={onClose}
-                    aria-label="Close modal"
-                >
+    return (
+        <Modal isOpen={isOpen}>
+            <div className="competition-modal-content">
+                <button className="close-button" onClick={onClose}>
                     &times;
                 </button>
 
-                <h2 className="modal-title">Create New Competition</h2>
+                <h2>Create New Competition</h2>
 
-                {error && <p className="error-message">{error}</p>}
+                {error && <div className="error-banner">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="competition-form">
-                    <div className="form-group sub-container">
-                        <div className="competition-detail">
-                            <label htmlFor="endOfEvent">End of Event:</label>
-                            <input
-                                id="endOfEvent"
-                                name="endOfEvent"
-                                type="datetime-local"
-                                value={formData.endOfEvent}
-                                onChange={handleChange}
-                                className="form-input"
-                            />
-                        </div>
+                <form onSubmit={handleSubmit}>
+                    <div className="settings-section">
+                        <h3>Competition Settings</h3>
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label>End of Event</label>
+                                <input
+                                    type="datetime-local"
+                                    name="endOfEvent"
+                                    value={formData.endOfEvent}
+                                    onChange={handleChange}
+                                />
+                            </div>
 
-                        <div className="competition-detail">
-                            <label htmlFor="maxTries">Max tries (empty for no max):</label>
-                            <input
-                                id="maxTries"
-                                name="maxTries"
-                                type="number"
-                                min="0"
-                                value={formData.maxTries}
-                                onChange={handleChange}
-                                placeholder="No limit"
-                                className="form-input"
-                            />
-                        </div>
+                            <div className="form-group">
+                                <label>Max Tries <span>(optional)</span></label>
+                                <input
+                                    type="number"
+                                    name="maxTries"
+                                    min="0"
+                                    value={formData.maxTries}
+                                    onChange={handleChange}
+                                    placeholder="No limit"
+                                />
+                            </div>
 
-                        <div className="competition-detail">
-                            <label htmlFor="capacity">Capacity:</label>
-                            <input
-                                id="capacity"
-                                name="capacity"
-                                type="number"
-                                min="1"
-                                required
-                                value={formData.capacity}
-                                onChange={handleChange}
-                                className="form-input"
-                            />
+                            <div className="form-group">
+                                <label>Capacity</label>
+                                <input
+                                    type="number"
+                                    name="capacity"
+                                    min="1"
+                                    required
+                                    value={formData.capacity}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                     </div>
 
-                    <div className="competition-generate-game">
-                        <GameForm setGamePhrase={setGamePhrase} />
-                    </div>
+                    <GameForm setGamePhrase={setGamePhrase} />
 
-                    {gamePhrase && <p className="phrase-result">{gamePhrase}</p>}
+                    {gamePhrase && (
+                        <div className="phrase-preview">
+                            <div className="preview-label">Generated Phrase:</div>
+                            <div className="phrase-text">{gamePhrase}</div>
+                        </div>
+                    )}
 
                     <button
                         type="submit"
-                        className="submit-button"
-                        disabled={isSubmitting}
+                        className="submit-btn"
+                        disabled={isSubmitting || !gamePhrase}
                     >
                         {isSubmitting ? 'Creating...' : 'Create Competition'}
                     </button>
                 </form>
             </div>
-        </div>,
-        document.body
+        </Modal>
     );
 }

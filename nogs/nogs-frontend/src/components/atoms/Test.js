@@ -4,7 +4,6 @@ import "../../css/Test.css";
 export default function Test({ targetText, handleStart, handleFinish }) {
 
     const targetWords = targetText?.split(" ");
-
     const [renderedWords, setRenderedWords] = useState(targetWords.map(word => {
         return {
             lettersTyped: 0,
@@ -14,7 +13,6 @@ export default function Test({ targetText, handleStart, handleFinish }) {
             }))
         };
     }));
-
     const [cur, setCur] = useState(0);
     const [startTime, setStartTime] = useState(0);
 
@@ -29,7 +27,6 @@ export default function Test({ targetText, handleStart, handleFinish }) {
         let sizeTarget = targetWords.reduce((acc, word) => {
             return acc + word.length;
         }, 0);
-
 
 
         let errors = 0;
@@ -166,21 +163,17 @@ export default function Test({ targetText, handleStart, handleFinish }) {
     const containerRef = useRef(null);
     const currentWordRef = useRef(null);
 
-    //ESTE USEEFFECT FOI FEITO PELO CHAT
     useEffect(() => {
         if (containerRef.current && currentWordRef.current) {
             const container = containerRef.current;
             const current = currentWordRef.current;
 
-            // Calcula os retangulos do container e do elemento "palavra"
             const containerRect = container.getBoundingClientRect();
             const currentRect = current.getBoundingClientRect();
 
-            // Calcula o deslocamento necessário para centralizar a palavra
             const offset = currentRect.left - containerRect.left;
             const scrollOffset = offset - container.offsetWidth / 2 + current.offsetWidth / 2;
 
-            // Rola o container até a posição calculada, com comportamento suave
             container.scrollBy({
                 left: scrollOffset,
                 behavior: "smooth"
@@ -232,15 +225,18 @@ export default function Test({ targetText, handleStart, handleFinish }) {
     const endIndex = startIndex + WORDS_TO_SHOW;
 
     return (
-        <>
-            <div>{cur} / {targetWords.length}</div>
+        <div className="test-container">
+            <div className="word-counter">{cur} / {targetWords.length}</div>
             <div className="container">
-                <div className="text-container" ref={containerRef}>
+                <div
+                    className="text-container"
+                    ref={containerRef}
+                >
                     {renderedWords
                         .slice(startIndex, endIndex)
                         .map((wordObj, i) => renderWord(wordObj, startIndex + i))}
                 </div>
             </div>
-        </>
+        </div>
     );
 }

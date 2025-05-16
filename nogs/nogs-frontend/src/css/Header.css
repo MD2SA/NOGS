@@ -48,5 +48,6 @@
 .profile-icon {
     display: flex;
     align-items: center;
+    font-family: 'Gliker', sans-serif;
     gap:3px;
 }
