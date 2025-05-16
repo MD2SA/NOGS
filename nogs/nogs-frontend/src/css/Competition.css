@@ -160,55 +160,109 @@
     border-radius: 16px;
     max-height: 90vh;
     overflow-y: auto;
-    overflow-x: hidden;
     animation: gradientMove 15s ease infinite;
     background-size: 200% 200%;
 }
 
-.swiper-slide h3 {
-    font-size: 1.5em;
-    margin-bottom: 12px;
+/* Modal Styles */
+.swiper-modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #1c1c1c, #111);
+    border: 1px solid #2d2d2d;
+    border-radius: 16px;
+    padding: 30px;
+    width: 400px;
+    max-width: 90vw;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    font-family: 'Gliker', sans-serif;
     color: #fdfff0;
+    animation: gradientMove 15s ease infinite;
+    background-size: 200% 200%;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fdfff0;
+    font-size: 28px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding: 0 10px;
+    line-height: 1;
+}
+
+.close-button:hover {
+    transform: scale(1.2);
+    color: #ff6b6b;
+}
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.swiper-slide h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .swiper-slide p {
-    margin: 6px 0;
-    font-size: 1em;
-    line-height: 1.4;
+    margin: 0;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.swiper-slide p span:first-child {
+    color: #adb5bd;
+    font-weight: 500;
 }
 
 .swiper-navigation {
     display: flex;
-    justify-content: center;
-    margin-top: 16px;
+    justify-content: flex-end;
+    margin-top: 20px;
 }
 
-.swiper-button {
-    background-color: #fdfff0;
-    color: #1b1b1b;
-    font-weight: bold;
-    border: none;
-    border-radius: 12px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
 
-.swiper-button:hover {
-    background-color: #eab308;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .swiper-modal-content {
+        padding: 20px;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .swiper-slide h3 {
+        font-size: 1.3rem;
+    }
+
+    .swiper-slide p {
+        font-size: 1rem;
     }
 }
+
 .modal-content::-webkit-scrollbar {
     width: 10px;
 }

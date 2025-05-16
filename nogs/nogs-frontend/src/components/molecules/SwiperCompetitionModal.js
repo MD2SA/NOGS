@@ -1,45 +1,26 @@
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
+import Modal from "../atoms/Modal";
 
 export default function SwiperCompetitionModal({ isOpen, onClose, data }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-            document.body.classList.add("modal-open");
-        } else {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        }
-
-        return () => {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        };
-    }, [isOpen]);
-
     const goToNext = () => {
         if (currentIndex + 1 >= data.length) {
-            onClose(currentIndex+1);
+            onClose(currentIndex + 1);
             return;
         }
         setCurrentIndex(prev => prev + 1);
     };
 
-    if (!data || data.length === 0 || !isOpen) return null;
+    if (!data || data.length === 0) return null;
 
     const currentItem = data[currentIndex];
 
-    return createPortal(
-        <div className="modal-overlay">
-            <div className="modal-content swiper-content">
-                <button
-                    className="modal-close-button"
-                    onClick={onClose}
-                    aria-label="Close modal"
-                >
+    return (
+        <Modal isOpen={data && data.length !== 0 && isOpen}>
+            <div className="swiper-modal-content">
+                <button className="close-button" onClick={onClose}>
                     &times;
                 </button>
 
@@ -58,7 +39,6 @@ export default function SwiperCompetitionModal({ isOpen, onClose, data }) {
                     </button>
                 </div>
             </div>
-        </div>,
-        document.body
+        </Modal>
     );
 }
