@@ -96,7 +96,6 @@ export const AuthProvider = ({ children }) => {
             const response = await api.get(ME_URL)
             setUser(response.data);
             localStorage.setItem('user', JSON.stringify(response.data));
-            console.log(response)
             return {
                 success: true,
                 user: response?.data

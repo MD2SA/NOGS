@@ -13,7 +13,6 @@ export default function Card() {
                 <div className="credentials-left">
                     <div className="avatar"></div>
                     <div className="rank">
-                        <div className="score">1876 🏆</div>
                         <div className="title">Pro Shamer</div>
                     </div>
                 </div>
@@ -23,7 +22,6 @@ export default function Card() {
                     <p><strong>Team:</strong> {user.team || "None"}</p>
                     <p><strong>Phrases:</strong> {user.total_games || 0}</p>
                     <p><strong>Time played:</strong> {user.total_time_played || 0} s</p>
-
                 </div>
             </div>
         </div>

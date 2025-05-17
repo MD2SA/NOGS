@@ -16,8 +16,18 @@ export default function CompetitionTable({ data }) {
             }
         ));
 
+    const handleReport = (index) => {
+        console.log(index)
+    }
+
+    const extra = {
+        title: "Report",
+        value: "⚠️",
+        onClick: handleReport
+    }
+
     return (
-        <Table data={transformedData} />
+        <Table data={transformedData} extra={extra} />
     );
 }
 

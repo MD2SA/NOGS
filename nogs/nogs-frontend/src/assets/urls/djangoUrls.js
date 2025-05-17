@@ -25,6 +25,7 @@ export const TEAM_DETAIL_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/`
 export const CREATE_TEAM_URL = "http://127.0.0.1:8000/Team/teams/create/";
 export const MY_TEAM_URL = "http://127.0.0.1:8000/Team/teams/my/";
 export const TEAM_MESSAGES_URL = (id) => `http://127.0.0.1:8000/Team/teams/${id}/messages/`;
+export const KICK_URL = (id) => `http://127.0.0.1:8000/Team/teams/kick/${id}/`;
 
 
 //friends

@@ -44,10 +44,7 @@ export default function CompetitionsPage() {
     const handleCloseSwiper = (ackCompetitionsIndex) => {
         if (ackCompetitionsIndex > 0) {
             const ackCompetitions = nackCompetitions.slice(0, ackCompetitionsIndex);
-            api.put(NACK_COMPETITIONS_OF_PARTICIPANT, ackCompetitions)
-                .then(response => {
-                    console.log("ACK RESPONSE", response);
-                })
+            api.put(NACK_COMPETITIONS_OF_PARTICIPANT, ackCompetitions).then()
                 .catch(error => {
                     console.log(error);
                 });

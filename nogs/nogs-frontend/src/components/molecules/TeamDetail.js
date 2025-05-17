@@ -16,6 +16,10 @@ export default function TeamDetail({ data, setShownTeam }) {
                     <span className="detail-label">Description:</span>
                     <span className="detail-value"> {data.description}</span>
                 </div>
+                <div className="detail-row">
+                    <span className="detail-label">Lotation:</span>
+                    <span className="detail-value"> {data.members.length} shamers</span>
+                </div>
             </div>
 
             <div className="competition-actions">

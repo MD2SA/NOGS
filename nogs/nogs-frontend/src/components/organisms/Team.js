@@ -2,7 +2,7 @@ import "../../css/Competition.css";
 import TeamTable from "../molecules/TeamTable";
 import TeamChat from "../molecules/TeamChat";
 
-export default function Team({ team, onLeave }) {
+export default function Team({ team, onLeave, update }) {
     return (
         <div>
             <h1 className="title">{team.name}</h1>
@@ -14,7 +14,7 @@ export default function Team({ team, onLeave }) {
                 <div className="sub-container">
                     <h3 className="sub-title">Members</h3>
                     {team.members && team.members.length > 0 ? (
-                        <TeamTable data={team.members} />
+                        <TeamTable data={team.members} update={update} />
                     ) : (
                         <p>No members yet.</p>
                     )}

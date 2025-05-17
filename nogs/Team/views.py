@@ -43,6 +43,13 @@ def leave_team(request):
     try:
         membership = TeamMembership.objects.get(user=request.user)
         membership.delete()
+        team = membership.team
+        if not TeamMembership.objects.filter(team=team).exists():
+            team.delete()
+        if membership.role == 'leader':
+            oldest_membership = TeamMembership.objects.filter(team=membership.team).order_by('joined_at').first()
+            oldest_membership.role = 'leader'
+            oldest_membership.save()
         return Response({'message': 'Left the team successfully'}, status=status.HTTP_204_NO_CONTENT)
     except TeamMembership.DoesNotExist:
         return Response({'error': 'User is not in any team'}, status=status.HTTP_404_NOT_FOUND)
@@ -52,7 +59,6 @@ def leave_team(request):
 @permission_classes([IsAuthenticated])
 def create_team(request):
     serializer = TeamSerializer(data=request.data)
-    print(serializer.is_valid())
     if serializer.is_valid():
         team = serializer.save()
         TeamMembership.objects.create(
@@ -114,6 +120,24 @@ def team_messages_view(request, team_id):
         return Response(serializer.data, status=201)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def kick(request, user_id):
+    user = request.user
+    try:
+        leader_membership = TeamMembership.objects.get(user=user)
+    except TeamMembership.DoesNotExist:
+        return Response({'error': 'Player is not in any team'}, status=status.HTTP_404_NOT_FOUND)
 
+    if leader_membership.role != 'leader':
+        return Response({'error': 'Permissions insufficient for this action'}, status=status.HTTP_401_UNAUTHORIZED)
 
+    if user_id == user.id:
+        return Response({'error':'Cannot kick self'}, status=status.HTTP_400_BAD_REQUEST)
 
+    target_membership = TeamMembership.objects.filter(user=user_id,team=leader_membership.team)
+    if not target_membership.exists():
+        return Response({'detail':'User is not in this team'}, status=status.HTTP_404_NOT_FOUND)
+    target_membership.delete()
+
+    return Response({'message':'User kicked successfully'}, status=status.HTTP_200_OK)

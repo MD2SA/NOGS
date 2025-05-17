@@ -13,7 +13,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     def get_members(self, obj):
         return [
-            {"id": membership.user.id, "username": membership.user.username}
+            {"id": membership.user.id, "username": membership.user.username, "role": membership.role, "joined_at":membership.joined_at}
             for membership in obj.teammembership_set.all()
         ]
 

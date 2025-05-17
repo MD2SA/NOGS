@@ -19,7 +19,7 @@ export default function CompetitionDetail({ data, setShownCompetition }) {
                 <div className="detail-row">
                     <span className="detail-label">Ends:</span>
                     <span className="detail-value">
-                        {DateTime.fromISO(data.end_of_event).toLocaleString(DateTime.DATETIME_MED)}
+                       {DateTime.fromISO(data.end_of_event).toLocaleString(DateTime.DATETIME_MED)}
                     </span>
                 </div>
 

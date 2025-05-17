@@ -11,5 +11,5 @@ urlpatterns = [
     path('teams/<int:team_id>/', views.team_detail, name='team-detail'),
     path('teams/my/', views.my_team, name='my_team'),
     path('teams/<int:team_id>/messages/', views.team_messages_view, name='team_messages'),
-
+    path('teams/kick/<int:user_id>/', views.kick, name='kick'),
 ]

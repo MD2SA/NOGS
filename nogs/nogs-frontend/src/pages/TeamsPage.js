@@ -67,7 +67,7 @@ export default function TeamsPage() {
     return (
         <>
             {myTeam ? (
-                <Team team={myTeam} onLeave={handleLeaveTeam} />
+                <Team team={myTeam} onLeave={handleLeaveTeam} update={fetchMyTeam} />
             ) : (
                 <TeamComposer data={teams} setShownTeam={handleJoinSuccess} />
             )}

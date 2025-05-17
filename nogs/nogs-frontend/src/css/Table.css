@@ -1,5 +1,4 @@
 .table-container {
-    width: 100%;
     background: linear-gradient(135deg, #1c1c1c, #111);
     border: 1px solid #2d2d2d;
     border-radius: 16px;
@@ -9,6 +8,8 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
     animation: gradientMove 15s ease infinite;
     background-size: 200% 200%;
+    display: inline-block;
+    min-width: 100%;
 }
 
 .table-header {
@@ -24,16 +25,19 @@
 }
 
 .table-header-element {
-    flex: 1;
-    min-width: 0;
     padding: 10px 14px;
     text-align: left;
     border-right: 1px solid #2e2e2e;
     color: #dddddd;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .table-body {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .table-row {
@@ -51,18 +55,23 @@
 }
 
 .table-row-element {
-    flex: 1;
-    min-width: 0;
     padding: 10px 14px;
     font-size: 0.9rem;
     color: #d2d2d2;
     border-right: 1px solid #2a2a2a;
     word-break: break-word;
+    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-row-element:last-child,
 .table-header-element:last-child {
     border-right: none;
+}
+
+.extra-row-element:hover {
+    cursor: pointer;
 }
 
 .table-body::-webkit-scrollbar {
