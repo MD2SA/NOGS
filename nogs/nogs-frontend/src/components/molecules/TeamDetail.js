@@ -14,12 +14,12 @@ export default function TeamDetail({ data, handleJoin }) {
                     <span className="detail-value"> {data.members.length} shamers</span>
                 </div>
                 <div className="detail-row">
-                    <span className="detail-label">Description:</span>
-                    <span className="detail-value"> {data.description}</span>
+                    <span className="detail-label">Created on:</span>
+                    <span className="detail-value"> {DateTime.fromISO(data.created_at).toLocaleString(DateTime.DATE_MED)}</span>
                 </div>
                 <div className="detail-row">
-                    <span className="detail-label">Created at:</span>
-                    <span className="detail-value"> {DateTime.fromISO(data.created_at).toLocaleString(DateTime.DATE_MED)}</span>
+                    <span className="detail-label">Description:</span>
+                    <span className="detail-value"> {data.description}</span>
                 </div>
             </div>
 

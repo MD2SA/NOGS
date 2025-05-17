@@ -18,7 +18,7 @@ export default function TeamTable({ data, update }) {
     const transformedData = data.map(({ username, role, joined_at }) => ({
         Role: role,
         Username: username,
-        'Joined at': DateTime.fromISO(joined_at).toLocaleString(DateTime.DATE_MED)
+        'Joined on': DateTime.fromISO(joined_at).toLocaleString(DateTime.DATE_MED)
     }));
 
     const handleKick = async () => {
