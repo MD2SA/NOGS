@@ -1,0 +1,445 @@
+.reportsMasterContainer {
+    height: calc(100vh - max(var(--header-height), var(--header-min-height)));
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(-45deg, #0d0d0d, #121212, #0f0f0f, #151515);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    padding: 2vw;
+    box-sizing: border-box;
+    overflow-y: auto;
+    perspective: 1000px;
+}
+
+.reportsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2vw;
+    width: 90%;
+    max-width: 1400px;
+    padding: 1vw;
+}
+
+.reportCard {
+    font-family: 'Gliker', sans-serif;
+    position: relative;
+    background: rgba(18, 18, 18, 0.7);
+    /* Darker semi-transparent */
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    border: 1px solid rgba(30, 30, 30, 0.6);
+    /* Adjusted to near #121212 */
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        /* Deeper shadow */
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    /* Subtler inset */
+    padding: 2vw;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+.reportCard::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    /* Dimmer glow */
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.reportCard:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        /* Darker ambient shadow */
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    border-color: rgba(50, 50, 50, 0.8);
+    /* Slightly lighter border */
+}
+
+.reportCard:hover::before {
+    opacity: 0.6;
+    /* More subtle glow */
+}
+
+.reportField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8vw 0;
+    border-bottom: 1px solid rgba(40, 40, 40, 0.3);
+    /* Darker divider */
+    position: relative;
+}
+
+.reportField:last-child {
+    border-bottom: none;
+}
+
+.reportLabel {
+    color: rgba(150, 160, 160, 0.9);
+    /* Muted gray-teal */
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.65em;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    /* Stronger shadow */
+}
+
+.reportValue {
+    color: #f5f9e9;
+    /* Slightly warmer off-white */
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(245, 249, 233, 0.3);
+    /* Softer glow */
+    font-size: 1em;
+    position: relative;
+}
+
+.reportValue::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #f5f9e9, transparent);
+    transition: width 0.4s ease;
+}
+
+.reportCard:hover .reportValue::after {
+    width: 100%;
+}
+
+.noReportsHero {
+    font-family: 'Gliker', sans-serif;
+    color: #f5f9e9;
+    font-size: 2.6vw;
+    text-align: center;
+    margin-top: 10vh;
+    text-shadow: 0 0 10px rgba(245, 249, 233, 0.4);
+    /* Adjusted glow */
+    position: relative;
+    padding: 3vw;
+    background: rgba(18, 18, 18, 0.5);
+    /* Darker backdrop */
+    border-radius: 16px;
+    border: 1px solid rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(5px);
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Glow variations (now darker and subtler) */
+.reportCard:nth-child(4n+1) {
+    --glow-color: rgba(100, 110, 120, 0.1);
+    /* Cooler */
+}
+
+.reportCard:nth-child(4n+2) {
+    --glow-color: rgba(110, 100, 120, 0.1);
+    /* Warmer */
+}
+
+.reportCard:nth-child(4n+3) {
+    --glow-color: rgba(100, 120, 110, 0.1);
+    /* Neutral */
+}
+
+.reportCard:nth-child(4n+4) {
+    --glow-color: rgba(120, 110, 100, 0.1);
+    /* Earthy */
+}
+
+.reportCard:hover {
+    box-shadow:
+        0 12px 40px var(--glow-color),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Keyframes and media queries remain unchanged */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@media (max-width: 1200px) {
+    .reportsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .reportsMasterContainer {
+        padding: 4vw;
+    }
+
+    .reportsGrid {
+        width: 95%;
+        grid-template-columns: 1fr;
+    }
+
+    .reportCard {
+        padding: 6vw;
+    }
+
+    .noReportsHero {
+        font-size: 5vw;
+        padding: 6vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .reportLabel {
+        letter-spacing: 0.1em;
+        font-size: 0.8em;
+    }
+
+    .reportValue {
+        font-size: 1.1em;
+    }
+
+    .noReportsHero {
+        font-size: 7vw;
+        margin-top: 15vh;
+    }
+}
+
+/*REPORT*/
+.report-detail-container {
+    height: calc(100vh - max(var(--header-height), var(--header-min-height)));
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    padding: 2vw;
+    box-sizing: border-box;
+    overflow-y: auto;
+    perspective: 1000px;
+}
+
+.report-detail-content {
+    font-family: 'Gliker', sans-serif;
+    position: relative;
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    border: 1px solid rgba(45, 45, 45, 0.6);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    padding: 2.5vw;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    transform-style: preserve-3d;
+    overflow: hidden;
+    width: 90%;
+    max-width: 800px;
+    margin: 1vw 0;
+}
+
+.report-detail-content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.report-detail-content:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+        0 12px 40px var(--glow-color),
+        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    border-color: rgba(65, 65, 65, 0.8);
+}
+
+.report-detail-content:hover::before {
+    opacity: 1;
+}
+
+.report-detail-container h2 {
+    color: #fdfff0;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(253, 255, 240, 0.4);
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.report-detail-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #fdfff0, transparent);
+    transition: width 0.4s ease;
+}
+
+.report-detail-content:hover h2::after {
+    width: 100%;
+}
+
+.report-detail-container h3 {
+    color: rgba(174, 184, 184, 0.9);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Button group */
+.button-group {
+    display: flex;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+/* Buttons matching your style */
+.report-detail-container button {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, rgba(50, 50, 55, 0.7), rgba(40, 40, 45, 0.8));
+    border: 1px solid rgba(65, 65, 70, 0.6);
+    color: #fdfff0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: 'Gliker', sans-serif;
+    flex: 1;
+    max-width: 200px;
+}
+
+.report-detail-container button:hover {
+    background: linear-gradient(135deg, rgba(60, 60, 65, 0.8), rgba(50, 50, 55, 0.9));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.ban-button {
+    background: linear-gradient(135deg, rgba(120, 40, 40, 0.7), rgba(90, 30, 30, 0.8)) !important;
+    border: 1px solid rgba(150, 60, 60, 0.6) !important;
+    color: #ffdddd !important;
+}
+
+.ban-button:hover {
+    background: linear-gradient(135deg, rgba(140, 50, 50, 0.8), rgba(110, 40, 40, 0.9)) !important;
+    box-shadow: 0 6px 16px rgba(140, 50, 50, 0.4) !important;
+}
+
+/* Report descriptions */
+.report-descriptions {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.report-description {
+    background: rgba(40, 40, 45, 0.5);
+    padding: 1.25rem;
+    border-radius: 8px;
+    border-left: 3px solid rgba(100, 200, 255, 0.3);
+    color: rgba(253, 255, 240, 0.9);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.report-description:hover {
+    background: rgba(45, 45, 50, 0.6);
+    transform: translateX(5px);
+    border-left-color: rgba(100, 200, 255, 0.5);
+}
+
+/* Glow variations */
+.report-detail-content:nth-child(4n+1) {
+    --glow-color: rgba(180, 195, 210, 0.1);
+}
+
+.report-detail-content:nth-child(4n+2) {
+    --glow-color: rgba(200, 195, 210, 0.1);
+}
+
+.report-detail-content:nth-child(4n+3) {
+    --glow-color: rgba(195, 210, 200, 0.1);
+}
+
+.report-detail-content:nth-child(4n+4) {
+    --glow-color: rgba(210, 200, 190, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .report-detail-content {
+        padding: 5vw;
+        width: 95%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .report-detail-container button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-detail-container h2 {
+        font-size: 1.8rem;
+    }
+
+    .report-detail-container h3 {
+        font-size: 1.2rem;
+    }
+
+    .report-description {
+        padding: 1rem;
+    }
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

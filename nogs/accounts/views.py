@@ -51,3 +51,14 @@ def logout_view(request):
 def me(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def ban(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+        user.delete()
+        return Response({'message':'User deleted with success'}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({'error':'User not found'}, status=status.HTTP_404_NOT_FOUND)

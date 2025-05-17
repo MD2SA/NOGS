@@ -5,10 +5,11 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import FriendsPage from './pages/FriendsPage';
 import MessagePage from './pages/MessagePage';
-//import TeamPage from './pages/TeamPage';
 import TeamsPage from './pages/TeamsPage';
+import ReportsPage from './pages/ReportsPage';
 
 export default function App() {
+
     return (
         <BrowserRouter>
             <Routes>
@@ -19,6 +20,7 @@ export default function App() {
                     <Route path='/profile' element={<ProfilePage />} />
                     <Route path="/friends" element={<FriendsPage />} />
                     <Route path="/messages/:friendId" element={<MessagePage />} />
+                    <Route path='/reports' element={<ReportsPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

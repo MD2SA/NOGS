@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import CompetitionModal from "./CompetitionModal";
 import { ME_URL } from "../../assets/urls/djangoUrls";
 import "../../css/CreateCompetition.css"
+import { useAuth } from "../AuthContext";
 
-export default function CreateCompetition({onCreate}) {
+export default function CreateCompetition({ onCreate }) {
+
+    const { api } = useAuth();
+
     const [isStaff, setIsStaff] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const askPermissions = async () => {
             try {
-                const response = await axios.get(ME_URL, { withCredentials: true });
+                const response = await api.get(ME_URL);
                 setIsStaff(response?.data?.is_staff || false);
             } catch (error) {
                 setIsStaff(false);
