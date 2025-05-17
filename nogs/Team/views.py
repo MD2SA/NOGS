@@ -46,6 +46,7 @@ def leave_team(request):
         team = membership.team
         if not TeamMembership.objects.filter(team=team).exists():
             team.delete()
+            return Response({'message': 'Left the team successfully'}, status=status.HTTP_204_NO_CONTENT)
         if membership.role == 'leader':
             oldest_membership = TeamMembership.objects.filter(team=membership.team).order_by('joined_at').first()
             oldest_membership.role = 'leader'

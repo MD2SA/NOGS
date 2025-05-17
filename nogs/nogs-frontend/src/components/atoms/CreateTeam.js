@@ -1,25 +1,9 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import TeamModal from "./TeamModal";
-import { ME_URL } from "../../assets/urls/djangoUrls";
 import "../../css/CreateTeam.css";
 
-export default function CreateTeam() {
-    const [isStaff, setIsStaff] = useState(false);
+export default function CreateTeam({handleJoin}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        const checkPermissions = async () => {
-            try {
-                const response = await axios.get(ME_URL, { withCredentials: true });
-                setIsStaff(response?.data?.is_staff || false);
-            } catch (error) {
-                console.error("Error checking user permissions", error);
-                setIsStaff(false);
-            }
-        };
-        checkPermissions();
-    }, []);
 
     const handleClick = () => {
         setIsModalOpen(true);
@@ -27,6 +11,7 @@ export default function CreateTeam() {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        handleJoin();
     };
 
     return (

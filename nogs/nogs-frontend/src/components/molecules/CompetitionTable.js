@@ -1,7 +1,11 @@
+import { REPORT_URL } from "../../assets/urls/djangoUrls";
 import Table from "../atoms/Table";
+import { useAuth } from "../AuthContext";
 
 
 export default function CompetitionTable({ data }) {
+
+    const { api } = useAuth();
 
     const transformedData = data.
         sort((a, b) => b.wpm - a.wpm)
@@ -16,8 +20,15 @@ export default function CompetitionTable({ data }) {
             }
         ));
 
-    const handleReport = (index) => {
-        console.log(index)
+    const handleReport = async (index) => {
+        if (index >= data.length) return;
+        try {
+            const user = data[index].user;
+            await api.post(REPORT_URL, { user: user });
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     const extra = {

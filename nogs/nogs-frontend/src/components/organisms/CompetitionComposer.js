@@ -31,7 +31,7 @@ export default function CompetitionComposer({ setShownCompetition }) {
     return (
         <div className="composer-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
-            {user?.is_staff && <CreateCompetition />}
+            {user?.is_staff && <CreateCompetition onCreate={loadCompetitions} />}
             <div className="composer-grid">
                 {(competitions?.length) ? (
                     competitions.map((data, index) => (

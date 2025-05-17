@@ -5,7 +5,7 @@ import moment from "moment/moment";
 import { useAuth } from "../AuthContext";
 import Modal from "./Modal";
 
-export default function CompetitionModal({ isOpen, onClose }) {
+export default function CompetitionModal({ isOpen, onCreate, onClose }) {
     const { api } = useAuth();
     const [gamePhrase, setGamePhrase] = useState('');
     const [formData, setFormData] = useState({
@@ -38,6 +38,7 @@ export default function CompetitionModal({ isOpen, onClose }) {
                 phrase: gamePhrase
             }, { withCredentials: true });
 
+            onCreate();
             onClose();
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create competition');

@@ -53,14 +53,14 @@ export default function TeamsPage() {
         try {
             await api.delete(TEAM_LEAVE_URL);
             setMyTeam(null);
-            fetchTeams(); // volta a mostrar lista
+            fetchTeams();
         } catch (error) {
             console.error("Erro ao sair da equipa:", error);
         }
     };
 
     // Quando se junta a uma equipa, atualiza a vista
-    const handleJoinSuccess = (team) => {
+    const handleJoin = (team) => {
         fetchMyTeam(team);
     };
 
@@ -69,7 +69,7 @@ export default function TeamsPage() {
             {myTeam ? (
                 <Team team={myTeam} onLeave={handleLeaveTeam} update={fetchMyTeam} />
             ) : (
-                <TeamComposer data={teams} setShownTeam={handleJoinSuccess} />
+                <TeamComposer data={teams} handleJoin={handleJoin} />
             )}
         </>
     );

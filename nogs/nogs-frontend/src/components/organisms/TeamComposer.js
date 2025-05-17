@@ -4,7 +4,7 @@ import { useAuth } from "../AuthContext";
 import CreateTeam from "../atoms/CreateTeam";
 import TeamDetail from "../molecules/TeamDetail";
 
-export default function TeamComposer({ setShownTeam }) {
+export default function TeamComposer({ handleJoin }) {
     const { api, user } = useAuth();
     const [teams, setTeams] = useState([]);
     const [message, setMessage] = useState("Loading...");
@@ -22,11 +22,11 @@ export default function TeamComposer({ setShownTeam }) {
     return (
         <div className="composer-container">
             <h1 className="title">AVAILABLE TEAMS</h1>
-            {user && <CreateTeam />}
+            {user && <CreateTeam handleJoin={handleJoin} />}
             <div className="composer-grid">
                 {teams.length ? (
                     teams.map((team, index) => (
-                        <TeamDetail key={index} data={team} setShownTeam={setShownTeam} />
+                        <TeamDetail key={index} data={team} handleJoin={handleJoin} />
                     ))
                 ) : (
                     <h2 className="sub-title">{message}</h2>

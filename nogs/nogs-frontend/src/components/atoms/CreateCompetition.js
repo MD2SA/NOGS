@@ -4,7 +4,7 @@ import CompetitionModal from "./CompetitionModal";
 import { ME_URL } from "../../assets/urls/djangoUrls";
 import "../../css/CreateCompetition.css"
 
-export default function CreateCompetition() {
+export default function CreateCompetition({onCreate}) {
     const [isStaff, setIsStaff] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export default function CreateCompetition() {
                     >
                         Create Competition
                     </button>
-                    <CompetitionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                    <CompetitionModal isOpen={isModalOpen} onCreate={onCreate} onClose={() => setIsModalOpen(false)} />
                 </>
             )}
         </>
