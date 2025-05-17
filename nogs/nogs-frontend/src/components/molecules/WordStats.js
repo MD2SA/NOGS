@@ -1,5 +1,4 @@
 import { useAuth } from "../AuthContext";
-import Tooltip from "../atoms/Tooltip";
 import ResultAtom from "../atoms/ResultAtom";
 
 export default function WordStats() {

@@ -21,7 +21,7 @@ export default function ProfilePage() {
             {user ?
                 (
                     <div className="profile-screen">
-                        <div className="profile-content">
+                        <div className="resultsContainer">
                             <div className="side-container">
                                 <Card />
                             </div>

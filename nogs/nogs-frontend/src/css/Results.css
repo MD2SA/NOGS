@@ -1,3 +1,11 @@
+.big-container {
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
 .resultsContainer {
     height: calc(100vh - max(var(--header-height), var(--header-min-height)));
     width: 100vw;
@@ -8,6 +16,10 @@
     background-size: 200% 200%;
     padding: 2vw;
     box-sizing: border-box;
+}
+
+.smaller-container {
+    height: calc(85vh - max(var(--header-height), var(--header-min-height)));
 }
 
 .resultAtomsContainer {
@@ -41,9 +53,9 @@
     width: 3px;
     height: 50vh;
     background: linear-gradient(to bottom,
-        transparent,
-        rgba(174, 184, 184, 0.4),
-        transparent);
+            transparent,
+            rgba(174, 184, 184, 0.4),
+            transparent);
     border-radius: 3px;
 }
 
@@ -69,16 +81,37 @@
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-@media (max-width: 768px) {
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px 0;
+}
+
+.leave-button {
+    position: absolute;
+    right: 20px;
+}
+
+
+@media (max-width: 1000px) {
     .resultsContainer {
-        font-size: 4vw;
         flex-direction: column;
-        justify-content: center;
         gap: 5vw;
     }
 
@@ -86,23 +119,25 @@
         width: 60vw;
         height: 3px;
         background: linear-gradient(to right,
-            transparent,
-            rgba(174, 184, 184, 0.4),
-            transparent);
+                transparent,
+                rgba(174, 184, 184, 0.4),
+                transparent);
     }
 
-    .resultsButton {
-        font-size: 4vw;
-        padding: 2vw 6vw;
+    .title-container {
+        flex-direction: column;
+        gap: 15px;
+        padding-bottom: 30px;
+    }
+
+    .leave-button {
+        position: static;
+        margin-top: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .resultsContainer {
-        font-size: 6vw;
-    }
-
-    .resultsButton {
         font-size: 6vw;
     }
 

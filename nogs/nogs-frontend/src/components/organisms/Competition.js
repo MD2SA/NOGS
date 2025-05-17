@@ -57,7 +57,7 @@ export default function Competition({ data }) {
             <h1 className="title">TIME TO LOCK IN</h1>
             {!displayGame ? (
                 <div>
-                    <div className="competition-container">
+                    <div className="resultsContainer smaller-container">
                         <div className="sub-container">
                             <h3 className="sub-title">LeaderBoard</h3>
                             {isLoading ? (

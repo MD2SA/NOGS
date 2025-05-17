@@ -9,13 +9,12 @@ export default function Team({ team, onLeave, update }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div>
-            <h1 className="title">{team.name}</h1>
-            <div className="competition-container"
-                style={{
-                    alignItems: "flex-start",
-                }}
-            >
+        <div className="big-container">
+            <div className="title-container">
+                <h2 className="title">{team.name}</h2>
+                <button onClick={() => setIsOpen(true)} className="leave-button">Leave Team</button>
+            </div>
+            <div className="resultsContainer smaller-container">
                 <div className="sub-container">
                     <h3 className="sub-title">Members</h3>
                     {team.members && team.members.length > 0 ? (
@@ -30,7 +29,6 @@ export default function Team({ team, onLeave, update }) {
                     <TeamChat teamId={team.id} />
                 </div>
             </div>
-            <button onClick={() => setIsOpen(true)}>Leave Team</button>
             <ConfirmationModal isOpen={isOpen} close={() => setIsOpen(false)} title={"Leave"} message={"leave team"} onConfirmation={onLeave} />
         </div>
     );
