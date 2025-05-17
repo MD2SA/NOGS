@@ -8,7 +8,7 @@ import {
   RESPOND_FRIEND_REQUEST_URL,
   ALL_USERS_URL,
   REMOVE_FRIEND_URL,
-  MESSAGES_URL
+  CANCEL_REQUEST_URL,
 } from "../assets/urls/djangoUrls";
 
 function FriendsPage() {
@@ -20,7 +20,6 @@ function FriendsPage() {
   const [received, setReceived] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAddFriend, setShowAddFriend] = useState(false);
   const [addFriendQuery, setAddFriendQuery] = useState('');
   const [friendToRemove, setFriendToRemove] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -36,7 +35,6 @@ function FriendsPage() {
         setPending(friendsRes.data.sent_requests || []);
         setReceived(friendsRes.data.received_requests || []);
         setAllUsers(usersRes.data);
-        console.log('all users:', usersRes.data);
       } catch (err) {
         console.error('Failed to fetch data', err);
       }
@@ -53,9 +51,7 @@ function FriendsPage() {
     !friends.some(f => f.id === user.id) &&
     !pending.some(p => p.id === user.id) &&
     !received.some(r => r.id === user.id)
-  );
-
-  const displayUsers = filteredNewUsers.slice(0, 3);
+  ).slice(0, 3);
 
   const handleRemove = (id) => {
     const friend = friends.find(f => f.id === id);
@@ -63,25 +59,15 @@ function FriendsPage() {
     setShowConfirm(true);
   };
 
-const confirmRemove = async () => {
-  if (!friendToRemove) return;
-  console.log("✅ YES clicked! Calling /Friends/friends/remove/ for:", friendToRemove.id);
-
-  try {
-    const res = await api.get(REMOVE_FRIEND_URL(friendToRemove.id));
-    console.log("✅ Server response:", res.data);
-    setFriends(prev => prev.filter(f => f.id !== friendToRemove.id));
-  } catch (err) {
-    console.error('❌ Failed to remove friend', err);
-  }
-
-  setShowConfirm(false);
-  setFriendToRemove(null);
-};
-
-
-
-
+  const confirmRemove = async () => {
+    if (!friendToRemove) return;
+    try {
+      await api.get(REMOVE_FRIEND_URL(friendToRemove.id));
+      setFriends(prev => prev.filter(f => f.id !== friendToRemove.id));
+    } catch (err) {}
+    setShowConfirm(false);
+    setFriendToRemove(null);
+  };
 
   const cancelRemove = () => {
     setShowConfirm(false);
@@ -93,44 +79,44 @@ const confirmRemove = async () => {
       state: { friendName: friend.username }
     });
 
-  const handleCancelRequest = (id) => {
-    setPending(p => p.filter(x => x.id !== id));
-  };
+  const handleCancelRequest = async (requestId) => {
+  try {
+    await api.post(CANCEL_REQUEST_URL, { request_id: requestId });
+    setPending(p => p.filter(x => x.id !== requestId));
+  } catch (err) {
+    console.error("Failed to cancel request", err);
+  }
+};
+
 
   const handleAcceptRequest = async (requestId) => {
-  try {
-    await api.post(RESPOND_FRIEND_REQUEST_URL, { request_id: requestId, action: 'accept' });
-
-    const acc = received.find(x => x.request_id === requestId);
-    if (acc) {
-      setFriends(f => [...f, { id: acc.id, username: acc.username }]); // send to friends list
-      setReceived(r => r.filter(x => x.request_id !== requestId)); // remove from received
-    }
-  } catch (err) {
-    console.error('Failed to accept request', err);
-  }
-};
-
+    try {
+      await api.post(RESPOND_FRIEND_REQUEST_URL, { request_id: requestId, action: 'accept' });
+      const acc = received.find(x => x.request_id === requestId);
+      if (acc) {
+        setFriends(f => [...f, { id: acc.id, username: acc.username }]);
+        setReceived(r => r.filter(x => x.request_id !== requestId));
+      }
+    } catch (err) {}
+  };
 
   const handleRejectRequest = async (requestId) => {
-  try {
-    await api.post(RESPOND_FRIEND_REQUEST_URL, {
-      request_id: requestId,
-      action: 'reject'
-    });
-    setReceived(r => r.filter(x => x.request_id !== requestId));
-  } catch (err) {
-    console.error('Failed to reject request', err);
-  }
-};
-
+    try {
+      await api.post(RESPOND_FRIEND_REQUEST_URL, {
+        request_id: requestId,
+        action: 'reject'
+      });
+      setReceived(r => r.filter(x => x.request_id !== requestId));
+    } catch (err) {
+      console.error('Failed to reject request', err);
+    }
+  };
 
   const handleSendRequest = async (user) => {
     try {
       await api.post(SEND_FRIEND_REQUEST_URL, { to_user_id: user.id });
       setPending([...pending, user]);
       setAddFriendQuery('');
-      setShowAddFriend(false);
     } catch (err) {
       console.error('Failed to send request', err);
     }
@@ -138,86 +124,84 @@ const confirmRemove = async () => {
 
   return (
     <div className="friends-page">
-      <div className="friends-container">
-        <h1 className="friends-title">Friends</h1>
+      <div className="split-container">
+        {/* LEFT COLUMN */}
+        <div className="left-column">
+          <h1 className="friends-title">Friends</h1>
+          <input
+            type="text"
+            className="friends-search"
+            placeholder="Search for a friend..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
 
-        <button className="add-friend-button" onClick={() => setShowAddFriend(v => !v)}>
-          {showAddFriend ? 'Close Search' : 'Add Friend'}
-        </button>
-
-        <input
-          type="text"
-          className="friends-search"
-          placeholder="Search for a friend..."
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-        />
-
-        {showAddFriend && (
-          <div className="add-friend-section">
-            <input
-              type="text"
-              className="friends-search"
-              placeholder="Add a friend!"
-              value={addFriendQuery}
-              onChange={e => setAddFriendQuery(e.target.value)}
-            />
+          <section className="friends-section">
+            <h2 className="friends-subtitle">Your Friends</h2>
             <ul className="friend-list">
-              {displayUsers.map(user => (
-                <li key={user.id} className="friend-item">
-                  <span>{user.username}</span>
+              {filteredFriends.map(f => (
+                <li key={f.id} className="friend-item">
+                  <span>{f.username}</span>
                   <div className="friend-actions">
-                    <button onClick={() => handleSendRequest(user)}>Send Request</button>
+                    <button onClick={() => handleMessage(f)}>Message</button>
+                    <button onClick={() => handleRemove(f.id)} className="remove-btn">Remove</button>
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
-        )}
+          </section>
 
-        <section className="friends-section">
-          <h2 className="friends-subtitle">Your Friends</h2>
+          <section className="friends-section">
+            <h2 className="friends-subtitle">Pending Sent</h2>
+            <ul className="friend-list">
+              {pending.map(f => (
+                <li key={f.id} className="friend-item pending">
+                  <span>{f.username} (Pending)</span>
+                  <div className="friend-actions">
+                    <button onClick={() => handleCancelRequest(f.id)} className="remove-btn">Cancel</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="friends-section">
+            <h2 className="friends-subtitle">Pending Received</h2>
+            <ul className="friend-list">
+              {received.map(f => (
+                <li key={f.id} className="friend-item pending">
+                  <span>{f.username} (Incoming)</span>
+                  <div className="friend-actions">
+                    <button onClick={() => handleAcceptRequest(f.request_id)}>✓</button>
+                    <button onClick={() => handleRejectRequest(f.request_id)}>✗</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div className="right-column">
+          <h2 className="friends-title">Add New Friends</h2>
+          <input
+            type="text"
+            className="friends-search"
+            placeholder="Search users..."
+            value={addFriendQuery}
+            onChange={e => setAddFriendQuery(e.target.value)}
+          />
           <ul className="friend-list">
-            {filteredFriends.map(f => (
-              <li key={f.id} className="friend-item">
-                <span>{f.username}</span>
+            {filteredNewUsers.map(user => (
+              <li key={user.id} className="friend-item">
+                <span>{user.username}</span>
                 <div className="friend-actions">
-                  <button onClick={() => handleMessage(f)}>Message</button>
-                  <button onClick={() => handleRemove(f.id)} className="remove-btn">Remove</button>
+                  <button onClick={() => handleSendRequest(user)}>Send Request</button>
                 </div>
               </li>
             ))}
           </ul>
-        </section>
-
-        <section className="friends-section">
-          <h2 className="friends-subtitle">Pending Requests</h2>
-          <ul className="friend-list">
-            {pending.map(f => (
-              <li key={f.id} className="friend-item pending">
-                <span>{f.username} (Pending)</span>
-                <div className="friend-actions">
-                  <button onClick={() => handleCancelRequest(f.id)} className="remove-btn">Cancel</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="friends-section">
-          <h2 className="friends-subtitle">Pending Requests Received</h2>
-          <ul className="friend-list">
-            {received.map(f => (
-              <li key={f.id} className="friend-item pending">
-                <span>{f.username} (Incoming)</span>
-                <div className="friend-actions">
-                  <button onClick={() => handleAcceptRequest(f.request_id)}>✓</button>
-                  <button onClick={() => handleRejectRequest(f.request_id)}>✗</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+        </div>
       </div>
 
       {showConfirm && (

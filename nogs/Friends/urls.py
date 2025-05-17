@@ -8,4 +8,5 @@ urlpatterns = [
     path('friends/all-users/', views.all_users, name='all_users'),
     path('friends/remove/', views.remove_friend, name='remove_friend'),
     path('messages/<int:friend_id>/', views.messages_view, name='messages_view'),
+    path('friends/cancel-request/', views.cancel_sent_request, name='cancel_sent_request'),
 ]
