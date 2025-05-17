@@ -1,11 +1,9 @@
-/* Friends Page scroll wrapper */
 .friends-page {
-  width: 100vw;           /* 🔑 Full screen width */
-  height: 100vh;          /* Full screen height */
-  overflow-y: auto;       /* Vertical scrolling */
-  overflow-x: hidden;     /* Prevent horizontal shift */
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-
 
 .friends-container {
   width: 100%;
@@ -18,7 +16,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Title and subtitle */
 .friends-title {
   font-size: 2rem;
   font-weight: bold;
@@ -33,7 +30,6 @@
   color: #ccc;
 }
 
-/* Search input */
 .friends-search {
   width: 100%;
   padding: 0.75rem;
@@ -45,7 +41,6 @@
   font-size: 1rem;
 }
 
-/* Friend list and items */
 .friend-list {
   list-style: none;
   padding: 0;
@@ -67,7 +62,6 @@
   color: #f0b400;
 }
 
-/* Buttons */
 .friend-actions {
   display: flex;
 }
@@ -138,7 +132,7 @@
 }
 
 .accept-btn {
-  background-color: #008000; /* green */
+  background-color: #008000;
 }
 
 .accept-btn:hover {
@@ -200,3 +194,19 @@
   box-shadow: none;
 }
 
+.split-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.left-column, .right-column {
+  flex: 1;
+  background-color: #111;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}

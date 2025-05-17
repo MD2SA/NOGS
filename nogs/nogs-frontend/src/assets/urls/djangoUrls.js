@@ -35,5 +35,7 @@ export const RESPOND_FRIEND_REQUEST_URL = "http://127.0.0.1:8000/Friends/friends
 export const REMOVE_FRIEND_URL = (id) => `http://127.0.0.1:8000/Friends/friends/remove/?friend_id=${id}`;
 export const ALL_USERS_URL = "http://127.0.0.1:8000/Friends/friends/all-users/";
 export const MESSAGES_URL = (id) => `http://127.0.0.1:8000/Friends/messages/${id}/`;
+export const CANCEL_REQUEST_URL = "http://127.0.0.1:8000/Friends/friends/cancel-request/";
+
 
 
