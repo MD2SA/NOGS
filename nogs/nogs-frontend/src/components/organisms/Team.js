@@ -1,8 +1,13 @@
 import "../../css/Competition.css";
 import TeamTable from "../molecules/TeamTable";
 import TeamChat from "../molecules/TeamChat";
+import ConfirmationModal from "../atoms/ConfirmationModal";
+import { useState } from "react";
 
 export default function Team({ team, onLeave, update }) {
+
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
         <div>
             <h1 className="title">{team.name}</h1>
@@ -25,7 +30,8 @@ export default function Team({ team, onLeave, update }) {
                     <TeamChat teamId={team.id} />
                 </div>
             </div>
-            <button onClick={onLeave}>Leave Team</button>
+            <button onClick={() => setIsOpen(true)}>Leave Team</button>
+            <ConfirmationModal isOpen={isOpen} close={() => setIsOpen(false)} title={"Leave"} message={"leave team"} onConfirmation={onLeave} />
         </div>
     );
 }

@@ -15,6 +15,7 @@ export default function SignUp({ changeScreen }) {
 
     const handleSignup = (e) => {
         e.preventDefault();
+        setMessage('Loading...');
         signup(formData).then(result => setMessage(result.message));
     }
 

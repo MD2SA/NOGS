@@ -40,8 +40,12 @@ def team_list(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def leave_team(request):
+    return handle_leave_team(user=request.user)
+
+# criei esta funcao para conseguir chamar noutro sitio
+def handle_leave_team(user):
     try:
-        membership = TeamMembership.objects.get(user=request.user)
+        membership = TeamMembership.objects.get(user=user)
         membership.delete()
         team = membership.team
         if not TeamMembership.objects.filter(team=team).exists():

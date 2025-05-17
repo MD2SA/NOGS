@@ -1,36 +1,22 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { CREATE_TEAM_URL } from "../../assets/urls/djangoUrls";
-import {useAuth} from "../AuthContext";
+import { useAuth } from "../AuthContext";
+import Modal from "./Modal";
 
 
 
 export default function TeamModal({ isOpen, onClose }) {
-    const {api} = useAuth();
+    const { api } = useAuth();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-            document.body.classList.add("modal-open");
-        } else {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        }
-
-        return () => {
-            document.body.style.overflow = "auto";
-            document.body.classList.remove("modal-open");
-        };
-    }, [isOpen]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await api.post(
                 CREATE_TEAM_URL,
-                {name,description},
+                { name, description },
             );
             alert("Team created successfully!");
             onClose();
@@ -40,45 +26,54 @@ export default function TeamModal({ isOpen, onClose }) {
         }
     };
 
-    if (!isOpen) return null;
-
-    return createPortal(
-        <div className="modal-overlay">
-            <div className="modal-content">
+    return (
+        <Modal isOpen={isOpen}>
+            <div className="team-modal-container">
                 <button
-                    className="modal-close-button"
+                    className="team-modal-close-btn"
                     onClick={onClose}
                     aria-label="Close modal"
                 >
                     &times;
                 </button>
-                <h2 className="modal-title">Create New Team</h2>
-                <form className="team-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="team-name">Team Name:</label>
+
+                <h2 className="team-modal-title">Create New Team</h2>
+
+                <form className="team-form-wrapper" onSubmit={handleSubmit}>
+                    <div className="team-form-group">
+                        <label htmlFor="team-name" className="team-form-label">
+                            Team Name:
+                        </label>
                         <input
                             id="team-name"
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="form-input"
+                            className="team-form-input"
+                            placeholder="Enter team name"
                         />
-                        <label htmlFor="team-description">Description:</label>
+                    </div>
+
+                    <div className="team-form-group">
+                        <label htmlFor="team-description" className="team-form-label">
+                            Description:
+                        </label>
                         <textarea
                             id="team-description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             rows={4}
-                            className="form-input"
+                            className="team-form-input team-form-textarea"
+                            placeholder="Brief description of your team"
                         />
                     </div>
-                    <button type="submit" className="submit-button">
+
+                    <button type="submit" className="team-submit-btn">
                         Create Team
                     </button>
                 </form>
             </div>
-        </div>,
-        document.body
+        </Modal >
     );
 }

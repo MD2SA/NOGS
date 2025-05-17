@@ -23,7 +23,7 @@ export default function Reports() {
 
     useEffect(() => {
         loadReports();
-    }, []);
+    }, [shownReport]);
     // <h2 className="sub-title">{reports.length} users reported</h2>
 
     return (

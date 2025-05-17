@@ -15,6 +15,7 @@ export default function Login({ changeScreen }) {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setMessage('Loading...')
         login(formData).then(result => setMessage(result.message));
     }
 

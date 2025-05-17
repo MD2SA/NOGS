@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User, AnonymousUser
 
 from .serializers import UserSerializer
+from Team.views import handle_leave_team
 
 
 @api_view(['POST'])
@@ -58,6 +59,7 @@ def me(request):
 def ban(request, user_id):
     try:
         user = User.objects.get(id=user_id)
+        handle_leave_team(user)
         user.delete()
         return Response({'message':'User deleted with success'}, status=status.HTTP_200_OK)
     except User.DoesNotExist:

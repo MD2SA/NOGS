@@ -7,6 +7,7 @@ import FriendsPage from './pages/FriendsPage';
 import MessagePage from './pages/MessagePage';
 import TeamsPage from './pages/TeamsPage';
 import ReportsPage from './pages/ReportsPage';
+import NotFound from './pages/NotFoundPage';
 
 export default function App() {
 
@@ -21,6 +22,7 @@ export default function App() {
                     <Route path="/friends" element={<FriendsPage />} />
                     <Route path="/messages/:friendId" element={<MessagePage />} />
                     <Route path='/reports' element={<ReportsPage />} />
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
         </BrowserRouter>
