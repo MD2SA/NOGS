@@ -39,7 +39,7 @@
 /* Team Modal Title */
 .team-modal-title {
     color: #f5f9e9;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     text-align: center;
     margin-bottom: 25px;
     font-size: 1.8rem;
@@ -61,7 +61,7 @@
 
 .team-form-label {
     color: rgba(174, 184, 184, 0.9);
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     font-size: 0.9rem;
     letter-spacing: 0.05em;
 }
@@ -97,7 +97,7 @@
     color: #f5f9e9;
     padding: 14px;
     border-radius: 8px;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     cursor: pointer;

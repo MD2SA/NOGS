@@ -1,9 +1,16 @@
-@font-face {
-    font-family: 'Gliker';
-    src: url('../assets/fonts/Gliker-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+/* @font-face { */
+/*     font-family: 'Gliker'; */
+/*     src: url('../assets/fonts/Gliker-Regular.ttf') format('truetype'); */
+/*     font-weight: normal; */
+/*     font-style: normal; */
+/* } */
+/* @font-face { */
+/*     font-family: 'Lilita One'; */
+/*     src: url('../assets/fonts/BebasNeue-Regular.ttf') format('truetype'); */
+/*     font-weight: normal; */
+/*     font-style: normal; */
+/* } */
+
 
 body {
     height: 100%;
@@ -37,7 +44,7 @@ button {
     border-radius: 8px;
     border: 1px solid #2d2d2d;
     color: #fdfff0;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     cursor: pointer;
     padding: 12px 24px;
     justify-content: center;
@@ -118,13 +125,13 @@ button:active {
 }
 
 .title {
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     font-size: 6vh;
     color: #fdfff0;
 }
 
 .sub-title {
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     font-size: 4vh;
     color: #fdfff0;
 }

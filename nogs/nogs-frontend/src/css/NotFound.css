@@ -12,7 +12,7 @@
 }
 
 .notFoundHero {
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     text-align: center;
     padding: 4rem;
     background: rgba(18, 18, 18, 0.7);
@@ -58,7 +58,7 @@
     color: #f5f9e9;
     padding: 0.8rem 2rem;
     border-radius: 50px;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     cursor: pointer;

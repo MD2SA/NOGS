@@ -24,7 +24,7 @@
 
 h2 {
     color: #fdfff0;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     text-align: center;
     margin-bottom: 25px;
     font-size: 1.8rem;
@@ -40,7 +40,7 @@ h2 {
 
 h3 {
     color: #fdfff0;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     margin-top: 0;
     display: flex;
     align-items: center;
@@ -62,7 +62,7 @@ h3 {
 
 label {
     color: #aeb8b8;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     font-size: 0.9rem;
 }
 
@@ -141,7 +141,7 @@ input:focus {
     width: 100%;
     padding: 14px;
     border-radius: 8px;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -185,7 +185,7 @@ input:focus {
 
 .preview-label {
     color: #aeb8b8;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     font-size: 0.9rem;
     margin-bottom: 8px;
 }
@@ -199,7 +199,7 @@ input:focus {
 /* Error States */
 .error-banner, .error-text {
     color: #ff6b6b;
-    font-family: 'Gliker', sans-serif;
+    font-family: 'Lilita One', sans-serif;
     padding: 10px;
     background: rgba(255, 107, 107, 0.1);
     border-radius: 6px;
