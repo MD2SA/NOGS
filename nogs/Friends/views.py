@@ -158,7 +158,7 @@ def all_users(request):
 @permission_classes([IsAuthenticated])
 def cancel_sent_request(request):
     user = request.user
-    to_user_id = request.data.get('request_id')  # still using this param name
+    to_user_id = request.data.get('request_id')
     if not to_user_id:
         return Response({'error': 'request_id is required'}, status=400)
 
