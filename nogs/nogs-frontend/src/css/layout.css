@@ -4,12 +4,10 @@
 /*     font-weight: normal; */
 /*     font-style: normal; */
 /* } */
-/* @font-face { */
-/*     font-family: 'Lilita One'; */
-/*     src: url('../assets/fonts/BebasNeue-Regular.ttf') format('truetype'); */
-/*     font-weight: normal; */
-/*     font-style: normal; */
-/* } */
+/*
+:args ** /*.css/ //no space here
+:argdo %s/'Lilita One'/'Gliker'/g
+*/
 
 
 body {
