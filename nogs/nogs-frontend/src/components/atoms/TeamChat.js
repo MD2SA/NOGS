@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from "../AuthContext";
-import "../../css/TeamChat.css";
 import { TEAM_MESSAGES_URL } from "../../assets/urls/djangoUrls";
 
 

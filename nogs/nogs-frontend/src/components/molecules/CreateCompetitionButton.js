@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import CreateCompetitionModal from "./CreateCompetitionModal";
 import { ME_URL } from "../../assets/urls/djangoUrls";
-import "../../css/CreateCompetition.css"
 import { useAuth } from "../AuthContext";
 
 export default function CreateCompetitionButton({ onCreate }) {

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { REPORT_URL } from "../../assets/urls/djangoUrls";
 import Report from "../atoms/Report";
 import { useAuth } from "../AuthContext";
-import "../../css/Reports.css"
 
 
 export default function Reports() {

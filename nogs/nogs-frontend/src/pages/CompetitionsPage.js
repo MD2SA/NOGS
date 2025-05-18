@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import "../css/Competition.css";
 import Competition from "../components/organisms/Competition";
 import CompetitionComposer from "../components/organisms/CompetitionComposer";
 import { useAuth } from "../components/AuthContext";

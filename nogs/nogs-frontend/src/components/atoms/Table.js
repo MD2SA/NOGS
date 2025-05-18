@@ -1,5 +1,4 @@
 import { useMemo, useEffect, useState } from 'react';
-import "../../css/Table.css";
 
 /**
  * @param extra: { title:string, value:string, onClick:()=>{} || undefined}

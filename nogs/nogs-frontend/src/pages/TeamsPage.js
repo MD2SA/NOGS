@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../css/Competition.css";
 import {
     TEAM_LEAVE_URL,
     MY_TEAM_URL,

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import '../css/Header.css';
 import logo from '../assets/images/logo.png';
 import keyboard from '../assets/images/keyboard.png';
 import competition from '../assets/images/competition.png';

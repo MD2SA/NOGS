@@ -1,5 +1,4 @@
 import OptionSelector from "../atoms/OptionSelector";
-import "../../css/GameControls.css";
 
 /**
  * @param gameControls: { mode: 'words'|'time', time:null|int, wordCount:null|int}

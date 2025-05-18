@@ -13,7 +13,7 @@ export default function Card() {
                 <div className="credentials-left">
                     <div className="avatar"></div>
                     <div className="rank">
-                        <div className="title">Pro Shamer</div>
+                        <p>Pro Shamer</p>
                     </div>
                 </div>
                 <div className="credentials-right">

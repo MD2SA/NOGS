@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CreateTeamModal from "./CreateTeamModal";
-import "../../css/CreateTeam.css";
 
 export default function CreateTeamButton({handleJoin}) {
     const [isModalOpen, setIsModalOpen] = useState(false);

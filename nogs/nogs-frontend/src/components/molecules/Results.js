@@ -1,5 +1,4 @@
 import ResultAtom from "../atoms/ResultAtom";
-import "../../css/Results.css";
 import Tooltip from "../atoms/Tooltip";
 
 

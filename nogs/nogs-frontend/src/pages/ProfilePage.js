@@ -5,8 +5,6 @@ import AccountManager from "../components/molecules/AccountManager";
 import WordStats from "../components/molecules/WordStats";
 import Card from "../components/atoms/Card";
 
-import "../css/Profile.css"
-
 
 export default function ProfilePage() {
 

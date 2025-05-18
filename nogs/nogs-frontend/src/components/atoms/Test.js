@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import "../../css/Test.css";
 
 export default function Test({ targetText, handleStart, handleFinish }) {
 

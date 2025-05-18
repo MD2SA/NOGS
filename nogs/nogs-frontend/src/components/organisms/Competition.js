@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { COMPETITION_PARTICIPANTS_URL, COMPETITION_SUBMIT_URL, COMPETITION_TRY_URL } from "../../assets/urls/djangoUrls";
-import "../../css/Competition.css";
 import CompetitionTable from "../molecules/CompetitionTable";
 import { useAuth } from "../AuthContext";
 import Game from "./Game";
