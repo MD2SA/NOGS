@@ -124,7 +124,6 @@ function FriendsPage() {
     return (
         <div className="friends-page">
             <div className="split-container">
-                {/* LEFT COLUMN */}
                 <div className="left-column">
                     <h2 className="friends-title">Friends</h2>
                     <input
@@ -180,7 +179,6 @@ function FriendsPage() {
                     </section>
                 </div>
 
-                {/* RIGHT COLUMN */}
                 <div className="right-column">
                     <h2 className="friends-title">Add New Friends</h2>
                     <input
