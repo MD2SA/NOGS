@@ -109,7 +109,7 @@
 }
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
     .resultsContainer {
         flex-direction: column;
         gap: 5vw;

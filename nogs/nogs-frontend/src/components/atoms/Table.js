@@ -11,7 +11,7 @@ export default function Table({ data, extra }) {
             const w = window.innerWidth;
             setFactor(
                 w < 600 ? { mult: 6, offset: 6 } :
-                    w < 1024 ? { mult: 8, offset: 10 } :
+                    w < 1200 ? { mult: 7, offset: 15 } :
                         { mult: 10, offset: 12 }
             );
         };
@@ -76,7 +76,7 @@ export default function Table({ data, extra }) {
                     className="table-row-element"
                     style={{ width: `${columnWidths[header]}px` }}
                 >
-                    {row[header] || "-"}
+                    {row[header] ?? "-"}
                 </span>
             ))}
             {extra &&

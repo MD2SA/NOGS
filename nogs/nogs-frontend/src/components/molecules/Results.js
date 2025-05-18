@@ -8,7 +8,7 @@ import Tooltip from "../atoms/Tooltip";
 export default function Results({ gameInfo, handleLeave }) {
 
     return (
-        <div className="resultsContainer">
+        <div className="resultsContainer smaller-container">
             <div className="resultAtomsContainer">
                 <Tooltip text="WPM: correct characters divided by time.">
                     <ResultAtom label="WPM" value={gameInfo.wpm} />
