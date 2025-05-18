@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Modal from "../atoms/Modal";
 
-export default function SwiperCompetitionModal({ isOpen, onClose, data }) {
+export default function AcknowledgeCompetitions({ isOpen, onClose, data }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const goToNext = () => {

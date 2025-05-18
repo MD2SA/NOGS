@@ -1,5 +1,4 @@
-// components/organisms/TeamChat.js
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuth } from "../AuthContext";
 import "../../css/TeamChat.css";
 import { TEAM_MESSAGES_URL } from "../../assets/urls/djangoUrls";
@@ -41,7 +40,6 @@ export default function TeamChat({ teamId }) {
         scrollToBottom();
     };
 
-    // Handle pressing Enter key to send
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleSend();

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { COMPETITIONS_URL } from "../../assets/urls/djangoUrls";
-import GameForm from "./GameForm";
+import GameForm from "../atoms/GameForm";
 import moment from "moment/moment";
 import { useAuth } from "../AuthContext";
-import Modal from "./Modal";
+import Modal from "../atoms/Modal";
 
-export default function CompetitionModal({ isOpen, onCreate, onClose }) {
+export default function CreateCompetitionModal({ isOpen, onCreate, onClose }) {
     const { api } = useAuth();
     const [gamePhrase, setGamePhrase] = useState('');
     const [formData, setFormData] = useState({

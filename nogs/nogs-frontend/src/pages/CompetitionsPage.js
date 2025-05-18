@@ -6,7 +6,7 @@ import Competition from "../components/organisms/Competition";
 import CompetitionComposer from "../components/organisms/CompetitionComposer";
 import { useAuth } from "../components/AuthContext";
 import { NACK_COMPETITIONS_OF_PARTICIPANT } from "../assets/urls/djangoUrls";
-import SwiperCompetitionModal from "../components/molecules/SwiperCompetitionModal";
+import AcknowledgeCompetitions from "../components/molecules/AcknowledgeCompetitions";
 
 export default function CompetitionsPage() {
 
@@ -54,7 +54,7 @@ export default function CompetitionsPage() {
 
     return (
         <>
-            <SwiperCompetitionModal
+            <AcknowledgeCompetitions
                 isOpen={(!!nackCompetitions && modalVisible)}
                 onClose={(ackCompetitionsIndex) => handleCloseSwiper(ackCompetitionsIndex)}
                 data={nackCompetitions}

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import CompetitionModal from "./CompetitionModal";
+import CreateCompetitionModal from "./CreateCompetitionModal";
 import { ME_URL } from "../../assets/urls/djangoUrls";
 import "../../css/CreateCompetition.css"
 import { useAuth } from "../AuthContext";
 
-export default function CreateCompetition({ onCreate }) {
+export default function CreateCompetitionButton({ onCreate }) {
 
     const { api } = useAuth();
 
@@ -33,7 +33,7 @@ export default function CreateCompetition({ onCreate }) {
                     >
                         Create Competition
                     </button>
-                    <CompetitionModal isOpen={isModalOpen} onCreate={onCreate} onClose={() => setIsModalOpen(false)} />
+                    <CreateCompetitionModal isOpen={isModalOpen} onCreate={onCreate} onClose={() => setIsModalOpen(false)} />
                 </>
             )}
         </>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TEAMS_URL } from "../../assets/urls/djangoUrls";
 import { useAuth } from "../AuthContext";
-import CreateTeam from "../atoms/CreateTeam";
+import CreateTeamButton from "../atoms/CreateTeamButton";
 import TeamDetail from "../molecules/TeamDetail";
 
 export default function TeamComposer({ handleJoin }) {
@@ -22,7 +22,7 @@ export default function TeamComposer({ handleJoin }) {
     return (
         <div className="composer-container">
             <h1 className="title">AVAILABLE TEAMS</h1>
-            {user && <CreateTeam handleJoin={handleJoin} />}
+            {user && <CreateTeamButton handleJoin={handleJoin} />}
             <div className="composer-grid">
                 {teams.length ? (
                     teams.map((team, index) => (

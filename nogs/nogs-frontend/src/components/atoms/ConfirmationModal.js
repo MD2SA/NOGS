@@ -1,4 +1,4 @@
-import Modal from "./Modal";
+import Modal from "../atoms/Modal";
 
 
 export default function ConfirmationModal({ isOpen, close, title, message, onConfirmation }) {

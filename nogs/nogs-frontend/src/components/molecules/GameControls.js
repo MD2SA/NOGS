@@ -1,4 +1,4 @@
-import OptionSelector from "../molecules/OptionSelector";
+import OptionSelector from "../atoms/OptionSelector";
 import "../../css/GameControls.css";
 
 /**

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import TeamModal from "./TeamModal";
+import CreateTeamModal from "./CreateTeamModal";
 import "../../css/CreateTeam.css";
 
-export default function CreateTeam({handleJoin}) {
+export default function CreateTeamButton({handleJoin}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleClick = () => {
@@ -24,7 +24,7 @@ export default function CreateTeam({handleJoin}) {
                     >
                         Create Team
                     </button>
-                    <TeamModal isOpen={isModalOpen} onClose={handleCloseModal}/>
+                    <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal}/>
                 </>
             )}
         </>

@@ -24,13 +24,13 @@ export default function Reports() {
     useEffect(() => {
         loadReports();
     }, [shownReport]);
-    // <h2 className="sub-title">{reports.length} users reported</h2>
 
     return (
         <>
-            {reports ? (
+            {reports?.length>0 ? (
                 !shownReport ? (
                     <div className="reportsMasterContainer">
+                        <h2 className="sub-title">{reports.length} users reported</h2>
                         <div className="reportsGrid">
                             {reports.map((report, index) => (
                                 <div className="reportCard" key={index}>
@@ -48,7 +48,7 @@ export default function Reports() {
                         </div>
                     </div>
                 ) : (
-                    <Report data={shownReport} goBack={()=>setShownReport(null)} />
+                    <Report data={shownReport} goBack={() => setShownReport(null)} />
                 )
             ) : (
                 <div className="noReportsHero">No reports yet, amazing</div>

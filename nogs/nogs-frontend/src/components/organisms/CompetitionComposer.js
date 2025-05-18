@@ -1,6 +1,6 @@
 import { COMPETITIONS_URL } from "../../assets/urls/djangoUrls";
 import { useEffect, useState } from "react";
-import CreateCompetition from "../atoms/CreateCompetition";
+import CreateCompetitionButton from "../molecules/CreateCompetitionButton";
 import CompetitionDetail from "../molecules/CompetitionDetail";
 import { useAuth } from "../AuthContext";
 
@@ -31,7 +31,7 @@ export default function CompetitionComposer({ setShownCompetition }) {
     return (
         <div className="composer-container">
             <h1 className="title">ACTIVE COMPETITIONS:</h1>
-            {user?.is_staff && <CreateCompetition onCreate={loadCompetitions} />}
+            {user?.is_staff && <CreateCompetitionButton onCreate={loadCompetitions} />}
             <div className="composer-grid">
                 {(competitions?.length) ? (
                     competitions.map((data, index) => (

@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
-import '../../css/Header.css';
-import logo from '../../assets/images/logo.png';
-import keyboard from '../../assets/images/keyboard.png';
-import competition from '../../assets/images/competition.png';
-import team from '../../assets/images/team.png';
-import friends from '../../assets/images/friends.png';
-import report from '../../assets/images/report.png';
-import ProfileIcon from './ProfileIcon';
-import { useAuth } from '../AuthContext';
+import '../css/Header.css';
+import logo from '../assets/images/logo.png';
+import keyboard from '../assets/images/keyboard.png';
+import competition from '../assets/images/competition.png';
+import team from '../assets/images/team.png';
+import friends from '../assets/images/friends.png';
+import report from '../assets/images/report.png';
+import ProfileIcon from './atoms/ProfileIcon';
+import { useAuth } from './AuthContext';
 
 export default function Header() {
 

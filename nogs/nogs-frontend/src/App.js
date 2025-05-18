@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/molecules/Layout';
+import Layout from './components/Layout';
 import CompetitionsPage from './pages/CompetitionsPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';

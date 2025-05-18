@@ -20,8 +20,8 @@
     grid-row-gap: 15vh;
     justify-items: center;
     align-items: start;
-    gap: 5vw;
-    padding: 16px;
+    gap: max(5vw,10vh);
+    padding: 40px;
 }
 
 /*END OF COMPOSER*/
@@ -70,13 +70,13 @@
     border-radius: 12px;
     width: 100%;
     max-width: 280px;
+    min-height: 200px;
     padding: 20px;
     font-family: 'Gliker', sans-serif;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
     position: relative;
     overflow: hidden;
-    margin: 0 auto;
-
+    margin-bottom: 70px;
     transform-style: preserve-3d;
     background: rgba(18, 18, 18, 0.7);
     backdrop-filter: blur(8px);

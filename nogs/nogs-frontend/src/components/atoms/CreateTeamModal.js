@@ -6,7 +6,7 @@ import Modal from "./Modal";
 
 
 
-export default function TeamModal({ isOpen, onClose }) {
+export default function CreateTeamModal({ isOpen, onClose }) {
     const { api } = useAuth();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");

@@ -1,6 +1,6 @@
 import "../../css/Competition.css";
 import TeamTable from "../molecules/TeamTable";
-import TeamChat from "../molecules/TeamChat";
+import TeamChat from "../atoms/TeamChat";
 import ConfirmationModal from "../atoms/ConfirmationModal";
 import { useState } from "react";
 

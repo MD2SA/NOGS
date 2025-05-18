@@ -3,7 +3,7 @@ import LogoutButton from "../components/atoms/LoggoutButton";
 import { useAuth } from "../components/AuthContext";
 import AccountManager from "../components/molecules/AccountManager";
 import WordStats from "../components/molecules/WordStats";
-import Card from "../components/molecules/Card";
+import Card from "../components/atoms/Card";
 
 import "../css/Profile.css"
 
@@ -28,7 +28,7 @@ export default function ProfilePage() {
                             <div className="resultsDivider" />
                             <div className="side-container">
                                 <WordStats />
-                                <LogoutButton className="profile-logout-button" />
+                                <LogoutButton />
                             </div>
                         </div>
                     </div>

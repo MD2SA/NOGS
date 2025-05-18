@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/NotFound.css';
 
@@ -25,7 +24,7 @@ const NotFound = () => {
             </div>
 
             <div className="particles">
-                {[...Array(20)].map((_, i) => (
+                {[...Array(50)].map((_, i) => (
                     <div key={i} className="particle" style={{
                         '--size': `${Math.random() * 4 + 2}px`,
                         '--delay': `${Math.random() * 5}s`,
