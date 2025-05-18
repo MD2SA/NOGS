@@ -12,6 +12,12 @@
     border: 1px solid #2e2e2e;
 }
 
+.chat-expanded {
+    width: 40vw;
+    height: calc(90vh - max(var(--header-height), var(--header-min-height)));
+
+}
+
 @media (max-width: 1023px) {
     .chat-container {
         width: calc(8 * 40px + 10px);

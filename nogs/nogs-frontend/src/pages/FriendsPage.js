@@ -127,7 +127,7 @@ function FriendsPage() {
       <div className="split-container">
         {/* LEFT COLUMN */}
         <div className="left-column">
-          <h1 className="friends-title">Friends</h1>
+          <h2 className="friends-title">Friends</h2>
           <input
             type="text"
             className="friends-search"
