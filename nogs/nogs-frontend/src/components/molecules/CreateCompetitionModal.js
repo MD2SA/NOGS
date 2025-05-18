@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { COMPETITIONS_URL } from "../../assets/urls/djangoUrls";
 import GameForm from "../atoms/GameForm";
-import moment from "moment/moment";
 import { useAuth } from "../AuthContext";
 import Modal from "../atoms/Modal";
+import { DateTime } from "luxon";
 
 export default function CreateCompetitionModal({ isOpen, onCreate, onClose }) {
     const { api } = useAuth();
@@ -28,7 +28,7 @@ export default function CreateCompetitionModal({ isOpen, onCreate, onClose }) {
 
         try {
             const formattedDate = formData.endOfEvent
-                ? moment(formData.endOfEvent).toISOString()
+                ? DateTime.fromISO(formData.endOfEvent).toUTC().toISO()
                 : null;
 
             await api.post(COMPETITIONS_URL, {
