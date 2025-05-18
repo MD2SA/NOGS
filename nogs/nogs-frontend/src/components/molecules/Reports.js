@@ -13,7 +13,7 @@ export default function Reports() {
     const loadReports = async () => {
         try {
             const response = await api.get(REPORT_URL);
-            const filteredData = response.data.filter(data => data.reports.length > 0);
+            const filteredData = response.data.filter(data => data.reports.length > 0).sort((a, b) => b.reports.length - a.reports.length);
             setReports(filteredData);
         } catch (error) {
             console.log(error);
@@ -26,7 +26,7 @@ export default function Reports() {
 
     return (
         <>
-            {reports?.length>0 ? (
+            {reports?.length > 0 ? (
                 !shownReport ? (
                     <div className="reportsMasterContainer">
                         <h2 className="sub-title">{reports.length} users reported</h2>

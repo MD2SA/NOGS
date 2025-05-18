@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { LOGIN_URL, LOGOUT_URL, ME_URL, SIGNUP_URL } from "../assets/urls/djangoUrls";
+import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
     withCredentials: true,
@@ -13,6 +14,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     const handleLocation = () => {
         const hostname = window.location.hostname
@@ -42,7 +44,19 @@ export const AuthProvider = ({ children }) => {
             }
         }
         loadUserFromStorage();
+
+        // a user does login/logout/signup in another page sync this one
+        const onStorageChange = (event) => {
+            if (event.key === "auth-sync") {
+                navigate('/profile');
+                me();
+            }
+        };
+
+        window.addEventListener("storage", onStorageChange);
+        return () => window.removeEventListener("storage", onStorageChange);
     }, []);
+
 
     function getCSRFToken() {
         const token = document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
@@ -54,6 +68,7 @@ export const AuthProvider = ({ children }) => {
             const response = await api.post(LOGIN_URL, data);
             setUser(response.data.user);
             localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem("auth-sync", Date.now());
             return { success: true, message: response.data.message || 'Login successful!' };
         } catch (error) {
             const message = error.response?.data?.message ||
@@ -68,6 +83,7 @@ export const AuthProvider = ({ children }) => {
             const response = await api.post(SIGNUP_URL, data);
             setUser(response.data.user);
             localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem("auth-sync", Date.now());
             return { success: true, message: response.data.message || 'Signup successful!' };
         } catch (error) {
             const message = error.response?.data?.message ||
@@ -82,6 +98,7 @@ export const AuthProvider = ({ children }) => {
             await api.get(LOGOUT_URL);
             setUser(null);
             localStorage.removeItem('user');
+            localStorage.setItem("auth-sync", Date.now());
             return { success: true, message: 'Logout successful!' };
         } catch (error) {
             return {

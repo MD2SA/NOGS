@@ -58,6 +58,8 @@ def me(request):
 @permission_classes([IsAuthenticated])
 def ban(request, user_id):
     try:
+        if not request.user.is_staff:
+            return Response({'error':'Permissions denied'}, status=status.HTTP_403_FORBIDDEN)
         user = User.objects.get(id=user_id)
         handle_leave_team(user)
         user.delete()
