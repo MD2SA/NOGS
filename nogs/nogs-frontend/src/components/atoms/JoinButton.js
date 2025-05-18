@@ -27,7 +27,7 @@ export default function JoinButton({ joinURL, id, onJoinSuccess }) {
 
     return (
         <>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className="error-text">{error}</p>}
             <button
                 onClick={handleJoin}
                 disabled={isLoading}

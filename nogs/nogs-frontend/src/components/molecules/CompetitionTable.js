@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { REPORT_URL } from "../../assets/urls/djangoUrls";
-import ConfirmationModal from "../atoms/ConfirmationModal";
 import ReportModal from "../atoms/ReportModal";
 import Table from "../atoms/Table";
-import { useAuth } from "../AuthContext";
 
 
 export default function CompetitionTable({ data }) {

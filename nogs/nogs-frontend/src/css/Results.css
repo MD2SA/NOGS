@@ -60,8 +60,8 @@
 }
 
 .resultsButton {
-    padding: 1vw 3vw;
-    font-size: 2.5vw;
+    padding: 25px 45px;
+    font-size: 1.5em;
     background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
     border: 1px solid #2d2d2d;
     color: #fdfff0;
@@ -133,15 +133,5 @@
     .leave-button {
         position: static;
         margin-top: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .resultsContainer {
-        font-size: 6vw;
-    }
-
-    .resultAtomLabel {
-        letter-spacing: 0.05em;
     }
 }

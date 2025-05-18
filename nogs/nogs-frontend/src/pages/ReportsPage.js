@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ME_URL, REPORT_URL } from "../assets/urls/djangoUrls";
+import { ME_URL } from "../assets/urls/djangoUrls";
 import { useAuth } from "../components/AuthContext";
 import Reports from "../components/molecules/Reports";
 
@@ -25,9 +25,9 @@ export default function ReportsPage() {
         <>
             {
                 isStaff ? (
-                <Reports/>
+                    <Reports />
                 ) : (
-                    <h1 className="error-message">NOT AUTHORIZED</h1>
+                    <h1 className="error-text">NOT AUTHORIZED</h1>
                 )
             }
         </>

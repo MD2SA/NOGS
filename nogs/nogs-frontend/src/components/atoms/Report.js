@@ -8,14 +8,17 @@ export default function Report({ data, goBack }) {
 
     const { api } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
+    const [error, setError] = useState('');
 
     const ban = async () => {
         try {
-            const reponse = await api.post(BAN_URL(data.id));
+            await api.post(BAN_URL(data.id));
             goBack()
         } catch (error) {
             console.log(error);
+            setError(error);
         }
+        setIsOpen(false);
     }
 
     return (
@@ -23,8 +26,9 @@ export default function Report({ data, goBack }) {
             <div className="report-detail-container">
                 <div className="button-group">
                     <button onClick={goBack}>Back</button>
-                    <button className="ban-button" onClick={()=>setIsOpen(true)}>Ban</button>
+                    <button className="ban-button" onClick={() => setIsOpen(true)}>Ban</button>
                 </div>
+                {error && <div className="error-text">error</div>}
                 <h2>{data.username}</h2>
                 <h3>{data.reports.length} total reports</h3>
                 <h2>Reports description:</h2>

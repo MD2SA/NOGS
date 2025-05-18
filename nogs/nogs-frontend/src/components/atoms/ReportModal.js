@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { REPORT_URL } from "../../assets/urls/djangoUrls";
 import { useAuth } from "../AuthContext";
 import ConfirmationModal from "./ConfirmationModal";
@@ -11,18 +11,25 @@ export default function ReportModal({ isOpen, userData, onClose }) {
     const [description, setDescription] = useState("");
     const [error, setError] = useState("")
 
+    useEffect(() => {
+        if (isOpen) {
+            setDescription("");
+            setError("");
+        }
+    }, [isOpen]);
+
     const handleReport = async () => {
         try {
             await api.post(REPORT_URL, {
                 user: userData.user,
                 description: description
             });
-            setIsModalVisible(false);
             setError('');
             onClose();
         } catch (error) {
             setError('Report failed');
         }
+        setIsModalVisible(false);
     };
 
     const handleSubmit = (e) => {
@@ -56,7 +63,7 @@ export default function ReportModal({ isOpen, userData, onClose }) {
                                 placeholder="Describe the issue"
                             />
                         </div>
-                        {error && <p className="error-message">{error}</p>}
+                        {error && <p className="error-text">{error}</p>}
                         <button type="submit" className="team-submit-btn">
                             Report
                         </button>
@@ -66,7 +73,7 @@ export default function ReportModal({ isOpen, userData, onClose }) {
 
             <ConfirmationModal
                 isOpen={isModalVisible}
-                close={onClose}
+                close={() => { setIsModalVisible(false); onClose(); }}
                 title="Report"
                 message={`report ${userData?.username || "this user"}`}
                 onConfirmation={handleReport}
