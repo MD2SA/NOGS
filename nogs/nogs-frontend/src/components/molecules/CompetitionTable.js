@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { REPORT_URL } from "../../assets/urls/djangoUrls";
 import ConfirmationModal from "../atoms/ConfirmationModal";
+import ReportModal from "../atoms/ReportModal";
 import Table from "../atoms/Table";
 import { useAuth } from "../AuthContext";
 
 
 export default function CompetitionTable({ data }) {
 
-    const { api } = useAuth();
-    const [index, setIndex] = useState(null);
+    const [user, setUser] = useState(null);
 
     const transformedData = data.
         sort((a, b) => b.wpm - a.wpm)
@@ -23,28 +23,27 @@ export default function CompetitionTable({ data }) {
             }
         ));
 
-    const handleReport = async () => {
+    const handleReport = async (index) => {
         if (index < data.length) {
             try {
-                const user = data[index].user;
-                await api.post(REPORT_URL, { user: user });
+                const user = data[index];
+                setUser(user);
             } catch (error) {
-                console.log(error);
+                setUser(null);
             }
         }
-        setIndex(null);
     }
 
     const extra = {
         title: "Report",
         value: "⚠️",
-        onClick: (id) => setIndex(id)
+        onClick: (index) => handleReport(index)
     }
 
     return (
         <>
             <Table data={transformedData} extra={extra} />
-            <ConfirmationModal isOpen={index !== null} close={() => setIndex(null)} title={"Report"} message={`report ${data[index]?.username}`} onConfirmation={handleReport} />
+            <ReportModal isOpen={user} userData={user} onClose={() => setUser(null)} />
         </>
     );
 }
